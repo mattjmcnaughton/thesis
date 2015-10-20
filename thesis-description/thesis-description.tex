@@ -1,8 +1,6 @@
 \documentclass[letterpaper,11pt,twocolumn]{article}
-\usepackage{graphicx,times}%usenix
-
-%\usepackage{graphics, graphicx, fancyhdr, epsfig, amstext}
-%\usepackage{amsmath, amssymb, xspace, setspace, times, color}
+\usepackage{graphicx,times}
+\usepackage{cite} % Cite allows the use of bibtex.
 
 \begin{document}
 
@@ -134,27 +132,7 @@ make small contributions to Kubernetes. I am optimistic and excited about
 continuing to work with Kubernetes and the code I write for my
 thesis hopefully being accepted into the main branch of the project.
 
-\begin{thebibliography}{9}
-  \bibitem{brendan-burns-conversation}
-  Conversation with Brendan Burns, Lead Developer of Kubernetes
-
-  \bibitem{google-container-engine}
-  Google Container Engine,\\
-  \texttt{https://cloud.google.com\\/container-engine/docs/}
-
-  \bibitem{k8s-horizontal-pod-autoscaler-proposal}
-  Kubernetes Horizontal Pod Autoscaler Proposal,\\
-  \texttt{https://github.com/kubernetes\\/kubernetes/blob/\\master/docs/proposals/\\horizontal-pod-autoscaler.md}
-
-  \bibitem{k8s-website}
-  Kubernetes Website,\\
-  \texttt{http://kubernetes.io/}
-
-  \bibitem{omega}
-  Schwarzkopf, Malte, Andy Konwinski, Michael Abd-El-Malek, and John Wilkes.
-  "Omega: flexible, scalable schedulers for large compute clusters."
-  In Proceedings of the 8th ACM European Conference on Computer Systems, pp.
-  351-364. ACM, 2013.
-\end{thebibliography}
+\bibliography{thesis-description}
+\bibliographystyle{plain}
 
 \end{document}

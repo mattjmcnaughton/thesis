@@ -1,0 +1,7 @@
+# Ignore everything except .tex, .pdf, and .bib.
+*
+
+!.gitignore
+!*.bib
+!*.tex
+!*.pdf
