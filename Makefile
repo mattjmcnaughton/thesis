@@ -7,13 +7,13 @@ BIBTEX = bibtex
 PDFLATEX = pdflatex
 
 THESIS_DIR = thesis
-THESIS_DESCRIPTION_DIR = thesis-description
+PROPOSAL_DIR = proposal
 
 THESIS_FILE = thesis.tex
-THESIS_DESCRIPTION_FILE = thesis-description.tex
+PROPOSAL_FILE = proposal.tex
 
 THESIS_BIBTEX = thesis
-THESIS_DESCRIPTION_BIBTEX = thesis-description
+PROPOSAL_BIBTEX = proposal
 
 # `make build-thesis`
 #
@@ -25,20 +25,20 @@ build-thesis:
 	$(LATEX) $(THESIS_FILE) && \
 	$(PDFLATEX) $(THESIS_FILE)
 
-# `make build-thesis-description`
+# `make build-proposal`
 #
 # Build the thesis description.
-build-thesis-description:
-	cd $(THESIS_DESCRIPTION_DIR) && \
-	$(LATEX) $(THESIS_DESCRIPTION_FILE) && \
-	$(BIBTEX) $(THESIS_DESCRIPTION_BIBTEX) && \
-	$(LATEX) $(THESIS_DESCRIPTION_FILE) && \
-	$(PDFLATEX) $(THESIS_DESCRIPTION_FILE)
+build-proposal:
+	cd $(PROPOSAL_DIR) && \
+	$(LATEX) $(PROPOSAL_FILE) && \
+	$(BIBTEX) $(PROPOSAL_BIBTEX) && \
+	$(LATEX) $(PROPOSAL_FILE) && \
+	$(PDFLATEX) $(PROPOSAL_FILE)
 
 # `make build`
 #
 # Build all Latex files.
-build: build-thesis build-thesis-description
+build: build-thesis build-proposal
 
 # `make`
 #
