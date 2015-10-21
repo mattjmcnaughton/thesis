@@ -18,118 +18,185 @@ Manager}
 
 \thispagestyle{empty}
 
-\section{Motivation}
-Society is becoming increasingly dependent on computation. Every facet of human life,
-including health care, finance, and social interactions now involves computers,
-resulting in a boom in the demand for computational power.
-This explosion in need, which shows little signs of abating,
-drives an interest in cluster computing.
+\section{Background and Motivation}
+Society is becoming increasingly dependent on computation. Every facet of human
+life, be it finance, healthcare, education, social interaction, etc\ldots, now
+involves computers.\cite[pg. 4]{distributed-systems-concepts-and-design}
+Naturally, singular computing workstations cannot provide the computational
+power necessary to execute the demanded tasks at such a massive scale.\cite[pg.
+2]{distributed-systems-principles-and-paradigms} However, cluster computing,
+in which commodity level PCs linked by a
+high-speed LAN offer a singular mass of resources,
+can provide the requisite performance.\cite[pg.
+17]{distributed-systems-principles-and-paradigms}
+A cluster is used to run applications, and a cluster manager is responsible for
+admitting, scheduling, starting, restarting, and monitoring the specified
+applications on the cluster.\cite[pg. 1]{borg}. While cluster computing was largely
+researched and implemented at large private corporations in the past, it is
+increasingly becoming available to the general public. Kubernetes, an open
+source cluster manager from Google, leads this effort.\cite{k8s-website}
+Interest in, and the importance of, cluster computing will only increase as it
+becomes more accessible to common programmer and more vital to processing the ever
+growing massive of computing tasks.
 
-Cluster computing combines the resources of thousands of
-commodity computers to create the mass of computing power necessary to serve
-high traffic sites, process massive MapReduce jobs, etc\dots While the biggest firms
-in industry have used computing clusters,
-and the requisite cluster managers, for approximately the last decade, this incredible
-computing power is increasingly becoming available to the general public.
-Kubernetes, an open source cluster manager from Google, leads this
-effort.\cite{k8s-website}
+Kubernetes manages all aspects of the cluster through admitting, running, and
+restarting applications, monitoring and displaying application health, and maintaining the
+underlying machines composing the cluster. Understanding the Kubernetes method
+of cluster management requires understanding terms specific to this cluster
+manager. Most importantly, Kubernetes defines the pod as the smallest deployable unit of
+computing. A pod contains containers and data
+volumes: a container is a single application coupled with the complete file system
+necessary for execution, while a data volume is a persistent directory intended
+to preserve data beyond the variable lifetime of the
+container.\cite{docker-website} Containers, and the applications within them,
+are intended to be started, stopped, deleted and replicated at will, without risking
+the loss of important data, hence the need for persistent data volumes.
+A pod can comprise of a collection of containers and
+data volumes designed to perform a singular job, although typically a pod
+includes a single container, and is responsible for performing the job the
+application within the container dictates. Pods can be used to deploy web
+servers, databases, data-processing frameworks, and more.\cite{k8s-pods} Additionally,
+Kubernetes defines the concept of a replication controller, which simply ensures
+a given number of a specified pod are running at all
+times.\cite{k8s-replication-controllers} Replication
+controllers are used in conjunction with services, which provide a long-lasting,
+logical abstraction for a collection of identical temporary pods.
+Services provide load balancing from any incoming request to the pods the
+service abstracts.\cite{k8s-services} For example, a service would abstract
+multiple pods all running the Apache web server by passing incoming requests to
+a different singular pod each time. Understanding the concepts of pods,
+replication controllers, and services is necessary for any work with Kubernetes.
 
-Kubernetes manages many aspects of the cluster, including running processes,
-maintaining machine health, and providing simple methods of querying the cluster
-state. Kubernetes runs similar
-processes in a unit of computing called a pod.
-Pods have various performance requirements and face ever
-changing external factors (ie. a variable number of server requests).
-Given both these concerns, Kubernetes implements horizontal pod autoscaling, through pod
-replication.\cite{k8s-horizontal-pod-autoscaler-proposal} Kubernetes
-autoscales pods to ensure each pod honors a given threshold metric
-(ie. max 80\% CPU usage). Replicating pods
-essentially duplicates the number of processes being run, allowing a division
-of labor among computing resources and decreasing the individual load on any
-specific pod. For example, if a single pod was responsible for all web requests,
-replicating another pod would allow each pod to now handle half the requests.
-With horizontal pod autoscaling, a computational metric functions as a threshold
-which, if surpassed, triggers pod replication until the metric returns below
-the threshold value.
+Services have various performance requirements and face ever
+changing external factors. For example, a service abstracting multiple pods
+running a web server application
+may be asked to process a highly variable number of requests. As requests spike,
+an ever increasing amount of computation is spread across the pods. If the
+replication controller defines a constant number of replication pods and the
+load to the service increases, each pod will be asked to a use more resources.
+If the constant replication value is not high enough, one or more pods may attempt to
+compute outside of its capacities with respect to CPU or memory.
+In contrast, if the constant replication value is too high,
+and the load is balanced such that no pod operates anywhere
+close to capacity, costly computing resources are wasted.
+In many use cases, one or more pods operating below or beyond their capacity
+is detrimental to the health and efficiency of the service and cluster.
 
-Introducing horizontal pod autoscaling greatly increases the responsiveness of
-Kubernetes to a variance in external environment.
-However, it is possible to make Kubernetes even more responsive. Specifically,
-the current method of autoscaling does not account for the time necessary to
-replicate pods. For example, if creation time for a pod is five minutes, even if
-the autoscaler triggers replication as soon as the metric threshold is
-crossed, it is still necessary to wait for the pod to be created before the work can
-effectively be shared. This latency becomes especially problematic when the
-costs of the pod being past the threshold are exceptionally high, pod
-replication takes a non-trivial amount of time, or the demands on pods are
-particularly variable. Clearly, while horizontal pod autoscaling offers
-considerable benefits to the Kubernetes cluster manager, there are still steps
-to be taken to address the previously listed issues.
+Kubernetes solves the dual concerns mentioned above through varying the amount
+of pod replication, a common method of scaling distributed systems.\cite[pg.
+15]{distributed-systems-principles-and-paradigms} More specifically, Kubernetes
+implements an optional behavior entitled horizontal pod autoscaling, which works
+as follows. Consider a service $S$ balancing load to a set of identical pods $P =
+\{p_{1} \cdots p_{n}\}$. For any pod $p_{i} \in P$, we define a target value for
+resource consumption, signified as $target(p_{i})$. An example target resource
+consumption value could be $80\%$ CPU usage or 100 mb of RAM. At a specified
+interval, the autoscaler checks the resource usage across all pods, defined as
+$curr(p_{i})$ for all $p_{i} \in P$, and adjusts the number of replicas so that
+average resource usage conforms to target resource usage. Ultimately, given a
+current set of pods $P_{c} = \{p_{1} \cdots p_{n}\}$, the target set
+of pods is $P_{t} = \{p_{1} \cdots p_{m}\}$, where $m = \sum_{i =
+0}^{n} curr(p_{i}) / target(p_{i})$. For example, if there currently exists
+$P = \{p_{1}\}$ such that $curr(p_{1}) = 100\%$ CPU usage, while
+$target(p_{i}) = 50\%$ CPU usage, the autoscaler would replicate
+$p_{1}$. With the existence of this replica $p_{2}$, such that $P =
+\{p_{1}, p_{2}\}$, we are now ensured $curr(p_{1}) = curr(p_{2}) =
+target(p_{i})$. The exact same process works for scaling down if the current CPU
+usage of each pod is too lower compared to the target resource
+usage.\cite{k8s-horizontal-pod-autoscaler-proposal}
+
+While horizontal pod autoscaling is useful in increasing Kubernetes' ability to
+handle varying loads, autoscaling could be more responsive. Specifically, the
+current method of autoscaling fails to consider the amount of time necessary to
+create a pod, which we will call
+$create(p_{i})$.\cite{brendan-burns-conversation} $create(p_{i})$ is a function
+of the complexity and build time for the containers within the pod $p_{i}$. For
+example, the create time for pod comprised of a container running
+a simple C program may be only a couple
+of seconds, while the create time for a pod comprised of multiple containers each
+utilizing a complex Java library may be minutes or in extreme cases hours. To
+illustrate the necessity of considering pod creation time, consider the
+following example.
+To begin, consider again a service $S$ balancing load to a set of identical pods
+$P = \{p_{1}\}$, such that $create(p_{i}) = 3000s \mbox{ and } target(p_{i}) =
+50\%$ CPU usage. Imagine at $t = 0s, curr(p_{1}) = 100\%$ CPU usage. Naturally
+$p_{1}$ operating above target resource consumption suggests replicating
+$p_{1}$ so that $P = \{p_{1}, p_{2}\}$ and $curr(p_{1}) = curr(p_{2}) =
+target(p_{i})$. Yet because $create(p_{i}) = 3000s$, it is not until $t = 3000s$
+that the replication is complete, load can be balanced across $P =
+\{p_{1}, p_{2}\}$, and resource consumption returns to the target. In certain
+contexts, particularly those in which operating outside of target resource
+consumption is damaging or the pod's creation time is non-trivial, this delay is
+extremely detrimental. Clearly, work can still be done to increase Kubernetes'
+scaling responsiveness.
 
 \section{Question}
 
-In this thesis, I will seek to address the deficiencies previewed in the
-motivation section. Specifically, I will answer the following question: Given a
-pod computation threshold metric triggering autoscaling, is it possible
-to decrease the amount of time spent above the metric's threshold,
-without substantially increasing the
-net overall pod runtime? In other words, is it possible to predict when the
-threshold metric will be crossed, so the replicated pod becomes available
-exactly when needed?
+In this thesis, we will seek to address the deficiencies previewed in the
+motivation section. Specifically, we will answer the following question:
+How can we decrease the amount of time pods spend operating outside of target
+resource consumption?
 
 \section{Hypothesis}
 
-I hypothesize the answer to the stated question is yes. Confidence in this
-hypothesis derives from the possibility of implementing preemptive
-scaling.\cite{brendan-burns-conversation} Preemptive scaling measures the rate
-of change for the given pod threshold metric, and predicts when the threshold
-will be crossed. Combined with knowledge of the replication time for the pod,
-the creation process for the replica can begin before the threshold is ever
-crossed. When preemptive scaling works, as I hypothesize it will, the
-replication pod is available exactly when needed, and the initial pod must spend
-minimal time operating above the threshold metric while waiting for the pod
-replication to complete.
+We hypothesize it is possible to decrease the amount of time pods spend
+operating outside of target resource consumption through predictive autoscaling.
+Predictive autoscaling attempts to scale based on the pods' future, not present, resource
+consumption, so that a pod required in the future can begin
+the creation process before any pod operates outside the target value,
+and be functional as soon as it is needed.
+More formally, consider again the example given at the end of the previous
+section.
+This time, imagine that instead of beginning the replication process at
+$t = 0s$, when $curr(p_{1}) = 100\%$ CPU usage, we instead predicted at
+$t = -3000s$ that at $t = 0s, curr(p_{1}) = 100\%$ CPU usage, and we began to
+create $p_{2}$. After the $3000s$ necessary for the creation of $p_{2}$, both
+pods would be available, and $curr(p_{1}) = curr(p_{2}) = target(p_{i})$. As
+opposed to if we waited until $t = 0s$ to begin creating $p_{2}$, we do not have
+to spend any time operating outside of target resource consumption. Predictive
+scaling increases the responsiveness of autoscaling, by decreasing the impact of
+pod creation times, and thereby minimizing the amount of time any pod must
+function beyond target resource consumption.
 
 \section{Implementation and Methodology}
 
 Kubernetes is a rare and interesting project in that it is both completely open
-source and in production use at Google and many other
-companies.\cite{google-container-engine} Thus, I will be implementing my work
-with preemptive autoscaling on the actual Kubernetes code, with the goal of my
-work being accepted into the master branch, as part of the main
-Kubernetes distribution.
+source and in production use at Google.\cite{google-container-engine}
+Thus, we will be implementing our work
+with predictive autoscaling on the actual Kubernetes code, with the eventual
+goal of our work becoming part of the production Kubernetes distribution.
 
-A fairly defined methodology exists for evaluating cluster managers like
+Considering our goal of merging this code into a system as heavy-utilized as
+Kubernetes, it is important to show tangible successes or failures through
+evaluation. Fortunately, a fairly defined methodology exists
+for evaluating cluster managers like
 Kubernetes.\cite[pg. 355]{omega} The first aspect of evaluation utilizes a
-lightweight simulator based on the statistical structure of the data I wish to
-measure. For example, if I wanted to test the ability of Kubernetes with
-preemptive autoscaling to respond to a spike in web traffic to a given pod, I
-would simulate the highly variable incoming web requests with statistical
+lightweight simulator based on the statistical structure of typical input to
+Kubernetes. For example, testing the ability of Kubernetes implementing
+predictive autoscaling to respond to a spike in web traffic,
+would require simulating the highly variable incoming web requests through statistical
 modelling. The second evaluation replays historic data, in order to make exact
-conclusions about how Kubernetes with preemptive autoscaling would have operated in a
+conclusions about how Kubernetes with predictive autoscaling would have operated in a
 specific situation. This analysis is typically more restrictive, because it can
 be difficult, and time-consuming, to obtain and replay exact data.
 
 Evaluation will involve tracking the internal metrics Kubernetes already
-records, including the amount of time a pod is running, and specific
-computational metrics for the pod (ie. CPU, memory\dots). Some work will be
-necessary to decide which metrics are best for measuring scaling responsiveness.
+records, including the amount of time a pod is running, and the specific
+computational metrics for the pod (ie, CPU, memory\dots). Work will be
+necessary to decide which metrics are best suited to measuring scaling responsiveness.
 
 \section{Current State}
 
-Working with Kubernetes has been extremely encouraging. Most importantly,
+Preliminary work with Kubernetes has been extremely encouraging. Most importantly,
 the lead developer of Kubernetes, Brendan Burns '98, is a Williams graduate who has
-been very generous with his time and expertise, as we have discussed potential
+been very generous with his time and expertise as we have discussed potential
 areas of exploration. I am hopeful that I will be able to continue
 working with Brendan going forward.
 
 Naturally, Kubernetes is a large open source project, and as such there are
-certain standards and customs which must be followed.
-However, I have contributed to open source for over a
-year, and am familiar with the workflow; I have already used my previous experience to
-make small contributions to Kubernetes. I am optimistic and excited about
-continuing to work with Kubernetes and the code I write for my
-thesis hopefully being accepted into the main branch of the project.
+certain standards and customs which must be followed. Based on past open source
+work and Kubernetes extensive documentation, I have already made small
+contributions to Kubernetes, and am hopeful about the possibility of making
+larger contributions, including the predictive scaling examined in this thesis.
 
 \bibliography{proposal}
 \bibliographystyle{plain}
