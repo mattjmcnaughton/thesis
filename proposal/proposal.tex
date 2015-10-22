@@ -20,8 +20,8 @@ Manager}
 
 \section{Background and Motivation}
 Society is becoming increasingly dependent on computation. Every facet of human
-life, be it finance, healthcare, education, social interaction, etc\ldots, now
-involves computers.\cite[pg. 4]{distributed-systems-concepts-and-design}
+life, be it finance, healthcare, education, social interactions to name just a
+few, now involves computers.\cite[pg. 4]{distributed-systems-concepts-and-design}
 Naturally, singular computing workstations cannot provide the computational
 power necessary to execute the demanded tasks at such a massive scale.\cite[pg.
 2]{distributed-systems-principles-and-paradigms} However, cluster computing,
@@ -37,7 +37,7 @@ increasingly becoming available to the general public. Kubernetes, an open
 source cluster manager from Google, leads this effort.\cite{k8s-website}
 Interest in, and the importance of, cluster computing will only increase as it
 becomes more accessible to common programmer and more vital to processing the ever
-growing massive of computing tasks.
+growing mass of computing tasks.
 
 Kubernetes manages all aspects of the cluster through admitting, running, and
 restarting applications, monitoring and displaying application health, and maintaining the
@@ -57,7 +57,7 @@ includes a single container, and is responsible for performing the job the
 application within the container dictates. Pods can be used to deploy web
 servers, databases, data-processing frameworks, and more.\cite{k8s-pods} Additionally,
 Kubernetes defines the concept of a replication controller, which simply ensures
-a given number of a specified pod are running at all
+a given number of specified pods are running at all
 times.\cite{k8s-replication-controllers} Replication
 controllers are used in conjunction with services, which provide a long-lasting,
 logical abstraction for a collection of identical temporary pods.
@@ -110,7 +110,7 @@ current method of autoscaling fails to consider the amount of time necessary to
 create a pod, which we will call
 $create(p_{i})$.\cite{brendan-burns-conversation} $create(p_{i})$ is a function
 of the complexity and build time for the containers within the pod $p_{i}$. For
-example, the create time for pod comprised of a container running
+example, the create time for pod consists of a container running
 a simple C program may be only a couple
 of seconds, while the create time for a pod comprised of multiple containers each
 utilizing a complex Java library may be minutes or in extreme cases hours. To
@@ -129,12 +129,14 @@ consumption is damaging or the pod's creation time is non-trivial, this delay is
 extremely detrimental. Clearly, work can still be done to increase Kubernetes'
 scaling responsiveness.
 
-\section{Question}
+\section{Research Question}
 
-In this thesis, we will seek to address the deficiencies previewed in the
+This thesis will seek to address deficiencies previewed in the
 motivation section. Specifically, we will answer the following question:
 How can we decrease the amount of time pods spend operating outside of target
-resource consumption?
+resource consumption? Success in answering this question will include the
+scaling responsiveness of Kubernetes and increase its ability to respond to
+variable external factors.
 
 \section{Hypothesis}
 
@@ -153,7 +155,7 @@ create $p_{2}$. After the $3000s$ necessary for the creation of $p_{2}$, both
 pods would be available, and $curr(p_{1}) = curr(p_{2}) = target(p_{i})$. As
 opposed to if we waited until $t = 0s$ to begin creating $p_{2}$, we do not have
 to spend any time operating outside of target resource consumption. Predictive
-scaling increases the responsiveness of autoscaling, by decreasing the impact of
+scaling increases the responsiveness of autoscaling by decreasing the impact of
 pod creation times, and thereby minimizing the amount of time any pod must
 function beyond target resource consumption.
 
