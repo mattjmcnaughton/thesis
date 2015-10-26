@@ -32,6 +32,8 @@
 \usepackage{empheq}
 \usepackage{multicol}
 \usepackage{subfigure}
+%% Used for citations
+\usepackage{cite}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Thesis body %%
@@ -48,7 +50,7 @@
   \onehalfspacing
   \begin{center}
     {\LARGE
-      Preemptive Autoscaling of Pods in the Kubernetes Container Cluster Manager
+      Predictive Pod Autoscaling in the Kubernetes Container Cluster Manager
     }
     \large
     \vskip.25in
@@ -75,8 +77,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \tableofcontents
-\listoffigures
-\listoftables
+% \listoffigures
+% \listoftables
+
 \onehalfspacing
 
 \chapter*{Abstract}
@@ -85,12 +88,77 @@
 
 %%%%%%%% Chapters %%%%%%%%%%%%
 
-%% Introduction
+%%%%% Introduction
+
 \chapter*{Introduction}
+
+\section{Motivation}
+
+The Kubernetes cluster manager\cite{k8s-website} controls all aspects of a
+cluster through admitting, running, and restarting applications, monitoring and
+displaying application health, and maintaining the underlying machines composing
+the cluster. Currently the Kubernetes cluster manager implements autoscaling,
+ensuring applications scale to meet varying external
+demands.\cite{k8s-horizontal-pod-autoscaler-proposal} We seek to
+improve autoscaling to decrease the amount of time
+replicated applications must handle too much or too little demand, increasing
+the efficiency and responsiveness of Kubernetes.
+
+\section{Process}
+
+\subsection{Implementation}
+
+Kubernetes is uniquely both completely open source under the Apache License, and
+in production use at Google.\cite{google-container-engine} Ultimately, the goal
+is for the Kubernetes project to accept this work into their master distribution.
+Thus, the norms and
+requirements of the Kubernetes community, as well as the current implementation
+of Kubernetes, will influence the implementation of our autoscaling
+modifications. The implementation steps are as follows:
+
+\begin{itemize}
+  \item Propose autoscaling modifications to the Kubernetes community.
+  \item Make regularly scheduled pull requests to gradually introduce proposed
+    changes.
+    \begin{itemize}
+      \item Importantly, Kubernetes is a extremely active project, and it will
+        be important to continuously merge our changes to decrease the cost on
+        ourselves and on the project maintainers of combining two divergent
+        branches.
+    \end{itemize}
+  \item Evaluate proposed changes to determine their validity and performance.
+  \item Make necessary changes and extensions.
+\end{itemize}
+
+\subsection{Data Collection}
+
+\section{Goals}
+
+%%%%%% Background
+
+\chapter*{Background}
+
+\section{Cluster Management}
+
+\subsection{History and Motivation}
+
+\subsection{Alternatives to Kubernetes}
+
+\subsubsection{Borg}
+
+\subsubsection{Omega}
+
+\subsubsection{Others}
+
+\subsection{Kubernetes}
+
+\section{Containerization}
+
+\section{Prediction Models}
 
 %%%%%%%% References %%%%%%%%%%
 \bibliographystyle{acm}
-\bibliography{references}
+\bibliography{thesis}
 %%%%%%%% End References %%%%%%
 
 \end{document}
