@@ -90,7 +90,7 @@
 
 %%%%% Introduction
 
-\chapter*{Introduction}
+\chapter{Introduction}
 
 \section{Motivation}
 
@@ -104,9 +104,7 @@ improve autoscaling to decrease the amount of time
 replicated applications must handle too much or too little demand, increasing
 the efficiency and responsiveness of Kubernetes.
 
-\section{Process}
-
-\subsection{Implementation}
+\section{Process and Implementation}
 
 Kubernetes is uniquely both completely open source under the Apache License, and
 in production use at Google.\cite{google-container-engine} Ultimately, the goal
@@ -119,9 +117,9 @@ modifications. The implementation steps are as follows:
 \begin{itemize}
   \item Propose autoscaling modifications to the Kubernetes community.
   \item Make regularly scheduled pull requests to gradually introduce proposed
-    changes.
+    changes in standalone components.
     \begin{itemize}
-      \item Importantly, Kubernetes is a extremely active project, and it will
+      \item Importantly, Kubernetes is an active project, and it will
         be important to continuously merge our changes to decrease the cost on
         ourselves and on the project maintainers of combining two divergent
         branches.
@@ -130,13 +128,33 @@ modifications. The implementation steps are as follows:
   \item Make necessary changes and extensions.
 \end{itemize}
 
-\subsection{Data Collection}
-
 \section{Goals}
+
+Fairly defined methods and metrics exist for
+measuring the efficiency of cluster managers. Particularly, we will define a
+singular metric to measure the success of autoscaling, and then compare the
+values of this metric when running both statistically simulated and historically
+recorded data on Kubernetes with, and without, our modification.
+
+Additionally, Kubernetes is a system used to run a variety of different types of
+applications, in a variety of different environments. Equivalently, our
+modifications to autoscaling will undoubtedly incorporate many tunable
+parameters and application-definable variables. An additional goal is
+determining the use cases in which our modifications are most effective, and
+just as importantly, the use cases in which they are least effective. In
+conjunction, after making our modifications we seek to determine a suitable,
+default behavior for autoscaling.
+
+Part of the appeal of this thesis is the ability to contribute to a
+system running applications used by millions of people each day.
+Thus, a final metric of success is the extent to which the method and
+implementation we use to improve autoscaling conforms to
+the architecture and standards of Kubernetes, and the extent to which our
+modifications are accepted by the Kubernetes community.
 
 %%%%%% Background
 
-\chapter*{Background}
+\chapter{Background}
 
 \section{Cluster Management}
 
