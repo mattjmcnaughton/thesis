@@ -139,56 +139,8 @@ accessible, both because of decreased cost and increased ease of use, we can
 address an ever increasing number of challenging, important problems computationally.
 
 There are a number of different models of computing tasks requiring high levels
-of computing resources:
-
-\begin{enumerate}
-  \item \underline{Supercomputing}: The supercomputing model responds to
-    increased demands for computing resources by increasing the specs of the
-    computer far beyond the range of the traditional commodity computer.
-    While supercomputers are able to avoid the majority of the complications the
-    introduction of networks introduce, most prominently reliability and
-    security, there are naturally limits on the power of supercomputers.
-    Importantly, constructing supercomputers is extremely expensive, and thus
-    their computing power is not available to the general public. Furthermore,
-    it is difficult to scale a supercomputer should the need arise. Finally,
-    supercomputers offer a single point of failure, meaning they are not
-    particularly robust to error. These limitations have decreased the usage of
-    supercomputers to provide the mass of computing power needed in the ``Big
-    Data'' era.
-
-  \item \underline{Cluster Computing}: Cluster computing is defined as utilizing
-    ``a collection of similar workstations of PCs, losely connected by means of
-    a high-speed local-area network [where] each node runs the same operating
-    system.''\cite[pg. 17-18]{distributed-systems-principles-and-paradigms}
-    Cluster computing can provide a mass of computing power similar to
-    that contained in a supercomputer. Cluster computing also offers many
-    advantages over the single supercomputer. First, and perhaps most
-    importantly, they are much more cost-efficient. Second, clusters are easy to
-    scale by simply adding new nodes. Finally, cluster computing is much more fault
-    tolerant, as a singular failing commodity computer will simply be removed
-    from the cluster. Cluster computing is used in the
-    implementation of what is colloquially referred to as \textit{Cloud
-    computing}, in which large amounts of computing resources are offered on a
-    per-usage basis.\cite[pg. 13]{distributed-systems-concepts-and-design}
-    Cloud computing, as implemented by Amazon Web
-    Services,\cite{amazon-web-services} Microsoft Azure,\cite{microsoft-azure}
-    and Google Compute Engine,\cite{google-compute-engine} continue to
-    revolutionize the development and deployment of computing applications, as
-    developers gain access to cheap, easily accessible, quickly scalable
-    computing power.
-
-  \item \underline{Grid Computing}: Grid computing is similar to concept in
-    cluster computing, except it foregoes the requirement that all computers
-    within the grid be homogeneous. As such, the grid computing model accounts
-    for a large degree of heterogeneity with respect to network membership,
-    operating system, hardware, and more.\cite[pg.
-    18]{distributed-systems-principles-and-paradigms} While grid computing
-    systems weaken the homogeneity requirements imposed by cluster computing,
-    the resulting heterogeneity introduces significant complexity.
-
-\end{enumerate}
-
-In this thesis, we focus on cluster computing. Specifically, we focus on the
+of computing resources, including supercomputing, cluster computing, and grid
+computing. In this thesis, we focus on cluster computing. Specifically, we focus on the
 cluster manager, an integral component of cluster computing. Cluster managers
 are responsible for abstracting all of the management details of the distinct
 nodes in the cluster, and instead present a single mass of computing resources
@@ -269,6 +221,96 @@ general.
 @TODO - This section can not be written until the thesis is completed.
 
 \chapter{Background}
+
+\section{Resource Intensive Computing Paradigms}
+
+As was briefly mentioned in the introduction, a number of different paradigms
+exist for undertaking computing tasks too resource intensive for a singular
+computer. They are discussed in detail below:
+
+\begin{enumerate}
+  \item \underline{Supercomputing}: The supercomputing model responds to
+    increased demands for computing resources by increasing the specs of the
+    computer far beyond the range of the traditional commodity computer.
+    While supercomputers are able to avoid the majority of the complications the
+    introduction of networks introduce, most prominently reliability and
+    security, there are naturally limits on the power of supercomputers.
+    Importantly, constructing supercomputers is extremely expensive, and thus
+    their computing power is not available to the general public. Furthermore,
+    it is difficult to scale a supercomputer should the need arise. Finally,
+    supercomputers offer a single point of failure, meaning they are not
+    particularly robust to error. These limitations have decreased the usage of
+    supercomputers to provide the mass of computing power needed in the ``Big
+    Data'' era.
+
+  \item \underline{Cluster Computing}: Cluster computing is defined as utilizing
+    ``a collection of similar workstations of PCs, losely connected by means of
+    a high-speed local-area network [where] each node runs the same operating
+    system.''\cite[pg. 17-18]{distributed-systems-principles-and-paradigms}
+    Cluster computing can provide a mass of computing power similar to
+    that contained in a supercomputer. Cluster computing also offers many
+    advantages over the single supercomputer. First, and perhaps most
+    importantly, they are much more cost-efficient. Second, clusters are easy to
+    scale by simply adding new nodes. Finally, cluster computing is much more fault
+    tolerant, as a singular failing commodity computer will simply be removed
+    from the cluster. Cluster computing is used in the
+    implementation of what is colloquially referred to as \textit{Cloud
+    computing}, in which large amounts of computing resources are offered on a
+    per-usage basis.\cite[pg. 13]{distributed-systems-concepts-and-design}
+    Cloud computing, as implemented by Amazon Web
+    Services,\cite{amazon-web-services} Microsoft Azure,\cite{microsoft-azure}
+    and Google Compute Engine,\cite{google-compute-engine} continue to
+    revolutionize the development and deployment of computing applications, as
+    developers gain access to cheap, easily accessible, quickly scalable
+    computing power.
+
+  \item \underline{Grid Computing}: Grid computing is similar to concept in
+    cluster computing, except it foregoes the requirement that all computers
+    within the grid be homogeneous. As such, the grid computing model accounts
+    for a large degree of heterogeneity with respect to network membership,
+    operating system, hardware, and more.\cite[pg.
+    18]{distributed-systems-principles-and-paradigms} While grid computing
+    systems weaken the homogeneity requirements imposed by cluster computing,
+    the resulting heterogeneity introduces significant complexity.
+
+\end{enumerate}
+
+Ultimately, because of simplicity, cost, and scalability, cluster computing is
+the most prominent resource intensive computing paradigm. Thus, cluster
+computing, and the accompanying cluster manager, is the focus of this
+thesis.
+
+\section{Cluster Management Paradigms}
+
+\subsection{Borg}
+
+\subsection{Omega}
+
+\subsection{Mesos}
+
+\subsection{YARN}
+
+\subsection{Kubernetes}
+
+\section{Properties of Cluster Managers}
+
+\subsection{Efficiency of Resource Utilization}
+
+\subsection{Quality of Service}
+
+\section{Summary}
+
+\chapter{Appendix}
+
+\section{Technologies Underlying Kubernetes}
+
+\subsection{Containerization}
+
+\subsubsection{Virtualization}
+
+\subsubsection{Containerization}
+
+\subsubsection{Docker}
 
 %%%%%%%% References %%%%%%%%%%
 \bibliographystyle{acm}
