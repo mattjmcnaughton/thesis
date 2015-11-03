@@ -92,105 +92,118 @@
 
 \chapter{Introduction}
 
-Over the past few decades, an explosion in the need for computing power and
-memory, and the existence of cheap, interconnected computers, has
+Over the past few decades, an explosion in the need for computing resources,
+and the existence of cheap, interconnected computers, has
 driven a significant increase in the feasibility and benefits of distributed
 systems.\cite[pg. 1]{distributed-systems-principles-and-paradigms}
+
 First, we consider the origin of distributed systems as a field of computer
 science. Before the availability of cheap, powerful microprocessors and reliable,
 efficient local-area networks (LANs), computational tasks could only be
 performed on a singular computer.\cite[pg.
 1]{distributed-systems-principles-and-paradigms} If a task was too
-computationally expensive, the only solution was to run it on a larger, more
-powerful supercomputer. However, as cheap microprocessors
-made computers more abundant, and LANs allowed computers to communicate quickly, a new
-model of performing resource intensive computation, entitled \textbf{distributed
-systems} arose. In the distributed systems model a collection of individual
-computers function as a single computer to solve a given computing task.\cite[pg.
+computationally expensive for a commodity PC, the only solution was to run
+it on a larger, more powerful supercomputer. However, as cheap microprocessors
+increased computers' availability, and LANs fostered quick inter-computer
+communication, a new
+model of performing resource intensive computation, distributed
+systems, arose. In the distributed systems model, a collection of individual
+computers function as a single computer to solve a given computational task.\cite[pg.
 2]{distributed-systems-principles-and-paradigms}
 
 Second, we consider the ever-growing interest in unlocking and implementing the
 benefits of distributed systems. A number of forces drove, and continue to drive,
 increased interest in distributed systems over
-the past decade. The first, and most obvious, factor is the Internet, itself a
-distributed system. As more people connected to the Internet, through computers,
+the past decade. The first, and most obvious, factor is the Internet.
+As more people connected to the Internet, through computers,
 mobile phones, and tablets, an increasing number of human interactions became
-computerized. Consumption, communication, research, and many more are all
-possible through the Internet. Naturally, large amounts of computing resources
-are needed to store the data, and perform the computation, related to these
+computerized. Consumption, communication, research, and more all
+became possible on the Internet. Naturally, large amounts of computing resources
+were needed to store the data, and perform the computational tasks, related to these
 interactions. Closely coupled with this trend is the rise of ``Big Data''.
 In 2013, the digital universe contained 4.4 zettabytes of data.\footnote{A
   zettabyte equals $10^{21}$ bytes, which equals 1 billion
 terabytes.}\cite{the-digital-universe-of-opportunities} Naturally, without
 multiple computers working together it would be impossible to store and process
-this incredible volume of danger. Overall, it is nearly impossible to do
+this incredible volume of data. Today, it is nearly impossible to do
 anything in modern society without interacting with a distributed system and
 creating new digital data. Driving a car, trading a stock, visiting a doctor,
 checking an email, and even playing a simple video game, are all activities that
 distributed systems facilitate and improve.\cite[pg.
-4]{distributed-systems-concepts-and-design} As life becomes more and more
+4]{distributed-systems-concepts-and-design} As life becomes more
 computerized, and as the volume of data humans generate and hope to process
-grows and grows, distributed systems will only become increasingly more
-important. Furthermore, research into distributed systems makes it possible to
+grows, distributed systems will only increase in importance.
+Furthermore, research into distributed systems makes it possible to
 continue to unlock, and make available to the general public,
-the incredible power of networked computers. As distributed systems supplying
-massive computational powers become more
-accessible, both because of decreased cost and increased ease of use, we can
-address an ever increasing number of challenging, important problems computationally.
+the incredible power of networked, cooperating computers. As the distributed systems
+supplying massive computational power become more
+accessible, both because of decreased cost and increased ease of use and
+reliability, we can
+computationally address an ever increasing number of challenging, important problems.
 
-There are a number of different models of computing tasks requiring high levels
+There are a number of different models for computing tasks requiring high levels
 of computing resources, including supercomputing, cluster computing, and grid
-computing. In this thesis, we focus on cluster computing. Specifically, we focus on the
+computing. In this thesis, we focus on cluster computing. Cluster computing
+groups together similar commodity PCs on the same LAN to offer a singular mass
+of computing resources. Specifically, we focus on the
 cluster manager, an integral component of cluster computing. Cluster managers
 are responsible for abstracting all of the management details of the distinct
-nodes in the cluster, and instead present a single mass of computing resources
-to the user on which they can run jobs on the application. In other words,
+nodes in the cluster, and instead presenting a single mass of computing resources
+on which the user can run jobs or applications. In other words,
 a cluster manager ``admits, schedules, starts, restarts, and monitors the full
-range of applications'' run on the cluster.\cite[pg. 1]{borg} There are a
+range of applications'' on the cluster.\cite[pg. 1]{borg} There are a
 variety of different cluster managers, the most important of which will be
 discussed in the background chapter, each pursuing different objectives. This
-thesis will ultimately focus on \textbf{Kubernetes}, an open-source cluster
-manager from Google.\cite{k8s-website}.
+thesis will ultimately focus on Kubernetes, an open-source cluster
+manager from Google.\cite{k8s-website}
 
 Cluster managers seek to accomplish a number of different goals, and as a
 result, multiple metrics indicate success. For example, Microsoft's Autopilot is
 predominantly concerned with application uptime, and thus success is measured
 with respect to reliability and downtime.\cite[pg. 1]{autopilot}
 Alternatively, a number of cluster managers measure themselves based on
-efficient resource usage.\cite[pg. 7]{borg} Essentially, efficient cluster
+efficient resource utilization (ERU).\cite[pg. 7]{borg} Essentially, efficient
 resource utilization relates to the percent of cluster resources which are
-actually being used. For example, one such measurement of this metric, cluster
+actually being used. One such measurement of this goal, cluster
 compaction, examines how many computers could be removed from the cluster, while
 still comfortably running the cluster's current application load.\cite[pg.
 5]{evaluating-job-packing-in-warehouse-scale-computing} This metric is
 particularly important, because the more efficient the cluster management is at
-utilizing resources, the less resources cost, and the more accessible cluster
+utilizing resources, the less clusters cost, and the more accessible cluster
 computing becomes to the general public. A final important
-cluster management metric is quality of service. Quality of service measures the
-ability of an application to function at a specified level, despite ever-changing
-external factors. Again, this metric is particularly important, because
-increasing the robustness of applications running on cluster managers means
+cluster management metric is quality of service (QOS). Quality of service measures the
+ability of an application to function at a specified
+performance level, despite ever-changing
+external factors. Again, this metric is particularly important because
+increasing the robustness of applications run on cluster managers means
 these applications can be trusted with increasingly important tasks. Cluster
-managers predominantly differ with respect to which of these metrics optimize
+managers predominantly differ with respect to which metrics they optimize
 for, and the process by which this optimization occurs.
 
 \section{Goals}
 
 This thesis is most concerned with maximizing the efficient resource utilization
-and quality of service metrics with respect to the Kubernetes cluster manager.
+(ERU) and quality of service (QOS) metrics with respect to the Kubernetes cluster manager.
 As such, this thesis pursues three goals:
 
 \begin{enumerate}
   \item Given an application running on a Kubernetes cluster, we seek to
     determine a method which ensures quality of
     service stays consistently high regardless of external factors. While it is
-    difficult to make guarantees regarding quality of service, it is possible to
+    difficult to make guarantees regarding quality of service, because
+    application performance is dependent on a number of uncontrollable, varying
+    external factors, it is possible to
     ensure each application has, and is utilizing, the resources it needs to
     function property. Given the cluster manager grants the application the
     resources it needs to function given the current external load,
-    the cluster manager has done all it can to ensure application quality of
-    service.
-  \item Given a certain number of applications running on a Kubernetes cluster,
+    the cluster manager has done all it can to ensure a high quality of service.
+  \item A simplistic solution to the first goal of ensuring a high application
+    quality of service is to just give each application many more resources than
+    it requests. Yet, this overallocation is inefficient and costly. Thus, our
+    methods for ensuring a high quality of service must also ensure the
+    maintenance, or improvement, of the efficient resource utilization metric.
+    Thus, we add an additional goal: given a certain number of applications
+    running on a Kubernetes cluster,
     we seek to determine a method which ensures the cluster is
     as small as possible, while still comfortably
     supporting the application's current, and future, resource needs.
@@ -198,22 +211,24 @@ As such, this thesis pursues three goals:
     evaluate a proposed enactment of the previous two goals.
     Thus, the methods we pursue will
     in part be dictated by the current structure and implementation of
-    Kubernetes. Tests be conducted using the Google Compute
-    Engine\cite{google-compute-engine} and both
-    simulated and real Kubernetes user data.
+    Kubernetes. Tests will be conducted using the Google Compute
+    Engine\cite{google-compute-engine} on both
+    simulated and real Kubernetes user data. The eventual goal is for this
+    thesis' improvements to be merged into the production version of Kubernetes
+    used to run 1000s of applications at Google everyday.
 \end{enumerate}
 
 \section{Contributions}
 
 This thesis presents our given contributions to Kubernetes. Kubernetes seeks to
-ensure high application quality of service and efficient use of computing
-resources, and our contributions look to further its ability to accomplish these
+ensure high application quality of service and efficient resource utilization,
+and our contributions look to further its ability to accomplish these
 goals. As such, we present not only new methodology, but also new, working
-implementations, with accompanying evaluation. We demonstrate the effectiveness
+implementations with the accompanying evaluation. We demonstrate the effectiveness
 of our modifications in comparison to the non-modified Kubernetes using both
 simulated and real-world datasets. Finally, we
-discuss the experiences of making these modifications on Kubernetes, as well as
-the avenues for future improvements with respect to Kubernetes and cluster managers in
+discuss the experiences of making these modifications to Kubernetes, as well as
+avenues for future improvements with respect to Kubernetes and cluster managers in
 general.
 
 \section{Contents}
@@ -225,15 +240,16 @@ general.
 \section{Resource Intensive Computing Paradigms}
 
 As was briefly mentioned in the introduction, a number of different paradigms
-exist for undertaking computing tasks too resource intensive for a singular
+exist for undertaking computing tasks too resource intensive for a single
 computer. They are discussed in detail below:
 
 \begin{enumerate}
   \item \underline{Supercomputing}: The supercomputing model responds to
-    increased demands for computing resources by increasing the specs of the
-    computer far beyond the range of the traditional commodity computer.
-    While supercomputers are able to avoid the majority of the complications the
-    introduction of networks introduce, most prominently reliability and
+    increased demands for computing resources by increasing the technical
+    specifications of the computer far beyond the range of the
+    traditional commodity PC.
+    While supercomputers are able to avoid the majority of the complications
+    resulting from the introduction of networks, most prominently reliability and
     security, there are naturally limits on the power of supercomputers.
     Importantly, constructing supercomputers is extremely expensive, and thus
     their computing power is not available to the general public. Furthermore,
@@ -250,9 +266,11 @@ computer. They are discussed in detail below:
     Cluster computing can provide a mass of computing power similar to
     that contained in a supercomputer. Cluster computing also offers many
     advantages over the single supercomputer. First, and perhaps most
-    importantly, they are much more cost-efficient. Second, clusters are easy to
-    scale by simply adding new nodes. Finally, cluster computing is much more fault
-    tolerant, as a singular failing commodity computer will simply be removed
+    importantly, they are much more cost-efficient, and thus much more
+    accessible. Second, clusters are easy to
+    scale by simply adding new commodity PCs as nodes.
+    Finally, cluster computing is much more fault
+    tolerant, as a single failing commodity computer will simply be removed
     from the cluster. Cluster computing is used in the
     implementation of what is colloquially referred to as \textit{Cloud
     computing}, in which large amounts of computing resources are offered on a
@@ -261,16 +279,16 @@ computer. They are discussed in detail below:
     Services,\cite{amazon-web-services} Microsoft Azure,\cite{microsoft-azure}
     and Google Compute Engine,\cite{google-compute-engine} continue to
     revolutionize the development and deployment of computing applications, as
-    developers gain access to cheap, easily accessible, quickly scalable
+    developers gain access to cheap, easily accessible, and quickly scalable
     computing power.
 
   \item \underline{Grid Computing}: Grid computing is similar to concept in
     cluster computing, except it foregoes the requirement that all computers
-    within the grid be homogeneous. As such, the grid computing model accounts
+    within the grid be relatively homogeneous. As such, the grid computing model accounts
     for a large degree of heterogeneity with respect to network membership,
     operating system, hardware, and more.\cite[pg.
     18]{distributed-systems-principles-and-paradigms} While grid computing
-    systems weaken the homogeneity requirements imposed by cluster computing,
+    systems lack of homogeneity requirements increase flexibility,
     the resulting heterogeneity introduces significant complexity.
 
 \end{enumerate}
