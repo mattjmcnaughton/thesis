@@ -300,6 +300,54 @@ thesis.
 
 \section{Cluster Management Paradigms}
 
+As was briefly mentioned in the introduction, cluster managers are responsible
+for admitting, scheduling, running, maintaining, and monitoring all applications
+and jobs a user wishes to run on the cluster. Naturally, cluster managers are
+extremely diverse, both in the types of applications and jobs they are most
+suited to running, and the method in which they seek execute their duties.
+At the most basic level, there are two types of workload that may be submitted
+to a cluster manager: production and batch. Production tasks are long-running
+with strict performance requirements and penalties to downtime. Batch tasks are
+more flexible in their ability to handle short-term performance variance. In the
+context of a large company like Google, a production task would be serving a
+large website like Gmail, which must be continuously accessible with low-latency
+and little downtime. A batch task would be analysing advertising analytics data
+with MapReduce, which can fail or slow without significant external
+costs.\cite[pg. 1]{borg} The type of tasks a cluster management system
+predominantly seeks to run dictate the cluster manager's implementation details.
+
+One important decision in the implementation of a cluster manager is the manner
+by which the cluster manager will assign a job resources. Two predominant
+methods exist. In the first, jobs request resources from a cluster manager and
+the cluster manager schedules the jobs on the cluster as efficiently as
+possible. In the second, the cluster manager offers resources to cluster
+computing frameworks. The ultimate determined method of assigning a job
+resources effects the type of applications and distributed computing frameworks
+runnable on the cluster manager and the efficiency with which these applications
+and frameworks run.
+
+A final distinction is licensing and availability of the cluster manager's code.
+Because entities need cluster managers only to process and store massive amounts
+of data and human-computer interaction, mainly large
+corporations develop and utilize cluster managers. Often these cluster
+managers are kept within the confines of the corporation, or only explained by a
+brief paper or conference talk, with little source code available. In more
+unique cases, the company will open-source the source code, allowing anyone to
+view, modify, and run the cluster manager. Such open-sourcing presents a unique opportunity
+for researchers wishing to experiment with cluster managers, yet without the
+resources to create their own from scratch. In rarer instances, a
+fully-developed cluster manager will originate from academic research. In unique
+scenarios, a large corporation will use this cluster manager and the full code will
+be open-sourced. The availability of source code directly impacts the
+feasibility of pursuing experiments with an already existing cluster management
+system.
+
+Naturally, cluster managers can vary in multiple additional ways. However,
+the previous three differences recognize the most important distinctions in this
+thesis' context. Given this understanding, we can know begin to examine specific
+cluster management implementations and defend our choice of Kubernetes as the
+cluster manager on which we will ask and answer our research question.
+
 \subsection{Borg}
 
 \subsection{Omega}
@@ -310,11 +358,16 @@ thesis.
 
 \subsection{Kubernetes}
 
-\section{Properties of Cluster Managers}
 
-\subsection{Efficiency of Resource Utilization}
+\section{Auto-scaling Paradigms}
 
-\subsection{Quality of Service}
+\subsection{Threshold-based Rule Policies}
+
+\subsection{Time-series Analysis}
+
+\subsection{Control-Theory}
+
+\subsubsection{Model Predictive Control}
 
 \section{Summary}
 
