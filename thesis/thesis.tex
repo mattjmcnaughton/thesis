@@ -35,6 +35,9 @@
 %% Used for citations
 \usepackage{cite}
 
+%% Tell Latex to look in the `img` folder for images.
+\graphicspath{ {images/} }
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Thesis body %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -282,6 +285,11 @@ computer. They are discussed in detail below:
     developers gain access to cheap, easily accessible, and quickly scalable
     computing power.
 
+    \begin{figure}[!h]
+      \centerline{\includegraphics[scale=.4]{google-cluster.jpg}}
+      \caption{A Google Computing Cluster.\cite{image-google-cluster}}
+    \end{figure}
+
   \item \underline{Grid Computing}: Grid computing is similar to concept in
     cluster computing, except it foregoes the requirement that all computers
     within the grid be relatively homogeneous. As such, the grid computing model accounts
@@ -317,11 +325,27 @@ costs.\cite[pg. 1]{borg} The type of tasks a cluster management system
 predominantly seeks to run dictate the cluster manager's implementation details.
 
 One important decision in the implementation of a cluster manager is the manner
-by which the cluster manager will assign a job resources. Two predominant
-methods exist. In the first, jobs request resources from a cluster manager and
-the cluster manager schedules the jobs on the cluster as efficiently as
-possible. In the second, the cluster manager offers resources to cluster
-computing frameworks. The ultimate determined method of assigning a job
+by which the cluster manager schedules jobs.\footnote{Scheduling jobs on
+machines simply equates to assigning jobs to resources on a machine.}  There exist three
+different methods of scheduling: monolithic, two-level, and
+shared state. With monolithic scheduling, a single algorithm
+is responsible for taking the resource requests of all jobs and assigning them
+to the proper machine. With two-level scheduling, the cluster manager simply
+offers resources, which can then be accepted or rejected by the distributed
+computing frameworks.\footnote{Distributed computing frameworks are frameworks
+built to function over multiple machines: Apache Hadoop, Apache Spark\dots}
+Finally, with shared state scheduling, multiple different algorithms concurrently work to
+schedule jobs on the cluster.\cite[pg. 1]{omega} Naturally, all
+of these methods have positives and negatives. While monolithic scheduling is
+simple to initially, a single-threaded monolithic scheduler does not allow
+nuanced processing of jobs. Attempts to add this nuance can create an incredibly
+complicated algorithm that is difficult to extend.\cite[pg. 353-354]{omega}
+While two-level scheduling is lightweight, simple, and offers advantages with respect to
+data locality, it is not effective for long-running,
+production jobs. Finally, while shared state scheduling removes the scheduler as
+both a computational and complexity bottleneck, yet must take steps to guarantee
+global properties of the cluster.\cite[pg. 363]{omega}
+The ultimate determined method of assigning a job
 resources effects the type of applications and distributed computing frameworks
 runnable on the cluster manager and the efficiency with which these applications
 and frameworks run.
@@ -350,14 +374,141 @@ cluster manager on which we will ask and answer our research question.
 
 \subsection{Borg}
 
+While just recently described to the public in a 2015 paper, the
+\textit{Borg} cluster manager from Google has been in use for over a
+decade.\cite[pg. 14]{borg} Borg incorporates
+many different objectives, seeking to abstract resource management and failure
+handling, maintain high availability, and efficiently utilize resources on the
+cluster.\cite[pg. 1]{borg} It is responsible for managing the hundreds of
+thousands of batch and production jobs run everyday at Google. Additionally,
+Borg utilizes a monolithic scheduler, as jobs specify the
+resources they need, and a single Borg scheduler decides whether to admit and
+schedule said jobs. Finally, Borg is not open-source. In fact, it was not even
+publicly announced or described until 2015, despite running at Google for over a
+decade. However, Kubernetes, Google's open-source cluster manager, incoporates
+much of the work done to implement and improve Borg.
+
 \subsection{Omega}
+
+Also originating at Google, \textit{Omega} is a cluster manager seen as the
+current-day extension of Borg. While retaining the mission and goals of Borg,
+Omega differs in implementation. Specifically, it considers a new method of
+assigning jobs the resources they need on the cluster by implementing
+shared state, instead of monolithic, scheduling. As mentioned in the general
+overview, shared state scheduling allows multiple scheduling algorithms to work
+in parallel to assign tasks the resources they request. Research on Omega shows
+this parallel scheduling implementation both eases the complexity of adding new
+scheduling behaviors and offers competitive scaling performance.\cite[pg.
+358-359]{omega} Additionally, in Omega, all schedulers are aware of the entire
+state of the cluster, meaning that the resource allocation to a job can be
+varied after the job begins to execute. This flexibility offers significant
+performance improvements.\cite[pg.352]{omega} Like Borg, Omega is not
+open-source. However, like Borg, much of the work done on Omega is incorporated
+into Kubernetes, Google's open-source cluster manager.
+
+%%% Cluster manager table.
+
+\begin{table}[]
+\centering
+\caption{Overview of Cluster Management Paradigms.}
+\begin{tabular}{|l|l|l|l|}
+\hline
+                    & \textbf{Job Type} & \textbf{Scheduling Model} &
+                    \textbf{Open Source} \\ \hline
+\textbf{Borg}       & Both              & Monolithic                & No
+\\ \hline
+\textbf{Omega}      & Both              & Shared state              & No
+\\ \hline
+\textbf{Mesos}      & Batch             & Two-level                 & Yes
+\\ \hline
+\textbf{YARN}       & Batch             & Monolithic                & Yes
+\\ \hline
+\textbf{Kubernetes} & Production        & Monolithic                & Yes
+\\ \hline
+\end{tabular}
+\end{table}
 
 \subsection{Mesos}
 
+Lest we think all cluster managers originate at Google, we now examine Apache
+Mesos, a cluster manager originating at University of California, Berkeley, and
+currently at use at a number of prominent corporations including Twitter. Mesos
+is much more lightweight than either Borg or Omega, and simply seeks to offer
+resources to distributed computing frameworks (i.e. Apache Hadoop, Apache
+Spark\dots) which can decide to accept or reject these resources. It does not
+seek to monitor the health of jobs or provide user-interfaces for viewing the
+current state of a job, leaving those tasks to the distributed computing
+framework. Additionally, Mesos predominantly focuses on quick-running,
+high-volume batch jobs, and is not particularly suited to long-running,
+high-availability production jobs.\cite[pg. 358]{omega} In part, Mesos'
+job scheduling implementation specifics the singularity of the job types
+Mesos efficiently processes. Mesos utilizes two-level scheduling, in which the
+cluster management system simply offers, not assigns, available
+resources to the distributed computing framework. Predominantly, this decision
+is made to ensure data locality.\cite[pg. 1]{mesos} Data locality is a measure
+of if the task has the necessary data on its machine, or if it must make a
+costly request across the network for the data. Mesos works to ensure data
+locality by allowing multiple frameworks to function on the same machines, and
+thus share data, and also for frameworks to dictate their own resources, such
+that they can work to ensure data locality. If running a large number of data
+processing tasks, with extremely high volumes of data, data locality can be
+essential to efficient cluster operation. Finally, Mesos is interesting in
+that it is entirely open-source, yet still in use at some of the largest tech
+companies.
+
 \subsection{YARN}
+
+We now briefly discuss Apache Hadoop YARN. YARN, an acronym for \textit{Yet Another
+Resource Negotiator}, is a cluster manager initially built for use with Apache
+Hadoop.\cite[pg. 1]{yarn} However, it is now possible to use YARN with a variety
+of distributed computing frameworks. Unsurprisingly given YARN's initial use
+case, YARN is predominantly used for running batch jobs.\footnote{At the time of
+the publication, YARN was just beginning to be used for production jobs;
+however, its main focus from creation has been batch processing.\cite[pg.
+11]{yarn}} Like Mesos, YARN aims to support data-locality,
+again a predominant advantage for batch processing.\cite[pg. 3]{yarn} YARN
+schedules resources by allowing per distributed computing framework application
+masters to request resources from a single resource master.\cite[pg. 5]{yarn} As
+a single resource master is assigning all of these resources, YARN is a
+monolithic scheduler. Similar to Mesos, YARN is both entirely open-source and in use
+at major corporations like Yahoo.\cite[pg. 9]{yarn}
 
 \subsection{Kubernetes}
 
+Finally, we arrive at the cluster management that is the focus of this thesis:
+Kubernetes. Kubernetes also originates, although it is open source, meaning
+anyone is free to modify and deploy Kubernetes. Kubernetes is also the most
+recent of the cluster managers we consider in this background research
+section.\footnote{Kubernetes became public in the summer of 2014.} The recent
+explosion in popularity of containerization\footnote{We discuss both the motivations and
+technology behind containerization in the Appendix. Briefly, containerization is
+packing everything an application needs to run into a single \textit{container}
+and then running that container on any desired computer.}
+heavily impacts the development and implementation of Kubernetes. Specifically,
+Kubernetes is seen as part of a new paradigm of developing applications
+through the use of microservices.\footnote{Again, we will
+discuss microservices in greater detail
+in the Appendix. Essentially, microservices are the division of applications
+into small, easily scalable services which communicate with each other across
+the network.} Kubernetes predominantly focuses on effectively running service
+jobs. As previously mentioned, these jobs require
+high-availability and potentially varying amounts of resources. Additionally,
+Kubernetes currently utilizes a monolithic, fairly simple scheduler, although
+there are plans to grow the scheduler in the future.\cite{k8s-design-overview}
+Finally, Kubernetes is an open source project, yet is also used in production at
+Google, and available to the public through the Google Container
+Engine.\cite{google-container-engine}
+
+We choose Kubernetes as the cluster manager on which to conduct our experiments
+for a number of reasons. First, Kubernetes focuses on service jobs. Services jobs
+have particularly stringent requirements for availability and are also the most
+likely to have varying resource needs. Both these conditions are closely linked
+with the previously stated goals of this thesis, and Kubernetes is the cluster
+manager that stands to benefit the most if we achieve our goals. Additionally,
+Kubernetes is the only cluster manager focusing on long-running services that is
+open source. Focusing on a open source cluster manager allows us to benefit from
+the previous work of others, as well as expand the potential benefits of any
+successful work.
 
 \section{Auto-scaling Paradigms}
 
@@ -383,9 +534,12 @@ cluster manager on which we will ask and answer our research question.
 
 \subsubsection{Docker}
 
+\section{Trends Motivating Kubernetes}
+
+\subsection{Microservices}
+
 %%%%%%%% References %%%%%%%%%%
 \bibliographystyle{acm}
 \bibliography{thesis}
 %%%%%%%% End References %%%%%%
-
 \end{document}
