@@ -651,9 +651,77 @@ auto-scaling in detail in the remainder of this section.
 
 \subsection{Threshold-based Rule Policies}
 
+The simplest method of auto-scaling is threshold-based rule policies.
+Threshold-based rule policies are reactive, as they perform scaling behaviors if
+the current system is not in accordance with predefined rules. The rules
+predominantly relate to per machine resource utilization levels. For example, a
+rule could be that if the average percent CPU utilization for all the
+machines is above $80\%$, then a new machine should be created. This rule would
+be accompanied with an additional scale-down rule stating that if the average
+percent CPU utilization for all of the machines is below $20\%$, then a machine
+should be deleted. The most popular implementation of threshold-based rule
+policies for auto-scaling comes from Amazon Web Services.\footnote{More
+specifically, Amazon Web Services uses threshold-based rule policies for
+auto-scaling with respect to EC2 instances. EC2 instances are essentially
+rentable cloud
+servers.\cite{amazon-ec2}}\cite{amazon-auto-scaling-developer-guide}
+
+Threshold-based rule policies offer both advantages and disadvantages with
+respect to auto-scaling. Predominantly, the origin of these qualifiers is
+threshold=based rule policies' conceptual simplicity.
+Because threshold-based rule policies are reactive and based on simple metrics
+like percent cpu utilization and memory usage, they are simple to write.
+However, they are difficult to write well, as it is difficult to predict how
+certain rules will respond to the varying external circumstances. One particular
+difficulty arises with respect to handling the nebulous time between when the
+threshold is crossed and auto-scaling triggers the creation of a new
+application, and when the newly created application can start running and
+balancing the load.
+
+Overall, there are a number of variables that must be considered, reinforcing
+that while it is easy to conceive of a threshold-based rule for auto-scaling, if
+an application will face varying external circumstances it can be difficult to
+write a threshold-based rule having the desired effect.
+
 \subsection{Time-series Analysis}
 
-\subsection{Control-Theory}
+We now examine an additional, substantially more complex, form of auto-scaling
+situated upon predictive time-series analysis. Time-series analysis seeks to
+find a repeating pattern in application load, and then horizontally auto-scale
+the application based on these
+patterns.\cite[pg. 29]{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}
+For example, if time-series analysis indicated a pattern in which
+every Friday at 5pm, the application needed
+$2x$ resources, it would be possible to auto-scale the application to $2x$
+resources at this time. If we are able to compose a number of these
+observations, we can create a policy for the entire auto-scaling behavior of
+the given application by taking the application's predicted external environment
+and determining the resources the application will need as a response.
+
+There are a variety of techniques for conducting time-series analysis
+auto-scaling including pattern matching, signal processing, and
+auto-correlation.\footnote{Netflix utilizes a combination of methods with
+respect to their predictive time-series analysis auto-scaler,
+Scryer.\cite{netflix-scryer-part-ii}}\cite[pg.
+32]{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}
+Like threshold-based rules for auto-scaling, there are significant
+advantages and disadvantages to time-series analysis. Unlike threshold-based
+rules which are marked by simplicity, time-series analysis is significantly more
+complex. Time-series analysis can be particularly effective
+at responding to external changes when said changes have a pattern.\footnote{An
+example of a change with a pattern would be Netflix users who are more likely to
+watch TV at 10pm than 10am.} However, time-series analysis requires a
+large amount of data and also substantial mathematical
+knowledge; it certainly cannot be implemented as easily as specifying a few
+simple thresholds. Additionally, while time-series analysis works well for
+auto-scaling with respect to patterns, it does not work well the external
+application load differs from the pattern. As such, predictive time-series analysis is
+often combined with reactive threshold-based rule auto-scaling to combine the benefits of
+both.\footnote{Netflix's Scryer implements this combination of
+time-series analysis and threshold-based rule
+auto-scaling.\cite{netflix-scryer-part-ii}}
+
+\subsection{Control Theory}
 
 \subsubsection{Model Predictive Control}
 
