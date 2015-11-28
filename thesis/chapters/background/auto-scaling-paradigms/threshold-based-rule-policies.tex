@@ -1,0 +1,32 @@
+The simplest method of auto-scaling is threshold-based rule policies.
+Threshold-based rule policies are reactive, as they perform scaling behaviors if
+the current system is not in accordance with predefined rules. The rules
+predominantly relate to per machine resource utilization levels. For example, a
+rule could be that if the average percent CPU utilization for all the
+machines is above $80\%$, then a new machine should be created. This rule would
+be accompanied with an additional scale-down rule stating that if the average
+percent CPU utilization for all of the machines is below $20\%$, then a machine
+should be deleted. The most popular implementation of threshold-based rule
+policies for auto-scaling comes from Amazon Web Services.\footnote{More
+specifically, Amazon Web Services uses threshold-based rule policies for
+auto-scaling with respect to EC2 instances. EC2 instances are essentially
+rentable cloud
+servers.\cite{amazon-ec2}}\cite{amazon-auto-scaling-developer-guide}
+
+Threshold-based rule policies offer both advantages and disadvantages with
+respect to auto-scaling. Predominantly, the origin of these qualifiers is
+threshold=based rule policies' conceptual simplicity.
+Because threshold-based rule policies are reactive and based on simple metrics
+like percent cpu utilization and memory usage, they are simple to write.
+However, they are difficult to write well, as it is difficult to predict how
+certain rules will respond to the varying external circumstances. One particular
+difficulty arises with respect to handling the nebulous time between when the
+threshold is crossed and auto-scaling triggers the creation of a new
+application, and when the newly created application can start running and
+balancing the load.
+
+Overall, there are a number of variables that must be considered, reinforcing
+that while it is easy to conceive of a threshold-based rule for auto-scaling, if
+an application will face varying external circumstances it can be difficult to
+write a threshold-based rule having the desired effect.
+

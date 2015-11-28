@@ -1,7 +1,7 @@
-# Ignore everything except .tex, .pdf, and .bib.
-*
-
-!.gitignore
-!*.bib
-!*.tex
-!*.pdf
+# Ignore everything except .tex, .pdf, and .bib and directories.
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.log
+*.toc

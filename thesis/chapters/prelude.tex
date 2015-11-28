@@ -1,0 +1,87 @@
+%
+% Thesis template conforming to Williams College rules.
+% Thanks to Ben Wood '08 and other contributors.
+%
+
+\documentclass[twoside]{report}
+\usepackage[top=1.0in, bottom=1in, left=1.5in, right=1in, includehead]{geometry}
+\pagestyle{headings}
+
+\usepackage{setspace}
+
+%% Special math fonts and symbols
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+%% Rotate tables and figures
+\usepackage{rotating}
+%% Used for TODO items
+\usepackage{color}
+%% used for code listings.
+\usepackage{float}
+%% Used to replace LaTeX's ugly emptyset with diameter, which looks nicer.
+\usepackage{wasysym}
+%% Nicely formatted algorithms.
+\usepackage{algorithmicx}
+\usepackage[chapter]{algorithm}
+\usepackage{algpseudocode}
+%% Nicely formatted listings.
+\usepackage{listings}
+%% More kinds of arrow with stuff
+\usepackage{empheq}
+\usepackage{multicol}
+\usepackage{subfigure}
+%% Used for citations
+\usepackage{cite}
+
+%% Tell Latex to look in the `img` folder for images.
+\graphicspath{ {images/} }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Thesis body %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Title page %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{titlepage}
+  $\;$
+  \vskip1.5in
+  \onehalfspacing
+  \begin{center}
+    {\LARGE
+      Predictive Pod Autoscaling in the Kubernetes Container Cluster Manager
+    }
+    \large
+    \vskip.25in
+    by\\
+    Matt McNaughton\\
+    \vskip.125in
+    Professor Jeannie Albrecht, Advisor\\
+    \singlespacing
+    \vskip.5in
+    \small
+    A thesis submitted in partial fulfillment\\
+    of the requirements for the\\
+    Degree of Bachelor of Arts with Honors\\
+    in Computer Science\\
+    \vskip.5in
+    Williams College\\
+    Williamstown, Massachusetts\\
+    \vskip.5in
+    \today
+    \vskip.5in
+    {\Huge \textbf{DRAFT}}
+  \end{center}
+\end{titlepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\tableofcontents
+% \listoffigures
+% \listoftables
+
+\onehalfspacing
+

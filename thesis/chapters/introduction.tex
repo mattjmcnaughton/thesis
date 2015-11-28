@@ -1,0 +1,99 @@
+Over the past few decades, an explosion in the need for computing resources,
+and the existence of cheap, interconnected computers, has
+driven a significant increase in the feasibility and benefits of distributed
+systems.\cite[pg. 1]{distributed-systems-principles-and-paradigms}
+
+First, we consider the origin of distributed systems as a field of computer
+science. Before the availability of cheap, powerful microprocessors and reliable,
+efficient local-area networks (LANs), computational tasks could only be
+performed on a singular computer.\cite[pg.
+1]{distributed-systems-principles-and-paradigms} If a task was too
+computationally expensive for a commodity PC, the only solution was to run
+it on a larger, more powerful supercomputer. However, as cheap microprocessors
+increased computers' availability, and LANs fostered quick inter-computer
+communication, a new
+model of performing resource intensive computation, distributed
+systems, arose. In the distributed systems model, a collection of individual
+computers function as a single computer to solve a given computational task.\cite[pg.
+2]{distributed-systems-principles-and-paradigms}
+
+Second, we consider the ever-growing interest in unlocking and implementing the
+benefits of distributed systems. A number of forces drove, and continue to drive,
+increased interest in distributed systems over
+the past decade. The first, and most obvious, factor is the Internet.
+As more people connected to the Internet, through computers,
+mobile phones, and tablets, an increasing number of human interactions became
+computerized. Consumption, communication, research, and more all
+became possible on the Internet. Naturally, large amounts of computing resources
+were needed to store the data, and perform the computational tasks, related to these
+interactions. Closely coupled with this trend is the rise of ``Big Data''.
+In 2013, the digital universe contained 4.4 zettabytes of data.\footnote{A
+  zettabyte equals $10^{21}$ bytes, which equals 1 billion
+terabytes.}\cite{the-digital-universe-of-opportunities} Naturally, without
+multiple computers working together it would be impossible to store and process
+this incredible volume of data. Today, it is nearly impossible to do
+anything in modern society without interacting with a distributed system and
+creating new digital data. Driving a car, trading a stock, visiting a doctor,
+checking an email, and even playing a simple video game, are all activities that
+distributed systems facilitate and improve.\cite[pg.
+4]{distributed-systems-concepts-and-design} As life becomes more
+computerized, and as the volume of data humans generate and hope to process
+grows, distributed systems will only increase in importance.
+Furthermore, research into distributed systems makes it possible to
+continue to unlock, and make available to the general public,
+the incredible power of networked, cooperating computers. As the distributed systems
+supplying massive computational power become more
+accessible, both because of decreased cost and increased ease of use and
+reliability, we can
+computationally address an ever increasing number of challenging, important problems.
+
+There are a number of different models for computing tasks requiring high levels
+of computing resources, including supercomputing, cluster computing, and grid
+computing. In this thesis, we focus on cluster computing. Cluster computing
+groups together similar commodity PCs on the same LAN to offer a singular mass
+of computing resources. Specifically, we focus on the
+cluster manager, an integral component of cluster computing. Cluster managers
+are responsible for abstracting all of the management details of the distinct
+nodes in the cluster, and instead presenting a single mass of computing resources
+on which the user can run jobs or applications. In other words,
+a cluster manager ``admits, schedules, starts, restarts, and monitors the full
+range of applications'' on the cluster.\cite[pg. 1]{borg} There are a
+variety of different cluster managers, the most important of which will be
+discussed in the background chapter, each pursuing different objectives. This
+thesis will ultimately focus on Kubernetes, an open-source cluster
+manager from Google.\cite{k8s-website}
+
+Cluster managers seek to accomplish a number of different goals, and as a
+result, multiple metrics indicate success. For example, Microsoft's Autopilot is
+predominantly concerned with application uptime, and thus success is measured
+with respect to reliability and downtime.\cite[pg. 1]{autopilot}
+Alternatively, a number of cluster managers measure themselves based on
+efficient resource utilization (ERU).\cite[pg. 7]{borg} Essentially, efficient
+resource utilization relates to the percent of cluster resources which are
+actually being used. One such measurement of this goal, cluster
+compaction, examines how many computers could be removed from the cluster, while
+still comfortably running the cluster's current application load.\cite[pg.
+5]{evaluating-job-packing-in-warehouse-scale-computing} This metric is
+particularly important, because the more efficient the cluster management is at
+utilizing resources, the less clusters cost, and the more accessible cluster
+computing becomes to the general public. A final important
+cluster management metric is quality of service (QOS). Quality of service measures the
+ability of an application to function at a specified
+performance level, despite ever-changing
+external factors. Again, this metric is particularly important because
+increasing the robustness of applications run on cluster managers means
+these applications can be trusted with increasingly important tasks. Cluster
+managers predominantly differ with respect to which metrics they optimize
+for, and the process by which this optimization occurs.
+
+\section{Goals}
+
+\input{chapters/introduction/goals}
+
+\section{Contributions}
+
+\input{chapters/introduction/contributions}
+
+\section{Contents}
+
+\input{chapters/introduction/contents}

@@ -1,0 +1,18 @@
+As previously mentioned, feedback control systems are typically reactive,
+meaning that the metrics used are based on the current state of the system.
+However, we can also consider a feedback control system that is predictive. We
+call this Model Predictive Control.\cite[pg.
+27]{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}
+Again, we will spend significantly more time discussing predictive feedback
+control later, but at its simplest, it is an implementation of feedback control
+based auto-scaling, but the outputs are predictions about the future state of
+the application instance, instead of the current state of the application instance.
+
+Adding prediction to feedback control offers significant benefits. The most
+significant benefit is accounting for the pod's creation time when auto-scaling.
+With predictive feedback control, we can create pods so they are ready as soon
+as they are needed. Ultimately, we hypothesize adding a predictive component to
+Kubernetes current feedback control auto-scaling will allow us to auto-scale in
+a manner that ensures both quality of service and efficient resource
+utilization.
+
