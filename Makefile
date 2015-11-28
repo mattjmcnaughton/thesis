@@ -2,7 +2,7 @@
 #
 # Used to run latex compilation, run evaluation tests...
 
-LATEX = latex
+LATEX = pdflatex
 BIBTEX = bibtex
 PDFLATEX = pdflatex
 

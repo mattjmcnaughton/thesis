@@ -1,3 +1,10 @@
+@misc{image-google-cluster,
+  title = {Google Cluster},
+  year = {2012},
+  note = {[Online; accessed Nov 13, 2015]},
+  howpublished = {https://talks.golang.org/2012/splash/datacenter.jpg}
+}
+
 @misc{brendan-burns-conversation,
   TITLE = "Conversation with Brendan Burns, Lead Developer of Kubernetes"}
 
@@ -12,11 +19,15 @@
 @misc{k8s-horizontal-pod-autoscaler-proposal,
   TITLE = "Kubernetes Horizontal Pod Autoscaler Proposal",
   HOWPUBLISHED =
-    "https://github.com/kubernetes/kubernetes/blob/master/docs/proposals/horizontal-pod-autoscaler.md"}
+    "https://github.com/kubernetes/kubernetes/blob/master/docs/design/horizontal-pod-autoscaler.md"}
 
 @misc{k8s-website,
   TITLE = "Kubernetes Website",
   HOWPUBLISHED = "http://kubernetes.io"}
+
+@misc{k8s-design-overview,
+  TITLE = "Kubernetes Design Overview",
+  HOWPUBLISHED = "http://kubernetes.io/v1.1/docs/design/README.html"}
 
 @misc{k8s-pods,
   TITLE = "Kubernetes Pods Documentation",
@@ -40,6 +51,14 @@
   TITLE = "Amazon Web Services",
   HOWPUBLISHED = "https://aws.amazon.com/"}
 
+@misc{amazon-ec2,
+  TTITLE = "Amazon EC2",
+  HOWPUBLISHED = "https://aws.amazon.com/ec2/"}
+
+@misc{amazon-auto-scaling-developer-guide,
+  TITLE = "Auto Scaling Developer Guide",
+  HOWPUBLISHED = "http://aws.amazon.com/documentation/autoscaling/"}
+
 @misc{docker-website,
   TITLE = "Docker Website",
   HOWPUBLISHED = "https://www.docker.com/"
@@ -52,6 +71,20 @@
   year = 2014,
   URL =
   {http://www.emc.com/leadership/digital-universe/2014iview/executive-summary.htm}}
+
+@misc{netflix-scryer-part-i,
+  title = {Scryer: Netflix's Predictive Auto Scaling Engine},
+  author = {Daniel Jacobson and Danny Yuan and Neeraj Joshi},
+  year = 2013,
+  URL = {http://techblog.netflix.com/2013/11/scryer-netflixs-predictive-auto-scaling.html}
+}
+
+@misc{netflix-scryer-part-ii,
+  title = {Scryer: Netflix's Predictive Auto Scaling Engine - Part 2},
+  author = {Danny Yuan and Neeraj Joshi and Daniel Jacobson and Puneet Oberai},
+  year = 2013,
+  URL = {http://techblog.netflix.com/2013/12/scryer-netflixs-predictive-auto-scaling.html}
+}
 
 @inproceedings{omega,
   title = {Omega: flexible, scalable schedulers for large compute clusters},
@@ -132,3 +165,58 @@ address = {Bordeaux, France}
   publisher = {ACM},
   address = {New York, NY, USA},
 }
+
+@inproceedings{mesos,
+  author = {Hindman, Benjamin and Konwinski, Andy and Zaharia, Matei and Ghodsi,
+  Ali and Joseph, Anthony D. and Katz, Randy and Shenker, Scott and Stoica, Ion},
+  title = {Mesos: A Platform for Fine-grained Resource Sharing in the Data
+    Center},
+  booktitle = {Proceedings of the 8th USENIX Conference on Networked Systems
+    Design and Implementation},
+  series = {NSDI'11},
+  year = {2011},
+  location = {Boston, MA},
+  pages = {295--308},
+  numpages = {14},
+  url = {http://dl.acm.org/citation.cfm?id=1972457.1972488},
+  acmid = {1972488},
+  publisher = {USENIX Association},
+  address = {Berkeley, CA, USA},
+}
+
+@inproceedings{yarn,
+  author = {Vavilapalli, Vinod Kumar and Murthy, Arun C. and Douglas, Chris and
+    Agarwal, Sharad and Konar, Mahadev and Evans, Robert and Graves, Thomas and
+    Lowe, Jason and Shah, Hitesh and Seth, Siddharth and Saha, Bikas and
+    Curino, Carlo and O'Malley, Owen and Radia, Sanjay and Reed, Benjamin and
+    Baldeschwieler, Eric},
+  title = {Apache Hadoop YARN: Yet Another Resource Negotiator},
+  booktitle = {Proceedings of the 4th Annual Symposium on Cloud Computing},
+  series = {SOCC '13},
+  year = {2013},
+  isbn = {978-1-4503-2428-1},
+  location = {Santa Clara, California},
+  pages = {5:1--5:16},
+  articleno = {5},
+  numpages = {16},
+  url = {http://doi.acm.org/10.1145/2523616.2523633},
+  doi = {10.1145/2523616.2523633},
+  acmid = {2523633},
+  publisher = {ACM},
+  address = {New York, NY, USA},
+}
+
+@techreport{auto-scaling-techniques-for-elastic-applications-in-cloud-environments,
+  author = "Lorido-Botr{\'a}n, Tania and Miguel-Alonso, Jos{\'e} and Lozano, Jose
+    Antonio",
+  abstract = "A review of proposals for auto-scaling applications on elastic
+    environments such as public clouds, with focus on scalable web applications.",
+  institution = "Department of Computer Architecture and Technology, UPV/EHU",
+  number = "EHU-KAT-IK",
+  title = "{A}uto-scaling {T}echniques for {E}lastic {A}pplications in {C}loud
+  {E}nvironments",
+  type = "Research",
+  year = "2012",
+}
+
+
