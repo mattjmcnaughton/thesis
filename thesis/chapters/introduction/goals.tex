@@ -1,0 +1,36 @@
+This thesis is most concerned with maximizing the efficient resource utilization
+(ERU) and quality of service (QOS) metrics with respect to the Kubernetes cluster manager.
+As such, this thesis pursues three goals:
+
+\begin{enumerate}
+  \item Given an application running on a Kubernetes cluster, we seek to
+    determine a method which ensures quality of
+    service stays consistently high regardless of external factors. While it is
+    difficult to make guarantees regarding quality of service, because
+    application performance is dependent on a number of uncontrollable, varying
+    external factors, it is possible to
+    ensure each application has, and is utilizing, the resources it needs to
+    function property. Given the cluster manager grants the application the
+    resources it needs to function given the current external load,
+    the cluster manager has done all it can to ensure a high quality of service.
+  \item A simplistic solution to the first goal of ensuring a high application
+    quality of service is to just give each application many more resources than
+    it requests. Yet, this overallocation is inefficient and costly. Thus, our
+    methods for ensuring a high quality of service must also ensure the
+    maintenance, or improvement, of the efficient resource utilization metric.
+    Thus, we add an additional goal: given a certain number of applications
+    running on a Kubernetes cluster,
+    we seek to determine a method which ensures the cluster is
+    as small as possible, while still comfortably
+    supporting the application's current, and future, resource needs.
+  \item Given Kubernetes is an open-source project, we seek to implement, test, and
+    evaluate a proposed enactment of the previous two goals.
+    Thus, the methods we pursue will
+    in part be dictated by the current structure and implementation of
+    Kubernetes. Tests will be conducted using the Google Compute
+    Engine\cite{google-compute-engine} on both
+    simulated and real Kubernetes user data. The eventual goal is for this
+    thesis' improvements to be merged into the production version of Kubernetes
+    used to run 1000s of applications at Google everyday.
+\end{enumerate}
+

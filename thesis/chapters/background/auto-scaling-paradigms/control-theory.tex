@@ -1,0 +1,40 @@
+We continue on to examining a new auto-scaling technique predicated on control
+theory. Control theory is normally used for reactive auto-scaling, although it
+can also be used in a predictive context. The simplest implementation of a
+control system with respect to auto-scaling utilizes feedback
+controllers.\cite[pg.
+25]{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}
+Abstractly, a feedback model functions by continuously examining a set of output parameters,
+and then tweaking a set of desired input parameters in an attempt to ensure the
+output parameters maintain some desired state. More concretely with respect to
+auto-scaling, the output parameters would be the current state of the
+application instances, such as the percent CPU utilization or the amount of
+memory the instances were using. Additionally, the input parameters would be the
+number of instances of the application currently being run. A feedback model
+can implement auto-scaling as the number of application instances will vary in
+accordance to the external load on the application, which will ensure that the
+application instances maintain certain operation metrics. For example, we could
+specify that the feedback controller should auto-scale applications such that
+all application instances utilize $70\%$ of the CPU.
+
+Done correctly, feedback control theory offers substantial advantages over
+threshold-based rules. Specifically, it is equally simple to write auto-scaling
+specifications for each. Yet, it is easier to determine the effects of feedback
+control systems. When a new instance is created as the result of the violation
+of a threshold-based rule, we do not exactly know what the result will be with
+respect to the metrics we care about. However, with a feedback control system,
+we are certain about the results of the auto-scaling, as we auto-scale
+specifically to ensure the maintenance of certain metrics.
+
+Kubernetes currently implements auto-scaling through a feedback control system.
+While we will spend substantially more time discussing Kubernetes auto-scaling
+implementation later, the basics are as follows. The user specifies a target resource
+metric, for example CPU utilization. At a specified time interval,
+Kubernetes then examines the current values
+of the resource metric, and updates the number of application instances to
+ensure the actual current actual value equals the target
+value.\cite{k8s-horizontal-pod-autoscaler-proposal}
+
+\subsubsection{Predictive Feedback Control}
+
+\input{chapters/background/auto-scaling-paradigms/control-theory/predictive-feedback-control}
