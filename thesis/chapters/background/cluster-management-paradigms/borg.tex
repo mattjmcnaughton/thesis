@@ -1,13 +1,13 @@
 While just recently described to the public in a 2015 paper, the
-\textit{Borg} cluster manager from Google has been in use for over a
+Borg cluster manager from Google has been in production use for over a
 decade.\cite[pg. 14]{borg} Borg incorporates
-many different objectives, seeking to abstract resource management and failure
+many different objectives, seeking to abstract resource management and error
 handling, maintain high availability, and efficiently utilize resources on the
 cluster.\cite[pg. 1]{borg} It is responsible for managing the hundreds of
-thousands of batch and production jobs run everyday at Google. Additionally,
+thousands of batch and production jobs run everyday at Google.
 Borg utilizes a monolithic scheduler, as jobs specify the
 resources they need, and a single Borg scheduler decides whether to admit and
 schedule said jobs. Finally, Borg is not open-source. In fact, it was not even
 publicly announced or described until 2015, despite running at Google for over a
 decade. However, Kubernetes, Google's open-source cluster manager, incoporates
-much of the work done to implement and improve Borg.
+many of the lesson's learned from Borg.\cite[pg. 12]{borg}

@@ -1,4 +1,4 @@
-We continue on to examining a new auto-scaling technique predicated on control
+Our next auto-scaling technique is predicated on control
 theory. Control theory is normally used for reactive auto-scaling, although it
 can also be used in a predictive context. The simplest implementation of a
 control system with respect to auto-scaling utilizes feedback
@@ -9,8 +9,8 @@ and then tweaking a set of desired input parameters in an attempt to ensure the
 output parameters maintain some desired state. More concretely with respect to
 auto-scaling, the output parameters would be the current state of the
 application instances, such as the percent CPU utilization or the amount of
-memory the instances were using. Additionally, the input parameters would be the
-number of instances of the application currently being run. A feedback model
+memory the instances were using. The input parameters would be the
+number of instances of the application currently running. A feedback model
 can implement auto-scaling as the number of application instances will vary in
 accordance to the external load on the application, which will ensure that the
 application instances maintain certain operation metrics. For example, we could
@@ -18,8 +18,10 @@ specify that the feedback controller should auto-scale applications such that
 all application instances utilize $70\%$ of the CPU.
 
 Done correctly, feedback control theory offers substantial advantages over
-threshold-based rules. Specifically, it is equally simple to write auto-scaling
-specifications for each. Yet, it is easier to determine the effects of feedback
+threshold-based rules. Specifically, it is as simple to write auto-scaling
+specifications with control theory as it is to write specification with
+threshold-based policies, as in both the author simply defines well-understood
+resource metrics. Yet, it is easier to determine the effects of feedback
 control systems. When a new instance is created as the result of the violation
 of a threshold-based rule, we do not exactly know what the result will be with
 respect to the metrics we care about. However, with a feedback control system,
@@ -33,7 +35,11 @@ metric, for example CPU utilization. At a specified time interval,
 Kubernetes then examines the current values
 of the resource metric, and updates the number of application instances to
 ensure the actual current actual value equals the target
-value.\cite{k8s-horizontal-pod-autoscaler-proposal}
+value.\cite{k8s-horizontal-pod-autoscaler-proposal} In the context of control
+theory, the output is the CPU utilizaiton for each machine and the input is the
+number of application instances, which varies to ensure the output is at the
+proper level. Using this method, it is possible to auto-scale such that the
+application is always running at $50\%$ CPU utilization.
 
 \subsubsection{Predictive Feedback Control}
 

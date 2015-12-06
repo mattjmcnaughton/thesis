@@ -1,6 +1,6 @@
 As was briefly mentioned in the introduction, a number of different paradigms
 exist for undertaking computing tasks too resource intensive for a single
-computer. They are discussed in detail below:
+commodity computer. These paradigms are discussed in detail below:
 
 \begin{enumerate}
   \item \underline{Supercomputing}: The supercomputing model responds to
@@ -14,7 +14,9 @@ computer. They are discussed in detail below:
     their computing power is not available to the general public. Furthermore,
     it is difficult to scale a supercomputer should the need arise. Finally,
     supercomputers offer a single point of failure, meaning they are not
-    particularly robust to error. These limitations have decreased the usage of
+    particularly robust to
+    error.\cite{cluster-computing-the-commodity-supercomputer}
+    These limitations have decreased the usage of
     supercomputers to provide the mass of computing power needed in the ``Big
     Data'' era.
 
@@ -25,21 +27,23 @@ computer. They are discussed in detail below:
     Cluster computing can provide a mass of computing power similar to
     that contained in a supercomputer. Cluster computing also offers many
     advantages over the single supercomputer. First, and perhaps most
-    importantly, they are much more cost-efficient, and thus much more
-    accessible. Second, clusters are easy to
-    scale by simply adding new commodity PCs as nodes.
+    importantly, clsuter of commodity computers are
+    much more cost-efficient, and thus much more
+    accessible. Second, clusters are easily scaled
+    by simply adding new commodity PCs.
     Finally, cluster computing is much more fault
-    tolerant, as a single failing commodity computer will simply be removed
-    from the cluster. Cluster computing is used in the
-    implementation of what is colloquially referred to as \textit{Cloud
-    computing}, in which large amounts of computing resources are offered on a
+    tolerant, as a single failing node will simply be removed
+    from the cluster.\cite{cluster-based-scalable-network-services}
+    Cluster computing is used in the
+    implementation of what is colloquially referred to as Cloud
+    computing, in which large amounts of computing resources are offered on a
     per-usage basis.\cite[pg. 13]{distributed-systems-concepts-and-design}
     Cloud computing, as implemented by Amazon Web
     Services,\cite{amazon-web-services} Microsoft Azure,\cite{microsoft-azure}
     and Google Compute Engine,\cite{google-compute-engine} continue to
     revolutionize the development and deployment of computing applications, as
-    developers gain access to cheap, easily accessible, and quickly scalable
-    computing power.
+    developers gain access to cheap, easily accessible, quickly scalable,
+    fault-tolerant computing power.
 
     \begin{figure}[!h]
       \centerline{\includegraphics[scale=.4]{google-cluster.jpg}}
@@ -51,9 +55,17 @@ computer. They are discussed in detail below:
     within the grid be relatively homogeneous. As such, the grid computing model accounts
     for a large degree of heterogeneity with respect to network membership,
     operating system, hardware, and more.\cite[pg.
-    18]{distributed-systems-principles-and-paradigms} While grid computing
+    18]{distributed-systems-principles-and-paradigms} One popular example of a
+    grid computing implementation is TeraGrid, a high-performance system
+    containing multiple computers connected by an optical network, and used for
+    specific scentific tasks.\cite{building-the-teragrid} While grid computing
     systems lack of homogeneity requirements increase flexibility,
-    the resulting heterogeneity introduces significant complexity.
+    the resulting heterogeneity introduces significant complexity. Importantly,
+    the distinction between grid and cluster computing is fuzzy and
+    predominantly based on the uses of the system. Most grid implementations are
+    used for very specific scientific computing tasks, as seen with TeraGrid,
+    while clusters are traditionally more about offering general computational
+    power.
 
 \end{enumerate}
 
