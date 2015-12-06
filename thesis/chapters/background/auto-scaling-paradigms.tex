@@ -51,63 +51,67 @@ variation, there are two predominant characteristics shaping the nature of an au
 implementation. The first is if the auto-scaling is horizontal or vertical. The
 second is if the auto-scaling is reactive or predictive.
 
-We begin by examining the difference between horizontal and vertical scaling.
-Let us begin by assuming there is an application assigned $x$ resources by the
-cluster manager. The application
-now faces external load such that it needs $2x$ resources to operate with an
-acceptable quality of service. There are now two options. In
-\textit{vertical} auto-scaling, the cluster manager will attempt to assign
-the application the needed $2x$ resources
-without halting the execution of the application. In \textit{horizontal}
-auto-scaling, the cluster manager will create another instance of
-the application, so that there are now two machines each with
-$x$ resources ($2x$ resources in summation). The load will now be split between
-the two new instances of the application, meaning each machine now handles half
-the requests and requires only the $x$ resources it has.\cite[pg.
-4]{auto-scaling-techniques-for-elastic-applications-in-cloud-environments} While
-both of these variations of auto-scaling accomplish the same purpose, horizontal
-auto-scaling is much simpler. Given we know how to create an instance of a
-virtual machine running the application, an entirely safe assumption
-considering we already created one such instance, it is fairly trivial to create
-another instance, and then split the load between these two instances using
-standard methods of load balancing. \footnote{Claiming
-simplicity assumes the application is written
-such that it can be replicated with no unexpected modifications
-on operation.} Contrast this well-defined duplication with the more questionable, difficult
-process of changing the resources given to a virtual machine without stopping
-the execution of the application. Importantly, there exists
-no consistent, cross-platform method of
-modifying the amount of resources granted to a virtual machine instance without
-stopping the execution of the virtual machine. As such, vertical auto-scaling is
-rarely seen in practice; every implementation of
-auto-scaling we examine focuses on horizontal auto-scaling.\cite[pg.
-4]{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}
+\begin{enumerate}
+  \item \underline{Horizontal vs. Vertical}: We begin by examining
+    the difference between horizontal and vertical scaling.
+    Let us begin by assuming there is an application assigned $x$ resources by the
+    cluster manager. The application
+    now faces external load such that it needs $2x$ resources to operate with an
+    acceptable quality of service. There are now two options. In
+    \textit{vertical} auto-scaling, the cluster manager will attempt to assign
+    the application the needed $2x$ resources
+    without halting the execution of the application. In \textit{horizontal}
+    auto-scaling, the cluster manager will create another instance of
+    the application, so that there are now two machines each with
+    $x$ resources ($2x$ resources in summation). The load will now be split between
+    the two new instances of the application, meaning each machine now handles half
+    the requests and requires only the $x$ resources it has.\cite[pg.
+    4]{auto-scaling-techniques-for-elastic-applications-in-cloud-environments} While
+    both of these variations of auto-scaling accomplish the same purpose, horizontal
+    auto-scaling is much simpler. Given we know how to create an instance of a
+    virtual machine running the application, an entirely safe assumption
+    considering we already created one such instance, it is fairly trivial to create
+    another instance, and then split the load between these two instances using
+    standard methods of load balancing. \footnote{Claiming
+    simplicity assumes the application is written
+    such that it can be replicated with no unexpected modifications
+    on operation.} Contrast this well-defined duplication with the more questionable, difficult
+    process of changing the resources given to a virtual machine without stopping
+    the execution of the application. Importantly, there exists
+    no consistent, cross-platform method of
+    modifying the amount of resources granted to a virtual machine instance without
+    stopping the execution of the virtual machine. As such, vertical auto-scaling is
+    rarely seen in practice; every implementation of
+    auto-scaling we examine focuses on horizontal auto-scaling.\cite[pg.
+    4]{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}
 
-We continue by examining the distinction between reactive and predictive
-auto-scaling. At the simplest level, reactive auto-scaling reacts to
-the current state of the application and cluster, while predictive
-auto-scaling reacts to the future state of the application and cluster.\cite[pg.
-12]{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}
-While reactive auto-scaling must only consider one
-time-frame when gathering and interpreting information, predictive
-auto-scaling must consider many different time-frames with respect to the
-most accurate method of projecting past metrics into future metrics. However,
-predictive auto-scaling has the advantages both of historical insight and allowing
-the cluster manager to decrease the time-costs of certain actions by performing
-them before a reactive cluster manager would suggest.\footnote{We will spend
-considerable time later in this concept. Basically, predictive auto-scaling
-makes it easier to account for the amount of time necessary to perform
-horizontal auto-scaling (i.e. creating a new virtual machine instance running
-the application). If we know we need a machine in the future, we can start
-creating it before it is needed, so it is ready by the time it is needed. With reactive
-auto-scaling, we do not know we need the replication until the current state of
-the application and cluster indicates it. Thus, we must wait for the
-application to be created and ready to run,
-all the while the application will be operating with
-sub-optimal resources.}
-Finally, techniques for auto-scaling can be both reactive and predictive as
-they incorporate both current and projected cluster and application metrics
-to make auto-scaling decisions.
+  \item \underline{Reactive vs. Predictive}: We continue by
+    examining the distinction between reactive and predictive
+    auto-scaling. At the simplest level, reactive auto-scaling reacts to
+    the current state of the application and cluster, while predictive
+    auto-scaling reacts to the future state of the application and cluster.\cite[pg.
+    12]{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}
+    While reactive auto-scaling must only consider one
+    time-frame when gathering and interpreting information, predictive
+    auto-scaling must consider many different time-frames with respect to the
+    most accurate method of projecting past metrics into future metrics. However,
+    predictive auto-scaling has the advantages both of historical insight and allowing
+    the cluster manager to decrease the time-costs of certain actions by performing
+    them before a reactive cluster manager would suggest.\footnote{We will spend
+    considerable time later in this concept. Basically, predictive auto-scaling
+    makes it easier to account for the amount of time necessary to perform
+    horizontal auto-scaling (i.e. creating a new virtual machine instance running
+    the application). If we know we need a machine in the future, we can start
+    creating it before it is needed, so it is ready by the time it is needed. With reactive
+    auto-scaling, we do not know we need the replication until the current state of
+    the application and cluster indicates it. Thus, we must wait for the
+    application to be created and ready to run,
+    all the while the application will be operating with
+    sub-optimal resources.}
+    Finally, techniques for auto-scaling can be both reactive and predictive as
+    they incorporate both current and projected cluster and application metrics
+    to make auto-scaling decisions.
+\end{enumerate}
 
 A number of the major providers of cloud computing resources offer auto-scaling.
 The most prominent of these providers is Amazon, which supports threshold-based
