@@ -35,10 +35,21 @@ build-proposal:
 	$(LATEX) $(PROPOSAL_FILE) && \
 	$(PDFLATEX) $(PROPOSAL_FILE)
 
+# `make build-all`
+#
+# Build the thesis and the proposal.
+build-all: build-proposal build-thesis
+
 # `make build`
 #
 # Build all Latex files.
-build: build-thesis build-proposal
+build: build-thesis
+
+# `make spellcheck`
+#
+# Spellcheck the thesis.
+spellcheck:
+	find $(THESIS_DIR) -type f -name "*.tex" -exec aspell -t -c {} \;
 
 # `make`
 #

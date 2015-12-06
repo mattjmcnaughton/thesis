@@ -1,6 +1,6 @@
-Finally, we arrive at the cluster management that is the focus of this thesis:
-Kubernetes. Kubernetes also originates, although it is open source, meaning
-anyone is free to modify and deploy Kubernetes. Kubernetes is also the most
+Finally, we arrive at the cluster manager that is the focus of this thesis:
+Kubernetes. Kubernetes also originates at Google, although it is open source.
+Kubernetes is also the most
 recent of the cluster managers we consider in this background research
 section.\footnote{Kubernetes became public in the summer of 2014.} The recent
 explosion in popularity of containerization\footnote{We discuss both the motivations and
@@ -14,9 +14,9 @@ discuss microservices in greater detail
 in the Appendix. Essentially, microservices are the division of applications
 into small, easily scalable services which communicate with each other across
 the network.} Kubernetes predominantly focuses on effectively running service
-jobs. As previously mentioned, these jobs require
-high-availability and potentially varying amounts of resources. Additionally,
-Kubernetes currently utilizes a monolithic, fairly simple scheduler, although
+jobs, which require high-availability and potentially varying amounts of resources.
+Additionally, Kubernetes currently utilizes a simple
+monolithic scheduler, although
 there are plans to grow the scheduler in the future.\cite{k8s-design-overview}
 Finally, Kubernetes is an open source project, yet is also used in production at
 Google, and available to the public through the Google Container
@@ -28,7 +28,7 @@ have particularly stringent requirements for availability and are also the most
 likely to have varying resource needs. Both these conditions are closely linked
 with the previously stated goals of this thesis, and Kubernetes is the cluster
 manager that stands to benefit the most if we achieve our goals. Additionally,
-Kubernetes is the only cluster manager focusing on long-running services that is
-open source. Focusing on a open source cluster manager allows us to benefit from
+Kubernetes is the only open source cluster manager focusing on long-running services
+Focusing on a open source cluster manager allows us to benefit from
 the previous work of others, as well as expand the potential benefits of any
 successful work.
