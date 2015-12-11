@@ -1,16 +1,16 @@
 We now briefly discuss Apache YARN. YARN, an acronym for Yet Another
 Resource Negotiator, is a cluster manager initially built for use with Apache
-Hadoop.\cite[pg. 1]{yarn} However, it is now possible to use YARN with a variety
+Hadoop \cite{yarn}. However, it is now possible to use YARN with a variety
 of distributed computing frameworks. Unsurprisingly given YARN's initial use
 case, YARN is predominantly used for running batch jobs.\footnote{At the time of
 the publication, YARN was just beginning to be used for production jobs;
-however, its main focus from creation has been batch processing.\cite[pg.
-11]{yarn}} Like Mesos, YARN aims to support data-locality,
-again a predominant advantage for batch processing.\cite[pg. 3]{yarn} YARN
+however, its main focus from creation has been batch processing.}
+Like Mesos, YARN aims to support data-locality,
+again a predominant advantage for batch processing. YARN
 schedules resources by allowing distributed computing framework application
-masters to request resources from a single resource master.\cite[pg. 5]{yarn}
+masters to request resources from a single resource master.
 The application master can then assign these resources to specific tasks at its
 leisure. As a single resource master is assigning all of these resources, YARN is a
 monolithic scheduler. Similar to Mesos, YARN is both entirely open-source and in use
-at major corporations like Yahoo.\cite[pg. 9]{yarn}
+at major corporations like Yahoo.
 

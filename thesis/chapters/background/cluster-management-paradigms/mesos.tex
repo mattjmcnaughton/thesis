@@ -1,25 +1,25 @@
 Lest we think all cluster managers originate at Google, we now examine Apache
-Mesos, a cluster manager originating at University of California, Berkeley.
-Mesos is considerable more lightweight than either Borg or Omega.
-We can think of Mesos as functioning like the kernal of an operating system
-(i.e. the Linux kernel) while a system like Borg is like an entire Linux
-distribution (i.e. Red Hat, Ubuntu\ldots)
+Mesos, a cluster manager originating at University of California, Berkeley
+\cite{mesos}. Mesos is considerably more lightweight than either Borg or Omega.
+We can think of Mesos as functioning like the kernel of an operating system
+(i.e, the Linux kernel) while a system like Borg is like an entire Linux
+distribution (i.e, Red Hat, Ubuntu, etc\ldots)
 It does not seek to monitor the health of jobs or provide user-interfaces for viewing the
 current state of a job, leaving those tasks to the distributed computing
 framework. Additionally, Mesos predominantly focuses on quick-running,
 high-volume batch jobs, and is not particularly suited to long-running,
-high-availability production jobs.\cite[pg. 358]{omega} In part, Mesos'
+high-availability production jobs. In part, Mesos'
 job scheduling implementation dictates the singularity of the job types
 Mesos efficiently processes. Mesos utilizes two-level scheduling, in which the
 cluster management system simply offers, not assigns, available
 resources to the distributed computing framework. Predominantly, this decision
-is made to ensure data locality.\cite[pg. 1]{mesos} \footnote{Data locality is a measure
+is made to ensure data locality. \footnote{Data locality is a measure
 of if the task has the necessary data on its machine, or if it must make a
 costly request across the network for the data. Mesos works to ensure data
 locality by allowing multiple frameworks to function on the same machines, and
 thus share data, and also for frameworks to dictate their own resources, such
 that they can work to ensure data locality. If running a large number of data
-processing tasks, with extremely high volumes of data, data locality can be
+processing tasks with extremely high volumes of data, data locality can be
 essential to efficient cluster operation.} Finally, Mesos is interesting in
 that it is entirely open-source, yet still in use at some of the largest tech
-companies such as AirBNB and Twitter.\cite{return-of-the-borg}
+companies such as AirBNB and Twitter.

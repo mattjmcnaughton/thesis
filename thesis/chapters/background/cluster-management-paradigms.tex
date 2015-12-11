@@ -2,7 +2,7 @@ As was briefly mentioned in the introduction, cluster managers are responsible
 for admitting, scheduling, running, maintaining, and monitoring all applications
 and jobs a user wishes to run on the cluster.\footnote{Application, job, and
 task are largely interchangeable names for computing work performed on the
-cluster.} As we previously mentioned, cluster managers can be thought of as the
+cluster.} Cluster managers can be thought of as the
 operating system for the cluster. Naturally, cluster managers are
 extremely diverse, both in the types of applications and jobs they are best
 suited to running, and the method in which they seek execute their duties.
@@ -13,39 +13,38 @@ more flexible in their ability to handle short-term performance variance. In the
 context of a large company like Google, a production task would be serving a
 large website like Gmail or Google Search, which must be continuously
 accessible with low-latency
-and little downtime; a batch task could be analysing advertising analytics data
+and little downtime; a batch task would be analyzing advertising analytics data
 with MapReduce, which can fail or slow without significant external
-costs.\cite[pg. 1]{borg} The type of tasks a cluster management system
+costs \cite{borg}. The type of tasks a cluster management system
 predominantly seeks to run dictate many of the cluster manager's implementation details.
 
-One varying factor in a cluster manager's implementation is the process by which
+One varying factor in a cluster manager's implementation is the process
 by which the cluster manager schedules jobs.\footnote{Just like scheduling jobs
-  on an operating system, Scheduling jobs on
+on an operating system, scheduling jobs on
 a cluster equates to assigning jobs to resources on a machine in the cluster.}
-There exist three
-predominant methods of scheduling: monolithic, two-level, and
+There exist three predominant methods of scheduling: monolithic, two-level, and
 shared state. With monolithic scheduling, a single algorithm
 is responsible for taking the resource requests of all jobs and assigning them
 to the proper machine. With two-level scheduling, the cluster manager simply
 offers resources, which can then be accepted or rejected by the distributed
 computing frameworks.\footnote{Distributed computing frameworks are frameworks
-built to function over multiple machines. Some populate examples include
-Apache Hadoop, Apache Spark\dots}
+built to function over multiple machines. Some popular examples include
+Apache Hadoop, Apache Spark\dots \cite{mesos}}
 Finally, with shared state scheduling, multiple different algorithms concurrently work to
-schedule jobs on the cluster.\cite[pg. 1]{omega} Naturally, all
+schedule jobs on the cluster \cite{omega}. Naturally, all
 of these methods have positives and negatives. While monolithic scheduling is
 initially simple to implement if the jobs being scheduled are homogeneous,
 a single-threaded monolithic scheduler does not allow
-nuanced processing of diverse jobs based on varying heuristics and guideslines.
-Attempts to add this nuance can create an incredibly
-complicated algorithm that is difficult to extend.\cite[pg. 353-354]{omega}
+nuanced processing of diverse jobs based on varying heuristics and guidelines.
+Attempts to support this nuance can create an incredibly
+complicated algorithm that is difficult to extend \cite{omega}.
 While two-level scheduling is lightweight, simple, and offers advantages with respect to
 data locality, it is not effective for long-running,
-production jobs.\cite[pg. 7]{omega}
+production jobs \cite{omega}.
 Finally, while shared state scheduling removes the scheduler as
 both a computational and complexity bottleneck, it must take steps to guarantee
 global properties of the cluster and address the typical challenges of
-concurrent programs.\cite[pg. 363]{omega}
+concurrent programs \cite{omega}.
 The chosen scheduling method
 effects the type of applications and distributed computing frameworks
 runnable on the cluster manager and the efficiency with which these applications
@@ -62,17 +61,18 @@ view, modify, and run the cluster manager. Such open-sourcing presents a unique 
 for researchers wishing to experiment with cluster managers, but lacking the
 resources to create their own from scratch. In rarer instances, a
 fully-developed cluster manager will originate from academic research. In unique
-scenarios, a large corporation will adope a cluster manager originating in
-academic and the entire code base will
+scenarios, a large corporation will adopt a cluster manager originating in
+academia and the entire code base will
 be open-sourced. The availability of source code directly impacts the
 feasibility of pursuing experiments with already existing cluster management
 systems.
 
 Naturally, cluster managers can vary in multiple additional ways. However,
-the previous three differences recognize the most important distinctions in
-the context of this thesis. Given this understanding, we can know begin to examine specific
+the previous three differences, highlighted in Table
+~\ref{table:cluster-management-paradigms-comparison-table}, recognize the most important distinctions in
+the context of this thesis. Given this understanding, we can now begin to examine specific
 cluster management implementations and defend our choice of Kubernetes as the
-cluster manager on which we will ask and answer our research question.
+cluster manager on which we will ask and answer our research questions.
 
 \subsection{Borg}
 

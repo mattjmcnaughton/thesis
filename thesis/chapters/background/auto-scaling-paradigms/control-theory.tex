@@ -2,8 +2,8 @@ Our next auto-scaling technique is predicated on control
 theory. Control theory is normally used for reactive auto-scaling, although it
 can also be used in a predictive context. The simplest implementation of a
 control system with respect to auto-scaling utilizes feedback
-controllers.\cite[pg.
-25]{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}
+controllers
+\cite{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}.
 Abstractly, a feedback model functions by continuously examining a set of output parameters,
 and then tweaking a set of desired input parameters in an attempt to ensure the
 output parameters maintain some desired state. More concretely with respect to
@@ -29,14 +29,14 @@ we are certain about the results of the auto-scaling, as we auto-scale
 specifically to ensure the maintenance of certain metrics.
 
 Kubernetes currently implements auto-scaling through a feedback control system.
-While we will spend substantially more time discussing Kubernetes auto-scaling
+While we will spend substantially more time discussing the Kubernetes auto-scaling
 implementation later, the basics are as follows. The user specifies a target resource
 metric, for example CPU utilization. At a specified time interval,
 Kubernetes then examines the current values
 of the resource metric, and updates the number of application instances to
-ensure the actual current actual value equals the target
-value.\cite{k8s-horizontal-pod-autoscaler-proposal} In the context of control
-theory, the output is the CPU utilizaiton for each machine and the input is the
+ensure the current actual value equals the target
+value \cite{k8s-horizontal-pod-autoscaler-proposal}. In the context of control
+theory, the output is the CPU utilization for each machine and the input is the
 number of application instances, which varies to ensure the output is at the
 proper level. Using this method, it is possible to auto-scale such that the
 application is always running at $50\%$ CPU utilization.

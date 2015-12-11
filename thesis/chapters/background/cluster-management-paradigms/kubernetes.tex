@@ -1,8 +1,8 @@
 Finally, we arrive at the cluster manager that is the focus of this thesis:
 Kubernetes. Kubernetes also originates at Google, although it is open source.
 Kubernetes is also the most
-recent of the cluster managers we consider in this background research
-section.\footnote{Kubernetes became public in the summer of 2014.} The recent
+recent of the cluster managers we consider in this background chapter.
+\footnote{Kubernetes became public in the summer of 2014.} The recent
 explosion in popularity of containerization\footnote{We discuss both the motivations and
 technology behind containerization in the Appendix. Briefly, containerization is
 packing everything an application needs to run into a single \textit{container}
@@ -23,12 +23,13 @@ Google, and available to the public through the Google Container
 Engine.\cite{google-container-engine}
 
 We choose Kubernetes as the cluster manager on which to conduct our experiments
-for a number of reasons. First, Kubernetes focuses on service jobs. Services jobs
+for a number of reasons. First, unlike many of the aforementioned cluster
+managers, Kubernetes focuses on service jobs. Services jobs
 have particularly stringent requirements for availability and are also the most
-likely to have varying resource needs. Both these conditions are closely linked
+likely to have varying resource needs. Both of these conditions are closely linked
 with the previously stated goals of this thesis, and Kubernetes is the cluster
 manager that stands to benefit the most if we achieve our goals. Additionally,
-Kubernetes is the only open source cluster manager focusing on long-running services
-Focusing on a open source cluster manager allows us to benefit from
+Kubernetes is the only open source cluster manager focusing on long-running
+services. Working with a open source cluster manager allows us to benefit from
 the previous work of others, as well as expand the potential benefits of any
 successful work.

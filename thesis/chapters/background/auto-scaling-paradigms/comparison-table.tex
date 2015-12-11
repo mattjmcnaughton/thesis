@@ -1,12 +1,16 @@
 \begin{table}[]
 \centering
-\caption{Overview of Auto-scaling Paradigms.}
+\caption{Overview of Auto-scaling
+Paradigms.}\label{table:autoscaling-paradigms-comparison-table}
 \begin{tabular}{|l|l|l|}
 \hline
                     & \textbf{Reactive vs Predictive} & \textbf{Implementer} \\ \hline
-\textbf{Threshold}  & Reactive                        & Amazon Web Services   \\ \hline
-\textbf{Time-Series Analysis} & Predictive            & Netflix               \\ \hline
-\textbf{Control-Theory} & Both (currently reactive)   & Kubernetes            \\ \hline
+\textbf{Threshold}  & Reactive                        & Amazon Web Services
+\cite{amazon-auto-scaling-developer-guide}   \\ \hline
+\textbf{Time-Series Analysis} & Predictive            & Netflix
+\cite{netflix-scryer-part-i}            \\ \hline
+\textbf{Control-Theory} & Both (currently reactive)   & Kubernetes
+\cite{k8s-horizontal-pod-autoscaler-proposal}         \\ \hline
 \end{tabular}
 \end{table}
 

@@ -15,32 +15,32 @@ commodity computer. These paradigms are discussed in detail below:
     it is difficult to scale a supercomputer should the need arise. Finally,
     supercomputers offer a single point of failure, meaning they are not
     particularly robust to
-    error.\cite{cluster-computing-the-commodity-supercomputer}
+    error \cite{cluster-computing-the-commodity-supercomputer}.
     These limitations have decreased the usage of
     supercomputers to provide the mass of computing power needed in the ``Big
     Data'' era.
 
   \item \underline{Cluster Computing}: Cluster computing is defined as utilizing
-    ``a collection of similar workstations of PCs, losely connected by means of
+    ``a collection of similar workstations of PCs, loosely connected by means of
     a high-speed local-area network [where] each node runs the same operating
     system.''\cite[pg. 17-18]{distributed-systems-principles-and-paradigms}
     Cluster computing can provide a mass of computing power similar to
     that contained in a supercomputer. Cluster computing also offers many
     advantages over the single supercomputer. First, and perhaps most
-    importantly, clsuter of commodity computers are
-    much more cost-efficient, and thus much more
+    importantly, cluster of commodity computers are
+    more cost-efficient, and thus considerably more
     accessible. Second, clusters are easily scaled
     by simply adding new commodity PCs.
-    Finally, cluster computing is much more fault
-    tolerant, as a single failing node will simply be removed
-    from the cluster.\cite{cluster-based-scalable-network-services}
+    Finally, cluster computing provides greater fault
+    tolerance, as a single failing node will simply be removed
+    from the cluster \cite{cluster-based-scalable-network-services}.
     Cluster computing is used in the
     implementation of what is colloquially referred to as Cloud
     computing, in which large amounts of computing resources are offered on a
-    per-usage basis.\cite[pg. 13]{distributed-systems-concepts-and-design}
+    per-usage basis \cite{distributed-systems-concepts-and-design}.
     Cloud computing, as implemented by Amazon Web
-    Services,\cite{amazon-web-services} Microsoft Azure,\cite{microsoft-azure}
-    and Google Compute Engine,\cite{google-compute-engine} continue to
+    Services \cite{amazon-web-services}, Microsoft Azure \cite{microsoft-azure},
+    and Google Compute Engine \cite{google-compute-engine}, continue to
     revolutionize the development and deployment of computing applications, as
     developers gain access to cheap, easily accessible, quickly scalable,
     fault-tolerant computing power.
@@ -50,16 +50,16 @@ commodity computer. These paradigms are discussed in detail below:
       \caption{A Google Computing Cluster.\cite{image-google-cluster}}
     \end{figure}
 
-  \item \underline{Grid Computing}: Grid computing is similar to concept in
+  \item \underline{Grid Computing}: Grid computing is similar in concept to
     cluster computing, except it foregoes the requirement that all computers
     within the grid be relatively homogeneous. As such, the grid computing model accounts
     for a large degree of heterogeneity with respect to network membership,
-    operating system, hardware, and more.\cite[pg.
-    18]{distributed-systems-principles-and-paradigms} One popular example of a
+    operating system, hardware, and more
+    \cite{distributed-systems-principles-and-paradigms}. One popular example of a
     grid computing implementation is TeraGrid, a high-performance system
     containing multiple computers connected by an optical network, and used for
-    specific scentific tasks.\cite{building-the-teragrid} While grid computing
-    systems lack of homogeneity requirements increase flexibility,
+    specific scientific tasks \cite{building-the-teragrid}. While grid computing
+    systems' lack of homogeneity increases flexibility,
     the resulting heterogeneity introduces significant complexity. Importantly,
     the distinction between grid and cluster computing is fuzzy and
     predominantly based on the uses of the system. Most grid implementations are
@@ -70,7 +70,7 @@ commodity computer. These paradigms are discussed in detail below:
 \end{enumerate}
 
 Ultimately, because of simplicity, cost, and scalability, cluster computing is
-the most prominent resource intensive computing paradigm. Thus, cluster
+becoming the most prominent resource-intensive computing paradigm. Thus, cluster
 computing, and the accompanying cluster manager, is the focus of this
 thesis.
 

@@ -1,15 +1,15 @@
 Also originating at Google, Omega is a cluster manager seen as
-an extension of Borg. While retaining the mission and goals of Borg,
+an extension of Borg \cite{omega}. While retaining the mission and goals of Borg,
 Omega differs in implementation. Specifically, it considers a new method of
 assigning jobs the resources they need on the cluster by implementing
-shared state, instead of monolithic, scheduling. As mentioned in the general
-overview, shared state scheduling allows multiple scheduling algorithms to work
-in parallel to assign tasks the resources they request. Research on Omega shows
+shared state, instead of monolithic, scheduling. As previously mentioned,
+shared state scheduling allows multiple scheduling algorithms to work
+in parallel to assign tasks to the resources they request. Research on Omega shows
 this parallel scheduling implementation both eases the complexity of adding new
-scheduling behaviors and offers competitive scaling performance.\cite[pg.
-358-359]{omega} Additionally, in Omega, all schedulers are aware of the entire
+scheduling behaviors and offers competitive scaling performance.
+Additionally, in Omega, all schedulers are aware of the entire
 state of the cluster, meaning that a job's resource allocation can be
 varied after the job begins to execute. This flexibility offers significant
-performance improvements.\cite[pg.352]{omega} Like Borg, Omega is not
+performance improvements. Like Borg, Omega is not
 open-source. However, like Borg, much of the work done on Omega is incorporated
-into Kubernetes, Google's open-source cluster manager.
+into Kubernetes.

@@ -2,18 +2,18 @@ We now consider a subset of cluster management closely related to
 this thesis' goal of ensuring efficient resource utilization and quality of
 service. Specifically, we introduce
 auto-scaling, a method of ensuring each application has the necessary amount
-of computational resources to handle vary external
+of computational resources to handle varying external
 demands.\footnote{Importantly, auto-scaling is
-made possible by current models of cluster\/cloud computing, in which it is
+made possible by current models of cluster/cloud computing, in which it is
 possible to automatically obtain and relinquish computing resources within a
-very short time frame. Obviously, if adding computing resources required buying
+very short time frame. Obviously, if adding computing resources requires buying
 a new physical server, as was the case before the advent of cloud computing,
 auto-scaling becomes impossible.}
 
 To better understand both the implementation and benefits of auto-scaling, let
 us consider a simple scenario. Imagine you have an application running on a
 cluster for a week. On Monday, it will need $x$ resources.\footnote{By
-  \textit{resources}, we mean CPU, memory\dots} On Tuesday through
+  \textit{resources}, we mean CPU, memory, etc\ldots} On Tuesday through
 Thursday, the application will need $2x$ resources. Finally, on Friday the
 application will again need $x$ resources. Without auto-scaling, we are forced
 to assign a constant amount of resources to the application running on our
@@ -24,15 +24,15 @@ Specifically, if we assign the application $x$ resources,
 then on Tuesday through Thursday the
 application will not have the amount of resources it needs to handle its load,
 and quality of service will deteriorate. Alternatively, if we assign the
-application $2x$ resources on the cluster, than on Monday and Friday we will
+application $2x$ resources on the cluster, then on Monday and Friday we will
 essentially be wasting $x$ resources on the cluster, as they are assigned to an
-application that does not need them. Such waste means a failure of efficient
+application that does not need them. Such waste indicates inefficient
 resource utilization.
 
-We address the inability to find a static amount of resources efficiently
-handling all the variances in application load through auto-scaling.
-Auto-scaling allows us to assign an application more or less resources on the
-cluster factors. In our previous example, perfect auto-scaling
+We use auto-scaling to address the inability of statically allocated
+resources to efficiently handle all the variances in application load.
+Auto-scaling allows us to assign an application more or less resources based on
+the status of the cluster. In our previous example, perfect auto-scaling
 would allow us to assign the cluster $x$ resources on Monday and Friday and
 $2x$ resources on Tuesday through Thursday. Through auto-scaling, we accomplish
 both goals: our application has the needed resources for a high quality
@@ -41,13 +41,14 @@ allocating the application what it needs.
 Overall, auto-scaling can make applications on a cluster more performant and
 the cluster more cost-effective.
 
-Given an understanding of the importance of auto-scaling, we now begin the
+Given an understanding of the importance of auto-scaling, we now begin to
 examine the differing implementations of auto-scaling. Auto-scaling
-implementations differ in how the cluster manager assigns an application the new resources it
+implementations differ in how the cluster manager
+assigns an application the new resources it
 needs\footnote{Auto-scaling implementations can also take away resources from
-an application running on a cluster.} and how the cluster manager decides to
-assign the application the resources it needs. Given these two points of
-variation, there are two predominant characteristics shaping the nature of an autoscaling
+an application running on a cluster.} and how the cluster manager makes its
+auto-scaling decisions. Given these two points of
+variation, there are two predominant characteristics that shape the nature of an auto-scaling
 implementation. The first is if the auto-scaling is horizontal or vertical. The
 second is if the auto-scaling is reactive or predictive.
 
@@ -56,17 +57,17 @@ second is if the auto-scaling is reactive or predictive.
     the difference between horizontal and vertical scaling.
     Let us begin by assuming there is an application assigned $x$ resources by the
     cluster manager. The application
-    now faces external load such that it needs $2x$ resources to operate with an
+    faces external load such that it needs $2x$ resources to operate with an
     acceptable quality of service. There are now two options. In
     \textit{vertical} auto-scaling, the cluster manager will attempt to assign
     the application the needed $2x$ resources
     without halting the execution of the application. In \textit{horizontal}
     auto-scaling, the cluster manager will create another instance of
-    the application, so that there are now two machines each with
-    $x$ resources ($2x$ resources in summation). The load will now be split between
-    the two new instances of the application, meaning each machine now handles half
-    the requests and requires only the $x$ resources it has.\cite[pg.
-    4]{auto-scaling-techniques-for-elastic-applications-in-cloud-environments} While
+    the application, so that there are two machines each with
+    $x$ resources ($2x$ resources in summation). The load will be split between
+    the two new instances of the application, meaning each machine handles half
+    the requests and requires only the $x$ resources it has
+    \cite{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}. While
     both of these variations of auto-scaling accomplish the same purpose, horizontal
     auto-scaling is much simpler. Given we know how to create an instance of a
     virtual machine running the application, an entirely safe assumption
@@ -82,15 +83,15 @@ second is if the auto-scaling is reactive or predictive.
     modifying the amount of resources granted to a virtual machine instance without
     stopping the execution of the virtual machine. As such, vertical auto-scaling is
     rarely seen in practice; every implementation of
-    auto-scaling we examine focuses on horizontal auto-scaling.\cite[pg.
-    4]{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}
+    auto-scaling we examine focuses on horizontal auto-scaling
+    \cite{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}.
 
   \item \underline{Reactive vs. Predictive}: We continue by
     examining the distinction between reactive and predictive
     auto-scaling. At the simplest level, reactive auto-scaling reacts to
     the current state of the application and cluster, while predictive
-    auto-scaling reacts to the future state of the application and cluster.\cite[pg.
-    12]{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}
+    auto-scaling reacts to the future state of the application and cluster
+    \cite{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}.
     While reactive auto-scaling must only consider one
     time-frame when gathering and interpreting information, predictive
     auto-scaling must consider many different time-frames with respect to the
@@ -98,7 +99,7 @@ second is if the auto-scaling is reactive or predictive.
     predictive auto-scaling has the advantages both of historical insight and allowing
     the cluster manager to decrease the time-costs of certain actions by performing
     them before a reactive cluster manager would suggest.\footnote{We will spend
-    considerable time later in this concept. Basically, predictive auto-scaling
+    considerable time later on this concept. Basically, predictive auto-scaling
     makes it easier to account for the amount of time necessary to perform
     horizontal auto-scaling (i.e. creating a new virtual machine instance running
     the application). If we know we need a machine in the future, we can start
@@ -106,23 +107,24 @@ second is if the auto-scaling is reactive or predictive.
     auto-scaling, we do not know we need the replication until the current state of
     the application and cluster indicates it. Thus, we must wait for the
     application to be created and ready to run,
-    all the while the application will be operating with
-    sub-optimal resources.}
+    while the application continues to operate with sub-optimal resources.}
     Finally, techniques for auto-scaling can be both reactive and predictive as
     they incorporate both current and projected cluster and application metrics
     to make auto-scaling decisions.
 \end{enumerate}
 
-A number of the major providers of cloud computing resources offer auto-scaling.
+A number of the major providers of cloud computing resources offer auto-scaling,
+as can be seen in Table ~\ref{table:autoscaling-paradigms-comparison-table}.
 The most prominent of these providers is Amazon, which supports threshold-based
 horizontal auto-scaling on EC2 virtual machine
-instances.\cite{amazon-auto-scaling-developer-guide} Furthermore, Netflix
+instances \cite{amazon-auto-scaling-developer-guide}. Furthermore, Netflix
 implements time-series analysis auto-scaling to help it respond to the
 varying demand placed on its services throughout the
-day.\cite{netflix-scryer-part-i} Finally, Kubernetes
-implements control-theory auto-scaling.\cite{k8s-horizontal-pod-autoscaler-proposal}
+day \cite{netflix-scryer-part-i}. Finally, Kubernetes
+implements control-theory auto-scaling
+\cite{k8s-horizontal-pod-autoscaler-proposal}.
 We will examine threshold, time-series analysis, and control-theory
-auto-scaling in detail in the remainder of this section.
+auto-scaling in detail in the remainder of this chapter.
 
 \input{chapters/background/auto-scaling-paradigms/comparison-table}
 
