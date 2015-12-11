@@ -36,7 +36,7 @@ Kubernetes then examines the current values
 of the resource metric, and updates the number of application instances to
 ensure the current actual value equals the target
 value \cite{k8s-horizontal-pod-autoscaler-proposal}. In the context of control
-theory, the output is the CPU utilizaiton for each machine and the input is the
+theory, the output is the CPU utilization for each machine and the input is the
 number of application instances, which varies to ensure the output is at the
 proper level. Using this method, it is possible to auto-scale such that the
 application is always running at $50\%$ CPU utilization.
