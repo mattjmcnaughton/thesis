@@ -2,22 +2,23 @@ We now examine an additional, substantially more complex, form of auto-scaling
 situated upon predictive time-series analysis. Time-series analysis seeks to
 find a repeating pattern in application load, and then horizontally auto-scale
 the application based on these
-patterns.\cite[pg. 29]{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}
+patterns
+\cite{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}.
 For example, if time-series analysis indicated a pattern in the application needed
 $2x$ resources every Friday at 5pm,
 it would be possible to auto-scale the application to $2x$
 resources at this time. If we are able to compose a number of these
 observations, we can create a policy for the entire auto-scaling behavior of
-the given application by taking the application's predicted external environment
+the given application by evaluating the application's predicted external environment
 and determining the resources the application will need to operate in said
 environment.
 
 There are a variety of techniques for conducting time-series analysis
 auto-scaling including pattern matching, signal processing, and
-auto-correlation.\footnote{Netflix utilizes a combination of methods in
+auto-correlation
+\cite{auto-scaling-scaling-techniques-for-elastic-applications-in-cloud-environments}.\footnote{Netflix utilizes a combination of methods in
 their predictive time-series analysis auto-scaler,
-Scryer.\cite{netflix-scryer-part-ii}}\cite[pg.
-32]{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}
+Scryer \cite{netflix-scryer-part-ii}.}
 Like threshold-based rules for auto-scaling, there are significant
 advantages and disadvantages to time-series analysis. Unlike threshold-based
 rules which are marked by simplicity, time-series analysis is significantly more
