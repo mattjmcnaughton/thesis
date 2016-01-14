@@ -68,22 +68,41 @@ second is if the auto-scaling is reactive or predictive.
     the two new instances of the application, meaning each machine handles half
     the requests and requires only the $x$ resources it has
     \cite{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}. While
-    both of these variations of auto-scaling accomplish the same purpose, horizontal
-    auto-scaling is much simpler. Given we know how to create an instance of a
+    both of these variations of auto-scaling accomplish the same goal, horizontal
+    auto-scaling is a little simpler. Given we know how to create an instance of a
     virtual machine running the application, an entirely safe assumption
     considering we already created one such instance, it is fairly trivial to create
     another instance, and then split the load between these two instances using
     standard methods of load balancing.\footnote{Claiming
     simplicity assumes the application is written
     such that it can be replicated with no unexpected modifications
-    on operation.} Contrast this well-defined duplication with the more questionable, difficult
-    process of changing the resources given to a virtual machine without stopping
-    the execution of the application. Importantly, there exists
-    no consistent, cross-platform method of
-    modifying the amount of resources granted to a virtual machine instance without
-    stopping the execution of the virtual machine. As such, vertical auto-scaling is
-    rarely seen in practice; every implementation of
-    auto-scaling we examine focuses on horizontal auto-scaling
+    on operation.} Historically, vertical auto-scaling has been more complex,
+    although that is rapidly changing.
+    The complexity of vertical auto-scaling depends on how the application
+    is run.\footnote{For background on the different manners of running
+      applications on nodes in a cluster, please see the \textit{Virtualization}
+    section of the Appendix.} If the application is run directly on a machine,
+    then it is extremely difficuly to assign the application more resources
+    without stopping it from running, as it would require transferring a running
+    process to a new machine with more abundant resources.\footnote{In reality,
+    it would be extremely rare for a cluster manager to run applications
+  directly on the nodes of the cluster with no degree of isolation.} The complexity
+    slightly decreases, although is still considerable, when the application is
+    running on a virtual machine. Virtual machines can claim or relinquish
+    resources from their host, thus allowing the application the varying
+    resources it needs. KVM, the hypervisor within the Linux kernel, implements
+    this process through ``balloon'' drivers \cite{kvm-automatic-ballooning}.
+    Finally, if the application is running within a container, performing
+    vertical scaling is simple. Linux container implementaions allocate
+    resources using cgroups, which assign set amounts of resources to certain
+    processes. It is possible to modify the cgroup allocation while the process
+    is still running, meaning vertical auto-scaling without stopping the
+    application is trivial \cite{docker-up-and-running-cgroups}.
+    As containerization becomes increasingly prevalent, the difference in
+    difficulty between horizontal and vertical auto-scaling decreases.
+    The implementations of auto-scaling we examine focuses on horizontal
+    auto-scaling, although the majority of research done for this thesis applies
+    to vertical auto-scaling with only minor modifications
     \cite{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}.
 
   \item \underline{Reactive vs. Predictive}: We continue by
