@@ -1,37 +1,6 @@
 \documentclass{beamer}
 
-% There are many different themes available for Beamer. A comprehensive
-% list with examples is given here:
-% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
-% You can uncomment the themes below if you would like to use a different
-% one:
-%\usetheme{AnnArbor}
-%\usetheme{Antibes}
-%\usetheme{Bergen}
-%\usetheme{Berkeley}
-%\usetheme{Berlin}
-%\usetheme{Boadilla}
-%\usetheme{boxes}
 \usetheme{CambridgeUS}
-%\usetheme{Copenhagen}
-%\usetheme{Darmstadt}
-% \usetheme{default}
-%\usetheme{Frankfurt}
-%\usetheme{Goettingen}
-%\usetheme{Hannover}
-%\usetheme{Ilmenau}
-%\usetheme{JuanLesPins}
-%\usetheme{Luebeck}
-%\usetheme{Madrid}
-%\usetheme{Malmoe}
-%\usetheme{Marburg}
-%\usetheme{Montpellier}
-%\usetheme{PaloAlto}
-%\usetheme{Pittsburgh}
-%\usetheme{Rochester}
-%\usetheme{Singapore}
-%\usetheme{Szeged}
-%\usetheme{Warsaw}
 
 % Import this package for citations.
 \usepackage[backend=bibtex]{biblatex}
@@ -80,14 +49,117 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Outline}
+\begin{frame}[allowframebreaks]{Outline}
   \tableofcontents
   % You might wish to add the option [pausesections]
 \end{frame}
 
-% Section and subsections will appear in the presentation overview
-% and table of contents.
-\section{Overview}
+\section{Goals}
+
+\subsection{General}
+
+\begin{frame}{General}
+  Contribute to distributed system's ability to reliably and resourcefully
+  perform large, varying amounts of computational work.
+
+  % This presentation and thesis focus on work that is much too big to be
+  % performed by any single commodity machine. For example, serving an extremely
+  % popular website like "www.google.com".
+\end{frame}
+
+\subsection{Specific}
+
+\begin{frame}{Specific}
+  We seek to maximize the sum of two metrics: Efficient Resource Utilization and
+  Quality of Service.
+\end{frame}
+
+\begin{frame}{Efficient Resource Utilization (ERU)}
+  A measure of whether an application is efficiently using the resources it is
+  given.
+
+  % Resource can be anything - CPU, memory, network bandwidth\ldots The most
+  % common, and the one we will investigate throughout this thesis, is CPU.
+
+  % An example of poor resource utilization is running a webserver handling one
+  % static file request per minute on a super
+  % computer. It is probably using less than 1\% of the available CPU.
+\end{frame}
+
+\begin{frame}{Quality of Service (QOS)}
+  A measure of whether the application is accomplishing its stated purpose.
+
+  % Measurements of quality of service depend on the purpose of the application. For
+  % example, if the application is a webserver, a measure of quality of service
+  % might be the time it takes for the application to respond to a client's
+  % request.
+
+  % A critical assumption of this thesis is that quality of service is at least
+  % in some ways impacted by access to a proper amount of computing resources.
+  % This makes intuitive sense. Returning to the example of the webserver, if
+  % the webserver is allocated 1\% of a commodity PC's CPU, but receives thousands of
+  % requests per minute, it will have a horrid response time and thus a low
+  % quality of service.
+\end{frame}
+
+\begin{frame}{Balancing ERU and QOS}
+  Our goal is to maximize the summation of ERU and QOS. We want one of the
+  following:
+
+  \begin{itemize}
+    \item ERU to increase and QOS to stay constant.
+      % If ERU increases, but QOS stays constant, we are able to reduce the
+      % amount of resources our application needs without harming performance.
+    \item ERU to stay constant and QOS to increase.
+      % If QOS increases, but ERU stays constant, we are able to increase the
+      % performance of our application while maintaining the amount of resources
+      % used.
+    \item Both!
+      % This is the dream\ldots Better performance and less resources used.
+  \end{itemize}
+
+  Accomplishing these goals can have substantial real world impacts.
+
+  % If we improve ERU, then less resources are needed to run applications. Less
+  % resources translates to lower costs. These savings can be substantial if
+  % massive amounts of computation are being performed. If we improve quality of
+  % service, we can begin to run more and more mission-critical applications.
+
+  % Overall, the goal is to lower the costs and increase the reliability of
+  % performing massive amounts of computation. Increase the groups of people who
+  % can obtain large amounts of computing power and increase the problems to
+  % which this mass of computing power can be applied.
+\end{frame}
+
+
+
+\section{Cluster Managers and Kubernetes}
+
+\subsection{Benefits of Cluster Managers}
+
+\subsection{Overview of Cluster Managers}
+
+\subsection{Kubernetes}
+
+\section{Auto-scaling}
+
+\subsection{Benefits of Auto-scaling}
+
+\subsection{Overview of Auto-scaling}
+
+\subsection{Current State of Auto-scaling in Kubernetes}
+
+\section{Predictive Auto-scaling in Kubernetes}
+
+\subsection{Theoretical}
+
+\subsection{Implementation}
+
+\section{Status of Work}
+
+\subsection{Current State}
+
+\subsection{Future}
 
 \begin{frame}{Citations}
   Check out the k8s website.\cite{k8s-website}.
