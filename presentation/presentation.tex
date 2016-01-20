@@ -1,37 +1,6 @@
 \documentclass{beamer}
 
-% There are many different themes available for Beamer. A comprehensive
-% list with examples is given here:
-% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
-% You can uncomment the themes below if you would like to use a different
-% one:
-%\usetheme{AnnArbor}
-%\usetheme{Antibes}
-%\usetheme{Bergen}
-%\usetheme{Berkeley}
-%\usetheme{Berlin}
-%\usetheme{Boadilla}
-%\usetheme{boxes}
 \usetheme{CambridgeUS}
-%\usetheme{Copenhagen}
-%\usetheme{Darmstadt}
-% \usetheme{default}
-%\usetheme{Frankfurt}
-%\usetheme{Goettingen}
-%\usetheme{Hannover}
-%\usetheme{Ilmenau}
-%\usetheme{JuanLesPins}
-%\usetheme{Luebeck}
-%\usetheme{Madrid}
-%\usetheme{Malmoe}
-%\usetheme{Marburg}
-%\usetheme{Montpellier}
-%\usetheme{PaloAlto}
-%\usetheme{Pittsburgh}
-%\usetheme{Rochester}
-%\usetheme{Singapore}
-%\usetheme{Szeged}
-%\usetheme{Warsaw}
 
 % Import this package for citations.
 \usepackage[backend=bibtex]{biblatex}
@@ -80,18 +49,330 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Outline}
+\begin{frame}[allowframebreaks]{Outline}
   \tableofcontents
   % You might wish to add the option [pausesections]
 \end{frame}
 
-% Section and subsections will appear in the presentation overview
-% and table of contents.
-\section{Overview}
+\section{Goals}
 
-\begin{frame}{Citations}
-  Check out the k8s website.\cite{k8s-website}.
+\subsection{General}
+
+\begin{frame}{General}
+  Contribute to distributed system's ability to reliably and resourcefully
+  perform large, varying amounts of computational work.
+
+  % This presentation and thesis focus on work that is much too big to be
+  % performed by any single commodity machine. For example, serving an extremely
+  % popular website like "www.google.com".
 \end{frame}
+
+\subsection{Specific}
+
+\begin{frame}{Specific}
+  We seek to maximize the sum of two metrics: Efficient Resource Utilization and
+  Quality of Service.
+\end{frame}
+
+\begin{frame}{Efficient Resource Utilization (ERU)}
+  A measure of whether an application is efficiently using the resources it is
+  given.
+
+  % Resource can be anything - CPU, memory, network bandwidth\ldots The most
+  % common, and the one we will investigate throughout this thesis, is CPU.
+
+  % An example of poor resource utilization is running a webserver handling one
+  % static file request per minute on a super
+  % computer. It is probably using less than 1\% of the available CPU.
+\end{frame}
+
+\begin{frame}{Quality of Service (QOS)}
+  A measure of whether the application is accomplishing its stated purpose.
+
+  % Measurements of quality of service depend on the purpose of the application. For
+  % example, if the application is a webserver, a measure of quality of service
+  % might be the time it takes for the application to respond to a client's
+  % request.
+
+  % A critical assumption of this thesis is that quality of service is at least
+  % in some ways impacted by access to a proper amount of computing resources.
+  % This makes intuitive sense. Returning to the example of the webserver, if
+  % the webserver is allocated 1\% of a commodity PC's CPU, but receives thousands of
+  % requests per minute, it will have a horrid response time and thus a low
+  % quality of service.
+\end{frame}
+
+\begin{frame}{Balancing ERU and QOS}
+  Our goal is to maximize the summation of ERU and QOS. We want one of the
+  following:
+
+  \begin{itemize}
+    \item ERU to increase and QOS to stay constant.
+      % If ERU increases, but QOS stays constant, we are able to reduce the
+      % amount of resources our application needs without harming performance.
+    \item ERU to stay constant and QOS to increase.
+      % If QOS increases, but ERU stays constant, we are able to increase the
+      % performance of our application while maintaining the amount of resources
+      % used.
+    \item Both!
+      % This is the dream\ldots Better performance and less resources used.
+  \end{itemize}
+
+  Accomplishing these goals can have substantial real world impacts.
+
+  % If we improve ERU, then less resources are needed to run applications. Less
+  % resources translates to lower costs. These savings can be substantial if
+  % massive amounts of computation are being performed. If we improve quality of
+  % service, we can begin to run more and more mission-critical applications.
+
+  % Overall, the goal is to lower the costs and increase the reliability of
+  % performing massive amounts of computation. Increase the groups of people who
+  % can obtain large amounts of computing power and increase the problems to
+  % which this mass of computing power can be applied.
+\end{frame}
+
+\section{Accomplishing General Goals: Cluster Managers and Kubernetes}
+
+\subsection{Benefits of Cluster Managers}
+
+\begin{frame}{Cluster Managers and their Benefits}
+  Cluster managers abstract the notion of individual computers to present
+  multiple, network connected computers as a single chunk of computing resources.
+
+  Cluster duties include:
+
+  \begin{itemize}
+    \item Admitting/running/monitoring user submitted jobs.
+    \item Allocating resources to jobs on the cluster.
+  \end{itemize}
+
+  % Think of a cluster manager like a very high-level operating system for
+  % multiple computers. But instead of offering access to the resources of a
+  % single computer, it offers resources to hundreds.
+\end{frame}
+
+\subsection{Overview of Cluster Managers}
+
+\begin{frame}{Overview of Cluster Managers}
+
+% @TODO Expand.
+There are a variety of different cluster managers:
+
+\begin{itemize}
+  \item Borg
+    % One of the first cluster managers from Google. Was not discussed publicly
+    % until a couple of years ago, but has been around for years. Handles almost
+    % all matters of running applications on the cluster.
+  \item Mesos
+    % If Borg is Ubuntu, then Mesos is the linux kernel. Handles low level
+    % resources.
+  \item Kubernetes
+    % The cluster manager that we will study in this thesis. Open source cluster
+    % manager designed to run applications on a cluster.
+    % We are trying to accomplish our specific goals of improving the summation
+    % of ERU and QOS on the Kubernetes cluster manager.
+\end{itemize}
+
+\end{frame}
+
+\subsection{Kubernetes}
+
+\begin{frame}{Details of Kubernetes}
+  Cluster managers each have their own way of talking about running applications
+  on the cluster\ldots Here are the most important terms:
+
+  % @TODO Add an image.
+
+  \begin{itemize}
+    \item Pod
+      % Pods contain the processes containing a single instance of the
+      % application. For example, to place an application running a web server
+      % with a key value store, we would run one containerized process running
+      % Apache and one containerized process running Redis in the pod.
+      % Application's are assumed to be written such that multiple pods running the same
+      % application can run together to share the work. A pod can be destroyed
+      % or created at any time (should be stateless).
+    \item Replication Controller
+      % Replication controller's control the amount of replication for a pod.
+      % Essentially, if we tell our replication controller we want three pods to
+      % be running, it will ensure that three pods always exist (create new ones
+      % if pod dies).
+    \item Service
+      % Provides a single point of access for all of the pods associated with a
+      % replication controller. Let's say we have a pod containing a process
+      % running a web server. A replication controller specifies that there
+      % should be five replicas of the pod. Now let's say someone wants to
+      % communicate with the webserver. We don't want an external client to have
+      % to know about how replication is occurring, so instead, we specify a
+      % single consistent address - this is called a service.
+  \end{itemize}
+\end{frame}
+
+\section{Auto-scaling}
+
+% Auto-scaling is a method of varying the amount of resources given to an
+% application based on the external demands to the application.
+
+% For example, let us say our webserver running in the pod needs 30\% CPU to
+% handle 1,000 requests per minute. Now, let us say that the volume of requests
+% increases to 2,000 requests per minute, and thus the pod is given double the
+% resources (60\% CPU). This varying of resources is auto-scaling.
+
+\subsection{Benefits of Auto-scaling}
+
+\begin{frame}{Benefits of Auto-scaling}
+  \textbf{Auto-scaling allows us to accomplish our increasing the summation of
+  ERU and QOS.}
+
+  % @TODO Add an image showing results of no auto-scaling (both over and
+  % underallocation). Include an image showing how auto-scaling improves.
+
+  % Imagine if we did not have auto-scaling (i.e. if we could not vary the
+  % amount of resources assigned to an application). We would have to either
+  % under-allocate (with good ERU but poor QOS) or over-allocate (with poor ERU
+  % and good QOS). But with auto-scaling we can allocate exactly correctly,
+  % increasing the summation of ERU and QOS.
+\end{frame}
+
+\subsection{Overview of Auto-scaling}
+
+\begin{frame}{Overview of Auto-scaling}
+  There are a couple of characterizations of different types of auto-scaling.
+
+  \begin{itemize}
+    \item Horizontal vs Vertical
+    \item Reactive vs Predictive
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Horizontal vs Vertical}
+  An application being auto-scaled can have this occur through either
+  \textbf{horizontal} or \textbf{vertical} auto-scaling.
+
+  % With horizontal auto-scaling, we run additional instances of the
+  % application. For example, instead of running one webserver, we would run to,
+  % and split requests between the two. With vertical auto-scaling, the single
+  % instance of the application is given more resources. For example, if the
+  % webserver is currently given 30\% of the CPU, with vertical auto-scaling it
+  % would receive 60\% of the CPU.
+\end{frame}
+
+\begin{frame}{Reactive vs Predictive}
+  A cluster manager can determine whether to auto-scale an application based on
+  either \textbf{reactive} or \textbf{predictive} information.
+
+  % With reactive auto-scaling, a decision is made on whether to auto-scale
+  % based on the current state of the cluster and application. With predictive
+  % auto-scaling, a decision is made based on the predicted future state of the
+  % cluster.
+\end{frame}
+
+\begin{frame}{Common Types of Auto-scaling}
+  There are three common methods of implementing auto-scaling.
+
+  \begin{itemize}
+    \item Threshold-based Rule Policies
+      % Auto-scale the application when a certain threshold is crossed. For
+      % example, if a webserver begins to consume more than 60\% of CPU, create
+      % another instance.
+    \item Time-series Analysis
+      % Auto-scale the application based on an identification of patterns in external
+      % resource demands. For example, if the webserver receives the most
+      % requests from 9am to 10am, create an extra instance of the application
+      % from 9am to 10am.
+    \item Control-theory (Feedback Control)
+      % Auto-scale the application based on specifying a certain state of the
+      % application. For example, specify the application should always consume
+      % 80\% of the CPU. Create or destroy additional instances of the
+      % application until this stipulation is true.
+  \end{itemize}
+\end{frame}
+
+\subsection{Current State of Auto-scaling in Kubernetes}
+
+\begin{frame}{Current State of Auto-scaling in Kubernetes}
+  Kubernetes currently implements reactive, horizontal feedback control based
+  auto-scaling.
+
+  % @TODO Should I include the algorithm?
+
+  % If auto-scaling is enabled, Kubernetes allows the user to specify the
+  % current percentage of CPU used by a replication controller's pods.
+  % Pods will be created or destroyed to ensure the percentage stays close to
+  % the specified value.
+\end{frame}
+
+\begin{frame}{Concerns with Auto-scaling in Kubernetes}
+  What if it takes a long time for a new pod to be ready to handle computational
+  work?
+
+  % Pods can take a substantial amount of time to be ready to perform
+  % computational work - imagine they are running an application with a long
+  % boot up time. But because Kubernetes uses reactive auto-scaling, the
+  % application does not replicated until needed. For example, imagine it takes
+  % the pod 1 hour to be ready to share in the computational work. At 6pm, the
+  % demands are such that the application is operating outside of target CPU
+  % usage, so Kubernetes creates a new pod to share the work. Yet, the pod is
+  % not ready until 7pm, so the application will have to operate from 6pm to 7pm
+  % without the proper amount of resources.
+\end{frame}
+
+\section{Predictive Auto-scaling in Kubernetes}
+
+This thesis investigates the ability of \textbf{predictive}, horizontal feedback
+control auto-scaling to address the previously stated issue.
+
+\subsection{Theoretical}
+
+% @TODO Make this section better.
+Adding a predictive element allows the auto-scaling to account for the amount of
+time necessary for the new instance of the application to assist in sharing the
+work. We determine auto-scaling behavior based on the predicted future state of
+the application at the soonest possible time it could be ready to share work.
+
+% For example, suppose the pod takes 10 minutes to be ready to share part of the
+% work. We will need this new pod at 6:00. Using predictive auto-scaling, at
+% 5:50 we determine whether to auto-scale based on the predicted state of the
+% application at 6pm. As we predict we will need a new instance of the
+% application at 6pm, the auto-scaler creates it at 5:50pm, meaning it is ready
+% to begin sharing the work at 6pm. The pods never have to attempt to handle
+% more work than they can.
+
+% This improvement improves the ability of auto-scaling in Kubernetes to
+% increase the summation of ERU and QOS.
+
+\subsection{Implementation}
+
+Some questions that must be answered to implement predictive, horizontal
+feedback control auto-scaling:
+
+\begin{itemize}
+  \item How long does it take for a pod to be ready to share in the work?
+    % We measure this for each pod and compute an average.
+  \item How can we predict the future resource utilization of an application?
+    % Using derivative. But could be come much more complicated.
+  \item Should this behavior be enabled by default?
+\end{itemize}
+
+% As Kubernetes is open-source, all of these changes will be/are made to the
+% Kubernetes code based, and hopefully/are incorporated into the main branch.
+
+% @TODO Should I be including the new algorithm?
+% @TODO Should there be more discussion of the changes to the actual Kubernetes
+% code base.
+% @TODO Should I include a challenges section?
+
+% @TODO Should there be a section about how success can be evaluated?
+
+\section{Status of Work}
+
+\subsection{Current State}
+
+% @TODO Do this closer to the actual presentation.
+
+\subsection{Future}
+
+% @TODO Do this closer to the actual presentation.
 
 % Bibliography
 \appendix
@@ -99,6 +380,7 @@
 \subsection<presentation>*{For Further Reading}
 
 \begin{frame}[allowframebreaks]
+  % @TODO Double check citations.
   \frametitle<presentation>{Citations}
 
   \printbibliography
