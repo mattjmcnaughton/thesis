@@ -131,15 +131,82 @@
   % which this mass of computing power can be applied.
 \end{frame}
 
-
-
-\section{Cluster Managers and Kubernetes}
+\section{Accomplishing General Goals: Cluster Managers and Kubernetes}
 
 \subsection{Benefits of Cluster Managers}
 
+\begin{frame}{Cluster Managers and their Benefits}
+  Cluster managers abstract the notion of individual computers to present
+  multiple, network connected computers as a single chunk of computing resources.
+
+  Cluster duties include:
+
+  \begin{itemize}
+    \item Admitting/running/monitoring user submitted jobs.
+    \item Allocating resources to jobs on the cluster.
+  \end{itemize}
+
+  % Think of a cluster manager like a very high-level operating system for
+  % multiple computers. But instead of offering access to the resources of a
+  % single computer, it offers resources to hundreds.
+\end{frame}
+
 \subsection{Overview of Cluster Managers}
 
+\begin{frame}{Overview of Cluster Managers}
+
+% @TODO Expand.
+There are a variety of different cluster managers:
+
+\begin{itemize}
+  \item Borg
+    % One of the first cluster managers from Google. Was not discussed publicly
+    % until a couple of years ago, but has been around for years. Handles almost
+    % all matters of running applications on the cluster.
+  \item Mesos
+    % If Borg is Ubuntu, then Mesos is the linux kernel. Handles low level
+    % resources.
+  \item Kubernetes
+    % The cluster manager that we will study in this thesis. Open source cluster
+    % manager designed to run applications on a cluster.
+    % We are trying to accomplish our specific goals of improving the summation
+    % of ERU and QOS on the Kubernetes cluster manager.
+\end{itemize}
+
+\end{frame}
+
 \subsection{Kubernetes}
+
+\begin{frame}{Details of Kubernetes}
+  Cluster managers each have their own way of talking about running applications
+  on the cluster\ldots Here are the most important terms:
+
+  % @TODO Add an image.
+
+  \begin{itemize}
+    \item Pod
+      % Pods contain the processes containing a single instance of the
+      % application. For example, to place an application running a web server
+      % with a key value store, we would run one containerized process running
+      % Apache and one containerized process running Redis in the pod.
+      % Application's are assumed to be written such that multiple pods running the same
+      % application can run together to share the work. A pod can be destroyed
+      % or created at any time (should be stateless).
+    \item Replication Controller
+      % Replication controller's control the amount of replication for a pod.
+      % Essentially, if we tell our replication controller we want three pods to
+      % be running, it will ensure that three pods always exist (create new ones
+      % if pod dies).
+    \item Service
+      % Provides a single point of access for all of the pods associated with a
+      % replication controller. Let's say we have a pod containing a process
+      % running a web server. A replication controller specifies that there
+      % should be five replicas of the pod. Now let's say someone wants to
+      % communicate with the webserver. We don't want an external client to have
+      % to know about how replication is occurring, so instead, we specify a
+      % single consistent address - this is called a service.
+  \end{itemize}
+\end{frame}
 
 \section{Auto-scaling}
 
