@@ -84,6 +84,8 @@
   % An example of poor resource utilization is running a webserver handling one
   % static file request per minute on a super
   % computer. It is probably using less than 1\% of the available CPU.
+
+  % @TODO Think about from Google's perspective.
 \end{frame}
 
 \begin{frame}{Quality of Service (QOS)}
@@ -129,6 +131,8 @@
   % performing massive amounts of computation. Increase the groups of people who
   % can obtain large amounts of computing power and increase the problems to
   % which this mass of computing power can be applied.
+
+  % @TODO Talk about varying resources. Real-world instances of flash crowds.
 \end{frame}
 
 \section{Accomplishing General Goals: Cluster Managers and Kubernetes}
@@ -155,7 +159,7 @@
 
 \begin{frame}{Overview of Cluster Managers}
 
-% @TODO Expand.
+% @TODO Provide a background on the space.
 There are a variety of different cluster managers:
 
 \begin{itemize}
@@ -192,6 +196,8 @@ There are a variety of different cluster managers:
       % Application's are assumed to be written such that multiple pods running the same
       % application can run together to share the work. A pod can be destroyed
       % or created at any time (should be stateless).
+
+      % @TODO Explain containerization - and why useful.
     \item Replication Controller
       % Replication controller's control the amount of replication for a pod.
       % Essentially, if we tell our replication controller we want three pods to
@@ -225,7 +231,7 @@ There are a variety of different cluster managers:
   ERU and QOS.}
 
   % @TODO Add an image showing results of no auto-scaling (both over and
-  % underallocation). Include an image showing how auto-scaling improves.
+  % underallocation). Use Amazon.
 
   % Imagine if we did not have auto-scaling (i.e. if we could not vary the
   % amount of resources assigned to an application). We would have to either
@@ -294,7 +300,7 @@ There are a variety of different cluster managers:
   Kubernetes currently implements reactive, horizontal feedback control based
   auto-scaling.
 
-  % @TODO Should I include the algorithm?
+  % @TODO Should I include the algorithm? Try it out.
 
   % If auto-scaling is enabled, Kubernetes allows the user to specify the
   % current percentage of CPU used by a replication controller's pods.
@@ -357,7 +363,7 @@ feedback control auto-scaling:
 % As Kubernetes is open-source, all of these changes will be/are made to the
 % Kubernetes code based, and hopefully/are incorporated into the main branch.
 
-% @TODO Should I be including the new algorithm?
+% @TODO Should I be including the new algorithm? Yes.
 % @TODO Should there be more discussion of the changes to the actual Kubernetes
 % code base.
 % @TODO Should I include a challenges section?
