@@ -1,0 +1,43 @@
+Additionally, Kubernetes fits within the recent interest in, and adoption of,
+microservices. Microservices is a new paradigm of developing computer
+applications. It is particularly suited towards developing large, complex
+applications requiring many computing resources - the same types of applications
+that are typically benefit from\/require being run on a cluster.
+
+In short, microservices are ``small, autonomous services that work
+together.''\cite[pg. 2]{building-microservices-designing-fine-grained-systems}
+More specifically, microservices reflect the following characteristics:
+
+\begin{itemize}
+  \item \underline{Focused}: Each microservice should perform a single task.
+    Furthermore, multiple microservices should be as loosely coupled as
+    possible. Each microservice should present a single API for performing the
+    single task, with which other microservices can communicate without
+    understanding more nuanced implementation
+    details.\cite{building-microservices-designing-fine-grained-systems}
+  \item \underline{Stateless}: Individual instances of microservices should be stateless, in
+    that a single instance can be deleted at any time without loosing any state.
+    This requirement often leads to application's being containerized, and
+    communicating with external, more permanent databases.
+  \item \underline{Concurrent}: Multiple instances of a microservice should be
+    able to work together to divide up the work presented to a single
+    abstraction API. For example, if there is a microservice to support
+    a search API, then it should be possible to run multiple instances of this
+    search microservice and balance API requests between them so that they
+    concurrently share work without interference.
+\end{itemize}
+
+Microservice design principles are particularly supportive of horizontal
+auto-scaling. Microservices should be easily replicable and easily replaceable.
+In other words, because microservices are stateless and can be run concurrently,
+it is possible to easily scale a microservice by replicating it and then
+dividing the work between the two. Auto-scaling down is supported, as it is
+possible to delete an instance of the microservice without worrying about
+loosing any uimportant state. When the design principles of
+microservices are followed, horizontal auto-scaling is possible, and its
+implementation supports Kubernetes goal of easy automation. Additionally,
+applications that follow microservice design principles are particularly easy to
+containerize.
+
+As will become evident in the following sections, Kubernetes is designed to
+easily run applications developed based on the microservices model.

@@ -1,0 +1,40 @@
+Google often describes Kubernetes as ``an open source orchestration system for
+Docker containers.''\cite{k8s-website} From this statement, it is clear that
+containers, and more specifically Docker containers, inform much of Kubernetes.
+To begin, it is important to understand the benefits of containers in comparison
+to other similar options, and also to understand the technological underpinnings
+of containerization and the resulting weaknesses.
+
+First, containers are not virtual machines. Though both seek to silo different
+applications running on the same physical machine, the manner in which they
+seek to accomplish this task is very different. Virtual machines sit between the
+operating system and the hardware, ensuring complete separation between two
+virtual machines running on the same physical machine. While this strong
+separation ensures applications running on separate virtual machines cannot
+affect each other, placing a virtual machine monitor between the operating
+system and the hardware has efficiency costs. More specifically, virtual
+machines are substantially more memory intensive, and have a higher startup cost,
+than lightweight containers \cite{distributed-systems-principles-and-paradigms}.
+In contrast, containers should be thought of as ``lightweight wrappers around a
+single Unix process.''\cite[pg. 15]{docker-up-and-running} As such, containers
+require substantially less memory and can be started, destroyed, and restarted
+in a matter of seconds. However, these ephemeral benefits come at the cost of
+limited isolation between two containers running on the same physical host.
+While there are ways to increase container isolation, it is not possible to
+achieve the complete separation benefits of virtual
+machines \cite{docker-up-and-running}.
+
+More formally, containers can be thought of as a single Unix process bundeled
+with the operating system and application specific files needed to run said process.
+Containerizing a process involves saving a snapshot of a Linux operating system
+running the process. This snapshot can be given to any platform which can run
+the container, and the platform will then be able to simulate running the
+application on the operating system bundeled in the container.
+
+So far, Docker has been the leading containerization platform. While Docker is a
+young platform, which has only been in development for since 2013, it has seen
+tremendous popularity and adoption. Again, while the containerization technology
+upon which Docker is built was a part of Linux for over a decade, it was the
+Docker platform that made it truly accessible \cite{docker-up-and-running}.
+Kubernetes is one of many options for running multiple containers in a
+production environment.
