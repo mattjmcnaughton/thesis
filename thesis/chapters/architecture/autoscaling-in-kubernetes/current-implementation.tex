@@ -17,7 +17,7 @@ ensure the preservation of a certain state.
 This classification becomes clear when examining
 the execution of the horizontal pod autoscaler. To begin, the autoscaler
 operates as a control loop, as it queries pods at a set interval to determine
-their resource utilization, and performs auto-scaling actions depending on the
+their current resource utilization, and performs auto-scaling actions depending on the
 resulting utilization. Currently, the only resource on which it is possible to
 determine auto-scaling behavior is CPU utilization percentage, but possible
 resources could conceivably expand to include percent memory utilized, percent
