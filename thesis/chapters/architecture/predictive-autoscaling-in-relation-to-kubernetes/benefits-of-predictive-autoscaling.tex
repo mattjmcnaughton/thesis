@@ -1,0 +1,43 @@
+Overall, this thesis seeks to answer the question of how to ensure Kubernetes
+uses as few resources possible while still supporting the application's
+resources needs. Within an understanding of the internal of Kubernets, it is now
+possible to understand the theoretical underpinnings of how predictive
+horizontal pod auto-scaling accomplishes the stated goal.
+
+Specifically, utilizing prediction approves quality of service, without
+requiring any additional resources, thus achieving the goal of increasing the
+summation of efficient resource utilization and quality of service. Prediction
+increases quality of service, because it helps avoid the decreases in quality of
+service that can occur if pod initialization time is not taken into account.
+These decreases can best be understood in the context of a simple example.
+Imagine that if takes 10 minutes for a pod to initialize. Imagine that at 5:50pm
+reactive algorithm instructs the autoscaler that 10 pods should exist and at
+6:00pm, the reactive algorithm instructs the autoscaler that 20 pods should
+exist. Using the reactive algorithm, the 10 replica pods will not be created
+until 6:00pm, and as a result of the 10 minute pod initialization time, they
+will not be ready to balance the load until 6:10pm. This delay means that from
+6:00 - 6:10pm, 20 pods will be needed to keep the pods operating at a level that
+ensures high quality of service, but only 10 pods will be operating. Thus, for
+10 minutes there will be low quality of service, as pods try to operate without
+enough resources. This delay is particularly troublesome if pod intialization
+time is particularly high or if there is a particularly high quality of service
+cost for pods operating outside of target resource consumption. A large part of
+the evaluation component of this thesis the prevalence and impacts of such
+situations.
+
+Adding prediction avoids this problem, ensuring a consistently high quality of
+service. Consider the following example again, yet this time with predictive
+horizontal auto-scaling. Again, imagine the exact same scenario as above, yet
+this time, the predictive algorithm will instruct the creation of 10 replica
+pods at 5:50pm. By 6:00pm, when 20 replica pods are needed, 20 replica pods are
+initialized and ready to balance the load, ensuring that all pods operate at a
+higher quality of service than they would otherwise. Importantly, this
+modification does not decrease efficient resource utilization, as the same
+amount of resources are used as before, just at different times.
+
+@TODO: Explain in greater depth how efficient resource utilization remains high.
+
+It is clear that adding prediction has the potential to increase the summation
+of efficient resource utilization and quality of service for Kubernetes. To what
+extent it is able to manifest this potential will be made clear in the
+evaluation section.
