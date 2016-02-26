@@ -8,15 +8,12 @@ PDFLATEX = pdflatex
 
 THESIS_DIR = thesis
 PROPOSAL_DIR = proposal
-PRESENTATION_DIR = presentation
 
 THESIS_FILE = thesis.tex
 PROPOSAL_FILE = proposal.tex
-PRESENTATION_FILE = presentation.tex
 
 THESIS_BIBTEX = thesis
 PROPOSAL_BIBTEX = proposal
-PRESENTATION_BIBTEX = presentation
 
 # `make build-thesis`
 #
@@ -38,23 +35,10 @@ build-proposal:
 	$(LATEX) $(PROPOSAL_FILE) && \
 	$(PDFLATEX) $(PROPOSAL_FILE)
 
-# `make build-presentation`
-#
-# Can optionally be referred to as `bpres`.
-#
-# Build the presentation.
-build-presentation bpres:
-	cp $(THESIS_DIR)/$(THESIS_BIBTEX).bib $(PRESENTATION_DIR)/$(PRESENTATION_BIBTEX).bib && \
-	cd $(PRESENTATION_DIR) && \
-	$(LATEX) $(PRESENTATION_FILE) && \
-	$(BIBTEX) $(PRESENTATION_BIBTEX) && \
-	$(LATEX) $(PRESENTATION_FILE) && \
-	$(PDFLATEX) $(PRESENTATION_FILE)
-
 # `make build-all`
 #
 # Build the thesis and the proposal.
-build-all: build-proposal build-thesis build-presentation
+build-all: build-proposal build-thesis
 
 # `make build`
 #
