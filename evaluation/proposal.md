@@ -29,7 +29,7 @@ most process (ideally this will require some CPU) and respond to.
 
 - Traffic request pattern
 - Pod initialization time
-- Size of cluster (does this matter)?
+- Size of cluster
 
 #### Predictive auto-scaling specific
 
@@ -39,11 +39,13 @@ most process (ideally this will require some CPU) and respond to.
 ## What dependent variables will we examine?
 
 We will examine the summation of ERU and QOS - we need to be sure to have some
-way of balancing the two such that they have equal impact.
+way of balancing the two such that they have equal impact. We will examine the
+impact of certain individual independent variables on ERU and QOS individually.
 
 ## Anything else we're interested in?
 
 In what scenarios is it most important to have predictive auto-scaling enabled.
+In what scenarios does predictive auto-scaling have little impact.
 
 ## What are other metrics of interest?
 
@@ -52,12 +54,17 @@ In what scenarios is it most important to have predictive auto-scaling enabled.
 ## What tools will we use?
 
 - Kubernetes
-- Graphing?
-- Simulate web requests (Apache ab)?
+- gnu-plot (Graphing)
+- Simulate web requests (Apache jmeter)?
 
 ## Questions
 - Is it ok for us to only test pods that are responding to HTTP requests? That
   is the majority of what Kubernetes is used for (focus on long running services)
   and also fits nicely with the focus on microservices.
+- How do we normalize the summation of ERU and QOS so that both have an equal
+  impact?
 - Where will we get traffic request patterns from?
+- How does Kubernetes reclaim unused CPU from pods? Should we be enforcing
+  certain CPU reservation requirements? How will that inform how we measure CPU?
+  (Include section on in evaluation).
 
