@@ -1,0 +1,20 @@
+Importantly, it is an improvement of the summation of efficient resource
+utilization and quality of service metrics that we are most interested in. It is
+easy to improve quality of service by decreasing efficient resource
+utilization, as we can just assign the application the largest amount of
+resources it could ever need. It is equally easy to improve efficient resource
+utilization by decreasing quality of service, as we can just assign an
+application the fewest amount of resources it will ever use. As such, we want to
+ensure that this thesis improves efficient resource utilization or quality of
+service, without negatively impacting the other. This realization leads us to
+evaluating our modifications to auto-scaling by measuring its impact on the
+summation of efficient resource utilization and quality of service.
+
+While conceptually summing efficient resource utilization and quality of service
+is simple, care must be taken when combining the specific metrics of \textit{cpu
+utilization} and \textit{response time}. The metrics are measured in unrelated
+units. Furthermore, the scale for these metrics may be entirely different,
+meaning that small changes in one could completely overshadow larger changes in
+the other.
+
+@TODO How will we actually combine?
