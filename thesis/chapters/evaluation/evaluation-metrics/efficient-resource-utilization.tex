@@ -1,0 +1,27 @@
+We define efficient resource utilization as a measure of whether an application
+has enough, but not too many resources given to it by the operating system or
+the cluster manager. For example, editing a text file in Vim on a super computer
+would be terrible efficient resource utilization, while running a web browser on
+a laptop is proper efficient resource utilization. In the context of Kubernetes,
+an application with poor efficient resource utilization would be a web server
+that uses ten replica pods, each reserving considerable resources,
+to serve a very low volume of web requests.
+
+Specifically, we measure efficient resource utilization with respect to
+Kubernetes through examining the amount of CPU that the application currently uses in
+comparison to the amount of CPU that the application reserves. We define the
+amount of CPU that an application reserves as the summation of the CPU that all
+replica pods reserve. The amount of CPU that a pod reserves is the summation of
+all resources that containers within the pod reserve
+\cite{k8s-compute-resources}. Our specific metric for efficient resource
+utilization will be measured in percentage of CPU and we name it \textit{CPU
+utilization}.
+
+The efficient resource utilization metric has direct links to the costs of
+running applications on a cluster manager. If applications are given resources
+they do not need, and the cluster manager does not reclaim these unused
+resources, then additional applications added to the cluster must claim new
+resources. The inability to utilize inefficient applications' wasted resources
+requires the expansion of the cluster and an increase in cost that will be felt
+both by those running the cluster and those running an application on the
+cluster.
