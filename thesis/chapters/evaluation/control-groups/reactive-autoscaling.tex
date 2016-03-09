@@ -1,0 +1,28 @@
+Additionally, previous to this thesis, it was possible to scale applications in
+Kubernetes using horizontal, reactive pod based auto-scaling. We examine the implementation
+and utilization of this method of scaling in depth in the \textit{Autoscaling in
+Kubernetes} section, so we will not repeat it here.
+
+However, some additional detail assists in understanding the potential values of
+CPU utilization percentage that result from reactive horizontal auto-scaling.
+Remember that the current implementation of reactive horizontal auto-scaling
+occurs by having the auto-scaler create sufficient replica pods such that each
+replica pods operates within a specified range of CPU utilization percentage.
+\footnote{If we decide to enact resource requests\/limits on our replica pods, we can also
+calculate the exact amount of resources being utilized, as opposed to just a
+percentage. However, we are not particularly concerned about non-percentage
+values because we measure efficient resource utilization using CPU utilization
+percentage, instead of total CPU utilization.} If all replica pods initialize
+and share in the work immediately, than we could expect CPU utilization
+percentage to consistently stay within a small range of the value the user
+specified. For example, if the user instructed the auto-scaler to auto-scale
+such that all pods utilized 70\% of available CPU, and the range was $\pm 2$,
+then we would expect CPU utilization, and thus efficient resource utilization,
+to stay within $68 - 72$ CPU utilization percentage.
+However, our justification for introducing prediction
+the horizontal pod auto-scaling is an understanding that replica pods will not
+always immediately initialize. In the times in which we are waiting for our pods
+to initialize, we can expect CPU utilization to derivate from the expected
+range. Establishing reactive horizontal pod auto-scaling as a contrl group
+assists us in determining whether the addition of prediction improves upon what
+existed in Kubernetes before this thesis began.
