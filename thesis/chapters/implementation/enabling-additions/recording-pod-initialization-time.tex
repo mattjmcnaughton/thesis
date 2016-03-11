@@ -1,0 +1,83 @@
+This thesis' implementation of predictive auto-scaling predicts \textit{pod
+initialization time} into the future. As was made explicit in the
+\textit{Benefits of Predictive Auto-scaling} section, this time
+frame allows any replica pods created to be ready to share in the work by the
+time in which they are needed.
+
+Pod \textit{initialization} time is distinct from pod \textit{creation} time and
+the idea of a pod \textit{running}. We define an initialized pod as one that is
+ready to perform computational work. This contrasts with a \textit{created} pod,
+which merely signifies that all the containers within the pod are created. It
+does not signify that these containers have started running, performed any
+initialization tasks, and are now ready to share in computational work. The time
+necessary to create all containers for a pod is not equal to the time necessary
+for all containers within the pod to perform their computational work.
+Furthermore, a \textit{running} pod is merely a pod in which all containers have
+been created, and at least one container is running or in the process of
+starting. This description does not guarantee that the containers have started
+and are ready to perform work \cite{k8s-pod-states}. With conceptions
+of pod creation and pod's
+running being insufficient to determine whether a pod has initialized, we must
+find an alternative mechanism.
+
+Fortunately, Kubernetes defines the idea of a \textit{Readiness Probe}. A
+readiness probe shows whether a pod is ready to handle incoming requests.
+Services use this probe to determine whether to pass work along to a newly
+created replica pod through ensuring that pods with long startup times do not
+receive proxy traffic until ready to handle it. Pods must implement a readiness
+probe, or else it will be assumed that if the pod is running, it is ready
+\cite{k8s-pod-states}. Each container within a pod defines its own readiness
+probe, by specifying an HTTP endpoint that will return a successful HTTP status
+code when sent a GET request if the replica pod is ready
+\cite{k8s-working-with-containers}.\footnote{There are alternative methods of
+defining a readiness probe, but specifying an HTTP endpoint is the most logical
+within the context of this thesis.} In terms of this thesis, a
+pod being \textit{ready} and a pod being \textit{initialized} are analogous
+terms.
+
+We can rely on the existence of the readiness probe to
+measure the amount of time it took for a pod
+to initialize. Each pod records the time at which it was first ordered into
+existence. Subtracting the time at which the pod first came into existence
+from the time at which the readiness probe first returned \textit{Success}
+results in the pod initialization time we desire. However, while Kubernetes
+records the time at which the pod first came into existence as
+\textit{pod.CreationTimestamp}, it does not record the time at which the
+readiness probe first returned \textit{Success}. Fortunately, Kubernetes pods
+emit events whenever their state changes. As such, the following algorithm
+records the initialization time for pods controlled by the auto-scaler.
+
+%% @TODO Should this be a code snippet with minted?
+\begin{itemize}
+  \item Watch all of the pods controlled by the auto-scaler for a modification in
+    their state.
+  \item If a pod has been modified, and its new status is \textit{Ready}, and
+    it has not already had its \textit{InitializationTime} recorded.
+  \item Then subtract the \textit{CreationTimestamp} from the
+    \textit{LastTransitionTime} and record this value as
+    \textit{InitializationTime}.
+\end{itemize}
+
+This algortihm allows us to record the initialization time for each pod
+controlled by the auto-scaler.\footnote{We record the value in the
+  \textit{Annotations} map for each pod, which is basically a map for writing
+values that are not necessarily in the Pod API object. If predictive
+auto-scaling becomes particularly popular, \textit{InitializationTime} may be
+included as a field in the Pod API object, although making such a change would
+be a fairly substantial process.} However, for predictive auto-scaling, we need
+the average pod initialization time across all pods belonging to a single
+auto-scaler. Our algorithm for calculating this average is simple: we retrieve
+each current pod created by the auto-scaler, sum its \textit{InitializationTime}, and
+then divide by the total number of current pods created by the auto-scaler.
+
+% @TODO Verify that list returns only the currently running pods. Is that ok?
+
+At this point, all recorded initialization time values factor into the average.
+This inclusion could lead to a problem with extreme outliers drastically
+affecting the average value. Perhaps in future iterations of predictive pod
+auto-scaling it would make sense to only average values that fit within some
+multiple of the standard deviation.
+
+With this implementation, we can now use initialization time to determine how
+far into the future to predict the state of the application on the cluster, and
+thus how far into the future to auto-scale.
