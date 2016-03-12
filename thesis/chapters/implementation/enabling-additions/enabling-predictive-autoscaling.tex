@@ -1,0 +1,49 @@
+With all of the pieces for predictive auto-scaling in place, the final step is
+making it so that a user running pods on the Kubernetes cluster can turn
+prediction on and off. We seek a lightweight method for accomplishing this, so
+as to not have to make drastic changes to the Kubernetes user interface before
+being confident that predictive auto-scaling is a generally useful addition.
+
+Fortunately, Kubernetes makes it possible to attach key/value pairs to any
+resource through the concept of annotations. As was mentioned in the section on
+recording pod initialization time, the annotations of an object are a useful way
+to record information without going through the long process of making an
+official update to the API for an object in Kubernetes. Thus, to turn on
+auto-scaling for an individual auto-scaler object, we simply record in the annotations for
+that object the key \textit{predictive} with the value \textit{true}. This
+annotation can easily be done using Kubernetes command line
+client \cite{k8s-kubectl-annotate}. For example,
+if our auto-scaler had the name \textit{foo}, the following command would turn
+on prediction.
+
+\begin{minted}{bash}
+  kubectl annotate hpa foo predictive=`true'
+\end{minted}
+
+It follows that auto-scaling could just as easily be turned off by rewriting the
+annotated value to anything other than \textit{true}.
+
+\begin{minted}{bash}
+  kubectl annotate hpa foo predictive=`false'
+\end{minted}
+
+Within the code for determining the number of replia pods to create when
+auto-scaling, we can easily check if the \textit{predictive} annotation is
+\textit{true} for that particular auto-scaler. If the value is not set, or
+anything other than true, the auto-scaler will reactively auto-scale as normal.
+This flexibility allows different auto-scalers to utilize different auto-scaling
+methods. Additionally, it allows a single autoscaler to utilize different
+auto-scaling methods throughout its lifetime.
+
+If the benefits of predictive auto-scaling are substantial, then it will make
+sense to transition this value from one recorded in \textit{Annotations} to a
+more permananet field defined a autoscaler's
+\textit{HorizontalPodAutoscalerSpec} object. A field entitled
+\textit{Predictive} could be added to this object which, if set to true, would
+turn on predictive auto-scaling. This addition would enable to configure a
+autoscaler to perform predictively from the start, as opposed to having to first
+create the autoscaler and then turn on prediction. Making prediction a part of
+the static configuration for an autoscaler has the benefit of linking predictive
+behavior with all other pod state, especially as configuration files are used
+among multiple projects. However, until substantial benefits of predictive
+auto-scaling are demonstrated, it does not make sense to undertake this effort.
