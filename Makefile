@@ -2,9 +2,10 @@
 #
 # Used to run latex compilation, run evaluation tests...
 
-LATEX = pdflatex
+# Use `-shell-escape` to support the `minted` package for including code.
+LATEX = pdflatex -shell-escape
 BIBTEX = bibtex
-PDFLATEX = pdflatex
+PDFLATEX = pdflatex -shell-escape
 
 THESIS_DIR = thesis
 PROPOSAL_DIR = proposal
