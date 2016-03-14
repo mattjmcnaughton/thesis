@@ -19,7 +19,7 @@ ADD . /go/src/github.com/mattjmcnaughton/test-server
 WORKDIR /go/src/github.com/mattjmcnaughton/test-server
 
 # Download the dependencies
-RUN go get ./...
+RUN godep restore
 
 # Build the app.
 RUN go install
