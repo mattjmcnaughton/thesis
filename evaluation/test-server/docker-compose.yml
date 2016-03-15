@@ -1,0 +1,33 @@
+# Use docker-compose for running the app in development mode with an influx db
+# database and grafana.
+
+# `app` is the `test-server`.
+app:
+  # Build from the Dockerfile.
+  build: .
+  # Use `gin` to automatically reload the Go code.
+  command: /go/bin/gin run main.go
+  # Link this directory with the container.
+  volumes:
+    - .:/go/src/github.com/mattjmcnaughton/test-server
+  # Open up ports in the Docker container.
+  ports:
+    - "3000:3000"
+  links:
+    - influxdb
+  env_file:
+    - .env
+    - .env.development
+  labels:
+    project: "test-server"
+
+# `influxdb` is a container of an influxdb database.
+influxdb:
+  # Run influxdb using the tutum image.
+  image: tutum/influxdb:0.9
+  environment:
+    # New containers will pre-create a database called `test-server-dev` if it
+    # does not already exist.
+    PRE_CREATE_DB="test-server-dev"
+
+# @TODO Add a Grafana container.
