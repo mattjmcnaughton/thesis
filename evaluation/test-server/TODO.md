@@ -2,11 +2,11 @@
 
 A very high level list of tasks todo.
 
-- [ ] Add docker-compose for running the test-server (using Gin) with a
+- [X] Add docker-compose for running the test-server (using Gin) with a
   containerized influxDB and Grafana
   (https://github.com/kamon-io/docker-grafana-influxdb).
   - Update the Dockerfile as well.
-- [ ] Add Makefile to automate all repeated tasks (testing,
+- [X] Add Makefile to automate all repeated tasks (testing,
   running godep, serving the app...) all tasks from the Makefile
   should be run in the Docker container using `godep`.
 - [ ] Write the methods described in each file with accompanying tests.

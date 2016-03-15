@@ -28,6 +28,6 @@ influxdb:
   environment:
     # New containers will pre-create a database called `test-server-dev` if it
     # does not already exist.
-    PRE_CREATE_DB="test-server-dev"
+    - PRE_CREATE_DB="test-server-dev"
 
 # @TODO Add a Grafana container.
