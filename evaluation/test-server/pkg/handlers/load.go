@@ -8,6 +8,7 @@ import (
 	"github.com/mattjmcnaughton/test-server/pkg/database"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
+	"runtime"
 	"time"
 )
 
@@ -18,7 +19,7 @@ import (
 // the pod and some metric measuring of quality of service, such as how long it
 // took the pod to perform the previous computation.
 func LoadHandler(w http.ResponseWriter, r *http.Request) {
-	eru, qos := measureExecTimeAndCPU(costIntensiveTask)
+	eru, qos := profileFunction(costIntensiveTask)
 	err := database.WriteMetrics(eru, qos)
 
 	if err != nil {
@@ -41,12 +42,12 @@ func LoadHandler(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-// measureExecTimeAndCPU is a helper method that takes a function and runs it,
-// while measuring the amount of time it takes to execute and the percent of CPU
-// the processes uses while executing.
+// profileFunction is a helper method that takes a function and runs it,
+// while measuring the percent of CPU the processes uses while executing and the
+// amount of time it takes to execute.
 // @TODO It would be great if there was a way to measure CPU usage that didn't
 // require running C code from golang.
-func measureExecTimeAndCPU(measureFunc func()) (float64, float64) {
+func profileFunction(measureFunc func()) (eru float64, qos float64) {
 	initTime := time.Now()
 	initTicks := C.clock()
 
@@ -58,22 +59,23 @@ func measureExecTimeAndCPU(measureFunc func()) (float64, float64) {
 	funcExecTime := diffTime.Seconds()
 
 	// @TODO Does CPU percentage have to be divided by cores?
-	cpuUsagePercentage := (diffTicks / funcExecTime) * 100.0
+	totalCPUTime := funcExecTime * float64(runtime.NumCPU())
+	cpuUsagePercentage := (diffTicks / totalCPUTime) * 100.0
 
-	return funcExecTime, cpuUsagePercentage
+	return cpuUsagePercentage, funcExecTime
 }
 
 // costIntensiveTask is a useless task that is just required to take up CPU. We
 // run it while so that the number of requests will have some kind of influence
 // on the amount of pods needed.
 func costIntensiveTask() {
-	numPasswordsToGenerate := 10
+	numPasswordsToGenerate := 3
 	password := []byte("StartPassword")
 	var err error
 
 	for i := 0; i < numPasswordsToGenerate; i++ {
 		password, err = bcrypt.GenerateFromPassword([]byte(password),
-			bcrypt.MinCost)
+			bcrypt.MaxCost)
 
 		if err != nil {
 			password = []byte("DefaultPassword")

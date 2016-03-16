@@ -20,14 +20,9 @@ const (
 // request came in (in the database) and not return success. We would return
 // success only when receiving a request after `INIT_TIME` had passed.
 func ReadyHandler(w http.ResponseWriter, r *http.Request) {
-	// Anonymous function to return a successful response after the proper
-	// interval of time passes.
-	successFunc := func() {
-		w.WriteHeader(200)
-		return
-	}
-
-	// @TODO Include a better method of error checking.
 	dur, _ := time.ParseDuration(os.Getenv(InitTimeEnvVariable))
-	_ = time.AfterFunc(dur, successFunc)
+	time.Sleep(dur)
+
+	w.WriteHeader(200)
+	return
 }
