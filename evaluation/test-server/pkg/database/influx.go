@@ -44,7 +44,7 @@ func createClient() (client.Client, error) {
 
 // WriteMetrics is called from a handler to write the eru and qos metrics to the
 // influxdb database.
-func WriteMetrics(eru, qos float32) error {
+func WriteMetrics(eru, qos float64) error {
 	influxClient, err := createClient()
 
 	if err != nil {
