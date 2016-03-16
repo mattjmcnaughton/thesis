@@ -1,9 +1,10 @@
 package handlers
 
 import (
-	// #include <time.h>
+	//#include <time.h>
 	"C"
 
+	"encoding/json"
 	"github.com/mattjmcnaughton/test-server/pkg/database"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
@@ -18,9 +19,25 @@ import (
 // took the pod to perform the previous computation.
 func LoadHandler(w http.ResponseWriter, r *http.Request) {
 	eru, qos := measureExecTimeAndCPU(costIntensiveTask)
-	database.WriteMetrics(eru, qos)
+	err := database.WriteMetrics(eru, qos)
 
-	w.WriteHeader(200)
+	if err != nil {
+		w.WriteHeader(500)
+		w.Write([]byte(err.Error()))
+	} else {
+		// Output the response as JSON.
+		w.WriteHeader(200)
+
+		enc, err := json.Marshal(map[string]float64{
+			"eru": eru,
+			"qos": qos,
+		})
+
+		if err == nil {
+			w.Write(enc)
+		}
+	}
+
 	return
 }
 
@@ -36,10 +53,12 @@ func measureExecTimeAndCPU(measureFunc func()) (float64, float64) {
 	measureFunc()
 
 	diffTime := time.Since(initTime)
-	diffTicks := float64(C.clock()-initTicks) / float64(C.CLOCKS_PER_SECOND)
+	diffTicks := float64(C.clock()-initTicks) / float64(C.CLOCKS_PER_SEC)
 
 	funcExecTime := diffTime.Seconds()
-	cpuUsagePercentage := (diffTicks / diffTime) * 100.0
+
+	// @TODO Does CPU percentage have to be divided by cores?
+	cpuUsagePercentage := (diffTicks / funcExecTime) * 100.0
 
 	return funcExecTime, cpuUsagePercentage
 }
@@ -48,13 +67,13 @@ func measureExecTimeAndCPU(measureFunc func()) (float64, float64) {
 // run it while so that the number of requests will have some kind of influence
 // on the amount of pods needed.
 func costIntensiveTask() {
-	numPasswordsToGenerate := 100
+	numPasswordsToGenerate := 10
 	password := []byte("StartPassword")
 	var err error
 
 	for i := 0; i < numPasswordsToGenerate; i++ {
 		password, err = bcrypt.GenerateFromPassword([]byte(password),
-			bcrypt.MaxCost)
+			bcrypt.MinCost)
 
 		if err != nil {
 			password = []byte("DefaultPassword")
