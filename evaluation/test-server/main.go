@@ -12,7 +12,7 @@ const (
 	DefaultPort = "3000"
 
 	// PortEnvVariable is the variable name of the PORT in env.
-	PortEnvVariable
+	PortEnvVariable = "PORT"
 )
 
 func main() {

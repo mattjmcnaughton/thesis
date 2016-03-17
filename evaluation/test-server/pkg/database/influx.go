@@ -1,15 +1,43 @@
 package database
 
 import (
-// "github.com/influxdata/influxdb/client/v2"
+	client "github.com/influxdata/influxdb/client/v2"
+	"log"
+	"time"
 )
 
-// This file will ultimately contain the code for connecting to the influxDB
-// database (either the test database or the actual database if running in
-// production).
-//
-// @TODO Define methods: singleton HTTP client, method for creating/writing a
-// batch point containing eru, qos, and scaling behavior of pod conducting the
-// db write.
-//
-// Check out https://github.com/influxdata/influxdb/tree/master/client
+// WriteMetrics is called from a handler to write the eru and qos metrics to the
+// influxdb database.
+func WriteMetrics(eru, qos float64) error {
+	influxClient, err := createClient()
+
+	if err != nil {
+		log.Println("Error getting the HTTP client for Influx.")
+		return err
+	}
+
+	// After this function terminates, close the HTTP client connection.
+	defer influxClient.Close()
+
+	bp, _ := client.NewBatchPoints(client.BatchPointsConfig{
+		Database: databaseName,
+		// @TODO Does "s" make sense
+		Precision: "s",
+	})
+
+	tags := map[string]string{"scaling-method": scalingMethod}
+	fields := map[string]interface{}{
+		"eru": eru,
+		"qos": qos,
+	}
+
+	pt, err := client.NewPoint(PointName, tags, fields, time.Now())
+	if err != nil {
+		log.Println("Error creating the new point.")
+		return err
+	}
+
+	bp.AddPoint(pt)
+
+	return influxClient.Write(bp)
+}

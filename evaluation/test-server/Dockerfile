@@ -10,7 +10,7 @@ ENV PATH /go/bin:$PATH
 
 # Add go dependencies that are not bundled with Godeps.
 RUN go get -u github.com/golang/lint/golint
-RUN go get -u github.com/tools/godep
+RUN go get github.com/tools/godep
 RUN go get -u github.com/codegangsta/gin
 
 # Copy the local package files to the container (ignoring the files in
@@ -23,10 +23,10 @@ WORKDIR /go/src/github.com/mattjmcnaughton/test-server
 RUN godep restore
 
 # Build the app.
-RUN go install
+RUN godep go install
 
 # Expose the port on which we serve the app.
-EXPOSE 8080
+EXPOSE 3000
 
 # Run the app (when using docker-compose in dev mode, this will be overwritten
 # by /go/bin/gin run main.go).

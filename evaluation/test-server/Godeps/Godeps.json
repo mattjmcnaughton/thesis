@@ -1,6 +1,6 @@
 {
 	"ImportPath": "github.com/mattjmcnaughton/test-server",
-	"GoVersion": "go1.5",
+	"GoVersion": "go1.4",
 	"Packages": [
 		"./..."
 	],
@@ -9,6 +9,29 @@
 			"ImportPath": "github.com/codegangsta/negroni",
 			"Comment": "v0.1-62-g8d75e11",
 			"Rev": "8d75e11374a1928608c906fe745b538483e7aeb2"
+		},
+		{
+			"ImportPath": "github.com/influxdata/influxdb/client/v2",
+			"Comment": "v0.10.0-542-g0703b85",
+			"Rev": "0703b85589d55e2ea6fcd42312a6d40e1cd46caa"
+		},
+		{
+			"ImportPath": "github.com/influxdata/influxdb/models",
+			"Comment": "v0.10.0-542-g0703b85",
+			"Rev": "0703b85589d55e2ea6fcd42312a6d40e1cd46caa"
+		},
+		{
+			"ImportPath": "github.com/influxdata/influxdb/pkg/escape",
+			"Comment": "v0.10.0-542-g0703b85",
+			"Rev": "0703b85589d55e2ea6fcd42312a6d40e1cd46caa"
+		},
+		{
+			"ImportPath": "golang.org/x/crypto/bcrypt",
+			"Rev": "c84e1f8e3a7e322d497cd16c0e8a13c7e127baf3"
+		},
+		{
+			"ImportPath": "golang.org/x/crypto/blowfish",
+			"Rev": "c84e1f8e3a7e322d497cd16c0e8a13c7e127baf3"
 		}
 	]
 }

@@ -37,7 +37,7 @@ test:
 # `make check`
 #
 # Check the style and correctness of the code.
-check: run test
+check: lint test
 
 # `make run`
 #
@@ -61,8 +61,9 @@ clean: stop
 # `make save_godep`
 #
 # Update the go dependencies.
+# @TODO This is def. not the best way, try to fix later.
 save_godep:
-	docker-compose run $(COMPOSE_SERVICE) godep save ./...
+	echo "Navigate to test-server in $$GOROOT and do manually on local machine for now."
 
 # `make restore_godep`
 #
