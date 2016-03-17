@@ -37,7 +37,7 @@ test:
 # `make check`
 #
 # Check the style and correctness of the code.
-check: run test
+check: lint test
 
 # `make run`
 #

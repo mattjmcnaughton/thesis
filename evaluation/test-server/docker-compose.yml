@@ -29,5 +29,7 @@ influxdb:
     # New containers will pre-create a database called `test-server-dev` if it
     # does not already exist.
     - PRE_CREATE_DB="test-server-dev"
+  labels:
+    project: "test-server"
 
 # @TODO Add a Grafana container.

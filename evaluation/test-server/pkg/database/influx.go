@@ -3,44 +3,8 @@ package database
 import (
 	client "github.com/influxdata/influxdb/client/v2"
 	"log"
-	"os"
 	"time"
 )
-
-const (
-	// PointName is the name for this type of point in influxdb.
-	PointName = "METRICS"
-)
-
-var (
-	// Configure all of this environment specific environmation through
-	// `.env` files, or `ENV` info in Kubernetes yaml files.
-	databaseName     = os.Getenv("DATABASE_NAME")
-	databaseAddress  = os.Getenv("DATABASE_ADDRESS")
-	databaseUsername = os.Getenv("DATABASE_USERNAME")
-	databasePassword = os.Getenv("DATABASE_PASSWORD")
-
-	// The method of auto-scaling in use for this container.
-	scalingMethod = os.Getenv("SCALING_METHOD")
-)
-
-// Internal method for creating a HTTP Connection to the database.
-func createClient() (client.Client, error) {
-	config := client.HTTPConfig{
-		Addr:     databaseAddress,
-		Username: databaseUsername,
-		Password: databasePassword,
-	}
-
-	influxClient, err := client.NewHTTPClient(config)
-
-	if err != nil {
-		log.Println("Error creating an HTTP Client for Influx.")
-		return nil, err
-	}
-
-	return influxClient, nil
-}
 
 // WriteMetrics is called from a handler to write the eru and qos metrics to the
 // influxdb database.

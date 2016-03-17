@@ -69,13 +69,13 @@ func profileFunction(measureFunc func()) (eru float64, qos float64) {
 // run it while so that the number of requests will have some kind of influence
 // on the amount of pods needed.
 func costIntensiveTask() {
-	numPasswordsToGenerate := 3
+	numPasswordsToGenerate := 100
 	password := []byte("StartPassword")
 	var err error
 
 	for i := 0; i < numPasswordsToGenerate; i++ {
 		password, err = bcrypt.GenerateFromPassword([]byte(password),
-			bcrypt.MaxCost)
+			bcrypt.MinCost)
 
 		if err != nil {
 			password = []byte("DefaultPassword")
