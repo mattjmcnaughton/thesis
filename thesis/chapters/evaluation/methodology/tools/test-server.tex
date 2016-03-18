@@ -1,0 +1,77 @@
+We seek to measure variations in a web server application's
+efficient resource utilization and quality of service across a variety of
+scaling methods. Many of the previous sections of this thesis, and the majority
+of this thesis' contributions to Kubernetes, relate to implementing predictive
+horizontal auto-scaling as a new scaling method. Yet, to evaluate we must also
+create a web server application. Ultimately, the created web server application,
+entitled \textit{test-server}, allows us refined control over the independent
+variables we wish to control during experimentation.
+
+\textit{test-server} is a HTTP server written in Go. It defines two API
+endpoints, ``/" and "/ready".
+
+\begin{itemize}
+  \item \textbf{``/" - Load}: Traffic generators simulating user requests will
+    send GET requests to the endpoint at ``\/", also known as the \textit{Load} endpoint.
+    This endpoint has two functions. First, it must perform a task that is
+    somewhat CPU intensive so as our application uses enough CPU that
+    auto-scaling may be triggered. Second, it must record its CPU utilization
+    percentage and an estimation of request response time as measures of
+    efficient resource utilization and quality of service respectively. The
+    function assigned to handle the GET request accomplishes these tasks as
+    follows. Upon receiving a GET request to this endpoint, the handler function
+    records the start time of the function as well as the amount of CPU clock
+    already used by this process. It then executes a computationally intensive
+    task, which we define as repeatedly encrypting a passphrase. Once this task
+    is over, we once again record the time and CPU clock used by the process.
+    Having these two values allows us to calculate the CPU utilization
+    percentage and function exeuction time, which function as measurements of
+    efficient resource utilization and quality of service. The function then
+    records these values as a new point in the database, along with a
+    an indicator of the values of independent variables in place for this trial
+    (i.e. pod initialization time, scaling method). The function finishes by
+    returning a status code of 200.
+  \item \textbf{``/ready" - Ready}: The \textit{Ready} endpoint is used to allow
+    us fine grained control over pod initialization time during experimentation.
+    Kubernetes determines if a pod is initiliazed based on a
+    \textit{ReadinessProbe}. This probe was discussed in greater detail earlier,
+    but suffice to say it works by defining an HTTP endpoint that will return a
+    successful status code if the pod is initialized. During experimentation, we
+    are particularly interested in how predictive auto-scaling is effected by
+    different pod initialization times. Thus, we utilize the following setup.
+    First, when defining our pod, we specify the \textit{ReadinessProbe} should
+    use ``/ready" as the HTTP endpoint. The function handling responses for
+    requests to ``/ready" works by reading in an environment variable indicating
+    the pod initialization time value we wish to test.\footnote{Any method of
+    running containers, whether locally during testing or in a pod on Kubernetes
+    will allow us to easily set environment variables.} The function parses this
+    time, and waits that amount of time before returning a status code of 200.
+    This wait ensures that we can control exactly when the
+    \textit{ReadinessProbe} will receive a successful response, and thus can
+    control exactly the amount of time before a pod initializes.
+\end{itemize}
+
+This application closely fits within the guidelines microservice theory
+establishes and it is easy to containerize it and then run it on Kubernetes. It
+is \textit{focused}, as it performs the single task of returning to HTTP
+requests. It is \textit{stateless}, as all containers communicate with an
+external database, that is not stored within the container. The container can be
+deleted and restarted at anytime with no errors or sustained interrupts.
+Finally, the container can easily be replicated and run concurrently, as
+a load balancer can distribute discrete requests across multiple replica HTTP
+servers with no threat of race conditions. It is thus simple to package this
+webserver into a container, and then package said container into a pod.
+
+As was previously mentioned, the pod containing the container for this
+application implements a \textit{ReadinessProbe} pointing to the ``/ready"
+endpoint. Additionally, the pod limits and requests an explicit amount of CPU,
+currently .5 cores, for the container running the application. This ensures
+measures of efficient resource utilization are consistent across scaling method.
+Finally, our pod contains a number of environment variables including
+\textit{SCALING\_METHOD} and \textit{INITIALIZATION\_TIME} which allow us the
+fine grained control and measuring previously mentioned. Additionally,
+regardless of the scaling method, we define a replication controller for
+ensuring whatever the scaled amount of pods exist, and a service for balancing
+requests across all \textit{test-server} containers and exposing
+\textit{test-server} to an external IP address that can receive our generated
+traffic.

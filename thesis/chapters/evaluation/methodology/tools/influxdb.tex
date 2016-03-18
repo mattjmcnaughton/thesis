@@ -1,0 +1,12 @@
+Our evaluation strategy generates an immense amount of time-series data, which
+we need to store in a database that we can later query and manipulate.
+\textit{InfluxDB}, an open source time-series database from InfluxData, is a
+natural choice for recording such data. InfluxDB makes it easy to collect,
+store, manage, and visualize the large amount of data that we will generate.
+InfluxDB provides a simple HTTP API which we use both for recording our data
+throughout are evaluations, and also for querying and modifying it later.
+Additionally, it provides a number of integrations into common visualization
+platforms, which are used to generate many of this thesis' graphs
+\cite{influxdb}. Finally,
+InfluxDB has a variety of hosting options, meaning our containerized application
+does not have to hold any data, and thus remains stateless and concurrent.
