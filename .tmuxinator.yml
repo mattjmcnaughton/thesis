@@ -1,0 +1,21 @@
+# tmuxinator configuration file for working on the thesis
+
+name: thesis
+root: .
+
+windows:
+  - thesis:
+      layout: main-vertical
+      panes:
+        -
+        -
+  - code:
+      layout: main-vertical
+      panes:
+        -
+        -
+  - evaluation:
+      layout: main-vertical
+      panes:
+        -
+        -

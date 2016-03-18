@@ -52,6 +52,12 @@ build: build-thesis
 spellcheck:
 	find $(THESIS_DIR) -type f -name "*.tex" -exec aspell -t -c {} \;
 
+# `make tmux`
+#
+# Open the projects tmux (based on the `.tmuxinator.yml`) file.
+tmux:
+	tmuxinator start .
+
 # `make`
 #
 # If no target is specified, run `build`.
