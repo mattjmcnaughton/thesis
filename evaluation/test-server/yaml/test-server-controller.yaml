@@ -46,5 +46,7 @@ spec:
           # Options are static-under-provision, static-over-provision,
           # static-average-provision, reactive, predictive
           value: static-under-privision
+        - name: INITIALIZATION_TIME
+          value: 5s
         ports:
         - containerPort: 80
