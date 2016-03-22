@@ -5,17 +5,17 @@ root: .
 
 windows:
   - thesis:
-      layout: main-vertical
+      layout: even-horizontal
       panes:
         -
         -
   - code:
-      layout: main-vertical
+      layout: even-horizontal
       panes:
         -
         -
   - evaluation:
-      layout: main-vertical
+      layout: even-horizontal
       panes:
         -
         -
