@@ -21,6 +21,10 @@ from jinja2 import Template
 # CONFIG_JSON is the file containing the json configuration values.
 CONFIG_JSON = "config.json"
 
+# SECRET_CONFIG_JSON is the file containing json configuration values that
+# should not be public.
+SECRET_CONFIG_JSON = "secret-config.json"
+
 # GENERATED_DIR is the directory in which we store the generated files.
 GENERATED_DIR = "generated"
 
@@ -51,19 +55,29 @@ def clean_generated_directory():
 
 def load_json_config():
     """
-    Read in the json configuration values from CONFIG_JSON.
+    Read in the json configuration values from CONFIG_JSON and
+    SECRET_CONFIG_JSON.
 
     Returns:
-        (dict): Dict containing the key/values from CONFIG_JSON.
+        (dict): Dict containing the key/values from CONFIG_JSON and
+        SECRET_CONFIG_JSON.
     """
-    json_config = {}
     json_file = "{0}/{1}".format(_get_file_dir(), CONFIG_JSON)
+    secret_json_file = "{0}/{1}".format(_get_file_dir(), SECRET_CONFIG_JSON)
 
-    with open(json_file, "r") as json_file:
-        raw_data = json_file.read()
-        json_config = json.loads(raw_data)
+    configs = []
 
-    return json_config
+    for file_name in [json_file, secret_json_file]:
+        with open(file_name, "r") as read_file:
+            raw_data = read_file.read()
+            json_config = json.loads(raw_data)
+            configs.append(json_config)
+
+    all_config = {}
+    for config in configs:
+        all_config.update(config)
+
+    return all_config
 
 def compute_additional_config():
     """
@@ -101,6 +115,8 @@ def generate_unstable_files(config):
       which has an associated replication controller configuration file.
     - `head_commit_hash`: The label for the Docker image, based on the head
       commit hash for the latest git commit.
+    - `database_[name|address|username|password]`: Strings representing the
+      respective database configuration values for influxdb.
     """
     rc_config_file = "{0}/{1}".format(_get_file_dir(),
                                       "sample-test-server-controller.yaml.jinja")
@@ -109,6 +125,11 @@ def generate_unstable_files(config):
         template_str = config_file.read()
 
     hch = config["head_commit_hash"]
+    dbn = config["database_name"]
+    dba = config["database_address"]
+    dbu = config["database_username"]
+    dbp = config["database_password"]
+
     for as_method in config["autoscaling_methods"]:
         for pit in config["pod_initialization_times"]:
             file_name = "{0}/{1}/test-server-controller-{2}-{3}.yaml".format(_get_file_dir(),
@@ -117,7 +138,11 @@ def generate_unstable_files(config):
 
             rendered_config_str = Template(template_str).render(autoscaling_method=as_method,
                                                                 pod_initialization_time=pit,
-                                                                head_commit_hash=hch)
+                                                                head_commit_hash=hch,
+                                                                database_name=dbn,
+                                                                database_address=dba,
+                                                                database_username=dbu,
+                                                                database_password=dbp)
 
             with open(file_name, "w+") as new_config_file:
                 new_config_file.write(rendered_config_str)

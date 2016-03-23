@@ -1,2 +1,5 @@
 .git
 .env.production
+
+config/generated
+config/secret-config.json

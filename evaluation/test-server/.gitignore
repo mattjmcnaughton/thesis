@@ -1,3 +1,6 @@
 gin-bin
 test-server
 .env.production
+
+config/generated
+config/secret-config.json

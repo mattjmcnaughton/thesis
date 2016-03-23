@@ -52,5 +52,16 @@ spec:
           value: {{ autoscaling_method }}
         - name: INITIALIZATION_TIME
           value: {{ pod_initialization_time }}
+        # The following variables are all stored in `secret-config.json` and
+        # should be kept secret - hence the `generated/` dir is not checked into
+        # version control.
+        - name: DATABASE_NAME:
+          value: {{ database_name }}
+        - name: DATABASE_ADDRESS:
+          value: {{ database_address }}
+        - name: DATABASE_USERNAME:
+          value: {{ database_username }}
+        - name: DATABASE_PASSWORD:
+          value: {{ database_password }}
         ports:
         - containerPort: 80
