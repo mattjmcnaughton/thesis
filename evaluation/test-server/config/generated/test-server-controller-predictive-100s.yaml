@@ -18,13 +18,17 @@ spec:
   # The default number of replicas.
   replicas: 1
   template:
+    metadata:
+      labels:
+        scaling-method: predictive
+        initialization_time: 100s
     spec:
       containers:
       - name: test-server
-        image: gcr.io/mattjmcnaughton/test-server
+        image: mattjmcnaughton/test-server:e84efa659132cbdc76d54471227fbb6fd2c8a911
+        # @TODO Update this with values that I think make sense.
         resources:
           requests:
-            # 500m is equivalent to .5 core of CPU.
             cpu: 500m
           limits:
             cpu: 500m
@@ -45,8 +49,8 @@ spec:
         - name: SCALING_METHOD
           # Options are static-under-provision, static-over-provision,
           # static-average-provision, reactive, predictive
-          value: static-under-privision
+          value: predictive
         - name: INITIALIZATION_TIME
-          value: 5s
+          value: 100s
         ports:
         - containerPort: 80

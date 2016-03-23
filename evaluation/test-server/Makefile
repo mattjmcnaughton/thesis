@@ -85,3 +85,17 @@ build:
 # git commit, to Docker Hub.
 push: build
 	docker push $(IMAGE_NAME_WITH_VERSION)
+
+# `make generate_k8s_config`
+#
+# Update the Kubernetes configuration files, found in `/config`, so the
+# different configuration files for pods/replication
+# controllers/services/auto-scalingers reflect the different options for scaling
+# methods, container versions, and pod initialization time.
+#
+# @TODO Currently we need to run `git rev-parse HEAD` on the local machine, not
+# the Docker container, and then pass it as an argument to the program. The
+# calculation on the local host is necessary because we are not confident the
+# Docker container will have either Git nor access to the `.git` directory.
+generate_k8s_config:
+	docker run --rm -i -v $(shell pwd)/config:/config pinterb/jinja2:0.0.15 python /config/generate_k8s_config.py `git rev-parse HEAD`
