@@ -1,0 +1,43 @@
+For evaluation, we must run \textit{test-server} on a hosted Kubernetes
+instance. It is necessary to use a hosted Kubernetes instance, instead of just
+running Kubernetes locally, because we will be sending our pod an amount of
+traffic too great for any single commodity machine to handle. Additionally, we
+want to simulate running Kubernetes in as realistic a production environment as
+possible, and of course all instances of running Kubernetes in production
+require hosting Kubernets on external cloud servers.
+
+There are a couple of different options for a hosting service which will provide
+the machines for our Kubernetes cluster. The simplest method
+of using Kubernetes is to use \textit{Google Container
+Engine}. Google Container Engine is a verison of Kubernetes hosted by Google
+itself. The number of machines managed by Kubernetes is completely abstracted,
+as the user only interacts with the Kubernetes command line tool,
+\textit{kubectl}. While this method is admired for its simplicity, it is not
+feasible for this thesis. Because we want to be able to test our modifications
+to Kubernetes, without waiting for them to be accepted in the stable version of
+Kubernetes used for Google Container Engine, we must instead use a platform that
+allows greater control \cite{getting-started-k8s}.
+
+Fortunately, Kubernetes can be run on a number of cloud providers, including
+\textit{Google Compute Engine}, \textit{Amazon AWS}, and \textit{Microsoft
+Azure} \cite{getting-started-k8s}.
+The Kubernetes source code provides a number of simple scripts for
+configuring one of these providers to run Kubernetes. Importantly, the version
+of Kubernetes running on these providers can be any version we desire, meaning
+that we can test our modified version that incorporates predictive auto-scaling,
+even if our updates are not yet merged into a stable Kubernetes master version.
+Because of previous development experience, we decided to
+pursue hosting on Amazon AWS. Kubernetes typically runs 1 \textit{m3.medium}
+EC2 instance as the master and 4 \textit{t2.micro} instances as workers, all
+running in the \textit{us-west-2a} region. These defaults make
+sense for the workload we expect \cite{getting-started-k8s-aws}.
+
+@TODO Document how we are going to send requests (they probably shouldn't all be
+sent from my local computer right?)
+
+Additionally, for simplicity's sake, we decided to host the InfluxDB database
+instance used for storing our evaluation data. It would have also been possible
+to run an instance of InfluxDB ourselves on an Amazon EC2 machine, but the
+potential cost benefit did not message the time and complexity costs. Because
+all of the data being stored is small key/value pairs, we only use a 10GB
+Storage, 1GB RAM, 1 Core machine \cite{influxdb-pricing}.

@@ -1,0 +1,19 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: test-server
+  labels:
+    app: test-server
+spec:
+  ports:
+    - port: 80
+      # This should be the same as the name of the port the replication
+      # controller exposes.
+      targetPort: http-server
+  # It is important that we specify the same selector here as the labels of the
+  # replication controller.
+  selector:
+    app: test-server
+  # LoadBalancer means requests are split evenly among the different pods. It
+  # also means that we can access the endpoint from outside of the cluster.
+  type: LoadBalancer

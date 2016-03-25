@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: test-server
+  namespace: default
+spec:
+  scaleRef:
+    kind: ReplicationController
+    name: test-server
+    subresource: scale
+  # These values are very much made up.
+  minReplicas: 1
+  maxReplicas: 10
+  cpuUtilization:
+    targetPercentage: 70

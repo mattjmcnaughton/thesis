@@ -1,0 +1,23 @@
+Additionally, we need a method for configuring
+\textit{test-server} to incorporate the different variables that we wish to
+test. Specifically, we need a way to ensure that \textit{test-server} can be run
+on a Kubernetes cluster utilizing a variety of different methods for scaling,
+and also that we can control the amount of time it takes for a pod to
+initialize. In addition, we need \textit{test-server} to know the exact values
+of its independent variables so that it can record them to the database,
+ensuring all data is properly labelled. Our \textit{test-server} application
+reads all of these dynamic values from Unix \textit{environment} variables.
+
+It is possible to utilize Kubernete's configuration language to work with this
+method of controlling independent variable values through environment variables.
+We place our containerized \textit{test-server} application within a pod, and
+Kubernetes allows the specification of environment variables within a pod. The
+only issue is that these environment variables in the pod configuration file
+must be static. We solve this issue by creating a template of our pod
+configuration file, with indications of the dynamic environment variables. We
+can then run a custom python that reads in configuration values, and creates
+distinct configuration files incorporating each of these values. Thus, each
+different file specifies a different pod configuration. Utilizing the proper
+set of independent variables for a pod is as simple as creating a pod from the
+correct configuration file. This entire process has been automated, meaning this
+implementation detail has been largely abstracted.

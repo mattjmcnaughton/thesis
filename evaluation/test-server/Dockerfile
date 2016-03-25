@@ -25,7 +25,9 @@ RUN godep restore
 # Build the app.
 RUN godep go install
 
-# Expose the port on which we serve the app.
+# Expose the port on which we serve the app - we use 80 for production and 3000
+# for development.
+EXPOSE 80
 EXPOSE 3000
 
 # Run the app (when using docker-compose in dev mode, this will be overwritten
