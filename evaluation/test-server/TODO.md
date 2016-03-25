@@ -13,7 +13,7 @@ A very high level list of tasks todo.
 - [X] Write description of this test-server (particularly the HTTP endpoints),
   but also how it is run, and what it does, in the evaluation section of the
   thesis. Perhaps include small segments of the code as well.
-- [ ] Determine how to configure the different versions of the container based
+- [X] Determine how to configure the different versions of the container based
   on the scaling method being used (likely ENV variables).
-- [ ] Add service for balancing requests across the replica pods.
-- [ ] Deploy to Kubernetes for evaluation.
+- [X] Add service for balancing requests across the replica pods.
+- [X] Deploy to Kubernetes for evaluation.

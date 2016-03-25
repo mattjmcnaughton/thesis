@@ -1,13 +1,3 @@
-#
-# @TODO This is not a working `yaml` file. It is just ideas for how the hpa for
-# the test server will work. Since the prediction option is set using
-# `annotate`, this `yaml` file can be used for both predictive and reactive
-# autoscaling.
-#
-# The following file is used as a guide:
-# http://kubernetes.io/docs/user-guide/horizontal-pod-autoscaling/hpa-php-apache.yaml
-#
-
 apiVersion: extensions/v1beta1
 kind: HorizontalPodAutoscaler
 metadata:

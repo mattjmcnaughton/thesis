@@ -1,25 +1,18 @@
-#
-# @TODO: Warning, this is not a sufficient `.yaml` file for creating a
-# replication controller for the pods. It is just a sample containing some
-# ideas.
-#
-# The following files are used as a guide:
-# - https://raw.githubusercontent.com/kubernetes/kubernetes/master/examples/guestbook/frontend-controller.yaml
-# - http://kubernetes.io/docs/user-guide/production-pods/#liveness-and-readiness-probes-aka-health-checks
-# - http://kubernetes.io/docs/user-guide/compute-resources/#how-pods-with-resource-limits-are-run
-#
-#
-
 apiVersion: v1
 kind: ReplicationController
 metadata:
   name: test-server
+  labels:
+    app: test-server
 spec:
   # The default number of replicas.
   replicas: 1
+  selector:
+    app: test-server
   template:
     metadata:
       labels:
+        app: test-server
         scaling-method: {{ autoscaling_method }}
         initialization_time: {{ pod_initialization_time }}
     spec:
@@ -55,13 +48,19 @@ spec:
         # The following variables are all stored in `secret-config.json` and
         # should be kept secret - hence the `generated/` dir is not checked into
         # version control.
-        - name: DATABASE_NAME:
+        - name: DATABASE_NAME
           value: {{ database_name }}
-        - name: DATABASE_ADDRESS:
+        - name: DATABASE_ADDRESS
           value: {{ database_address }}
-        - name: DATABASE_USERNAME:
+        - name: DATABASE_USERNAME
           value: {{ database_username }}
-        - name: DATABASE_PASSWORD:
+        - name: DATABASE_PASSWORD
           value: {{ database_password }}
+        # Need to set a PORT environment variable to tell the application to use
+        # the production port 80, instead of the development port 3000. Need to
+        # add quotes to force it to be a string.
+        - name: PORT
+          value: "80"
         ports:
-        - containerPort: 80
+        - name: http-server
+          containerPort: 80

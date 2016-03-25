@@ -36,8 +36,10 @@ Before beginning we need:
     - `export KUBERNETES_PROVIDER=aws; cluster/kube-up.sh`
   - Kubectl will already be configured to work, so can just run `kubectl`.
 
-## Deploying pods to k8s
+## Deploying k8s objects to k8s
 
+- To deploy a replication controller/service/hpa, use `kubectl create -f
+  YAML_NAME`
 - Deploy a load balancing service - to get the IP for that service, do...
   - `kubectl describe svc SERVICENAME`
     - The `LoadBalancer Ingress` value is where we want to send requests (being

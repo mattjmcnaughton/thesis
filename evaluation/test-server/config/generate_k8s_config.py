@@ -158,7 +158,7 @@ def generate_stable_files():
     """
     src_dst_hash = {
         "sample-hpa-test-server.yaml": "hpa-test-server.yaml",
-        "sample-test-server-service.yaml": "hpa-test-service.yaml"}
+        "sample-test-server-service.yaml": "test-server-service.yaml"}
 
     for src, dst in src_dst_hash.iteritems():
         src_file_name = "{0}/{1}".format(_get_file_dir(), src)

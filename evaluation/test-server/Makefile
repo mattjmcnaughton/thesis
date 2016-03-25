@@ -98,4 +98,4 @@ push: build
 # calculation on the local host is necessary because we are not confident the
 # Docker container will have either Git nor access to the `.git` directory.
 generate_k8s_config:
-	docker run --rm -i -v $(shell pwd)/config:/config pinterb/jinja2:0.0.15 python /config/generate_k8s_config.py `git rev-parse HEAD`
+	docker run --rm -i -v $(shell pwd)/config:/config mattjmcnaughton/thesis-python:latest python /config/generate_k8s_config.py $(shell git rev-parse HEAD)
