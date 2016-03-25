@@ -1,7 +1,24 @@
-\subsection{Traffic Request Pattern}
-
-\input{chapters/evaluation/independent-variables/traffic-request-pattern}
+We examine two independent variables, traffic request pattern and pod
+initialization time, with respect to the different scaling types' performance.
+In other words, for under-, average-, and over-static, reactive, and predictive
+auto-scaling, we examine the impacts of varying the request pattern of traffic
+to our testing application and the impacts of differing pod initialization
+times. This allows us to determine under what combinations of traffic request
+patterns and pod initialization time predictive auto-scaling is most effective,
+and also under what combinations it is the least effective. Furthermore, because
+we utilize the same independent variables for all of the different scaling
+types, and because these independent variables are relevant to all scaling
+types, we can make comparisons across the scaling types. For example, we could
+determine that predictive auto-scaling outperforms reactive auto-scaling most
+when pod initialization time is lengthy and the traffic pattern is a simple
+linear slope, but predictive auto-scaling exhibits very little difference from
+reactive auto-scaling when pod initialization time is very small and we see a
+\textit{flash crowd} traffic pattern.
 
 \subsection{Pod Initialization Time}
 
 \input{chapters/evaluation/independent-variables/pod-initialization-time}
+
+\subsection{Traffic Request Pattern}
+
+\input{chapters/evaluation/independent-variables/traffic-request-pattern}
