@@ -60,6 +60,9 @@ initialization times.
 
 #### Predictive auto-scaling specific
 
+@TODO The evaluation of these variables will likely be left for future work,
+unless I have an unexpectedly large amount of extra time at the end.
+
 - Method of predicting future resource utilization
 - Threshold levels
 

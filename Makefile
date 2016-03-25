@@ -7,7 +7,7 @@ LATEX = pdflatex -shell-escape
 BIBTEX = bibtex
 PDFLATEX = pdflatex -shell-escape
 
-THESIS_DIR = thesis
+THESIS_DIR = writing
 PROPOSAL_DIR = proposal
 
 THESIS_FILE = thesis.tex
