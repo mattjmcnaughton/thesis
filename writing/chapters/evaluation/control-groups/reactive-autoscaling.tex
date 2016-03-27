@@ -18,11 +18,11 @@ percentage to consistently stay within a small range of the value the user
 specified. For example, if the user instructed the auto-scaler to auto-scale
 such that all pods utilized 70\% of available CPU, and the range was $\pm 2$,
 then we would expect CPU utilization, and thus efficient resource utilization,
-to stay within $68 - 72$ CPU utilization percentage.
+to stay within a constant range.
 However, our justification for introducing prediction
 the horizontal pod auto-scaling is an understanding that replica pods will not
-always immediately initialize. In the times in which we are waiting for our pods
-to initialize, we can expect CPU utilization to derivate from the expected
-range. Establishing reactive horizontal pod auto-scaling as a contrl group
+always immediately initialize. During this delay while pods' initialize, we expect to see
+a decrease in quality of service.
+Establishing reactive horizontal pod auto-scaling as a control group
 assists us in determining whether the addition of prediction improves upon what
 existed in Kubernetes before this thesis began.

@@ -78,11 +78,7 @@ request\/limit is the summation of the resource request\/limit for all of its
 containers. Setting a container's, or pod's, resource request equal to its
 resource limit essentially guarantees that the existence of a pod represents the
 claiming and utilization of a static amount of resources
-\cite{k8s-compute-resources}.
-
-Ensuring static provisioning is utilizing a consistent amount of resources
-allows the calculation of CPU utilization percentage for statically created
-pods. We can then divide the CPU usage of the containers within the pod
-by the amount of CPU the pod reserved to get CPU utilization percentage. This
-calculation supports an anlysis of efficient resource utilization even when
-statically provisioning.
+\cite{k8s-compute-resources}. Ensuring static provisioning
+is reserving a consistent amount of resources
+allows us to still examine idle CPU percentage, our way of investigating
+efficient resource utializaiton.
