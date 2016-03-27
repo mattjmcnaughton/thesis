@@ -48,7 +48,7 @@ def clean_generated_directory():
     Delete all of the files in GENERATED_DIR before generating the new config
     files.
     """
-    files_to_del = glob.glob("./{0}/*".format(GENERATED_DIR))
+    files_to_del = glob.glob("{0}/{1}/*".format(_get_file_dir(), GENERATED_DIR))
 
     for del_file in files_to_del:
         os.remove(del_file)
