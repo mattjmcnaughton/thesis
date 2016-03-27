@@ -4,18 +4,23 @@ the cluster manager. For example, editing a text file in Vim on a super computer
 would be terrible efficient resource utilization, while running a web browser on
 a laptop is proper efficient resource utilization. In the context of Kubernetes,
 an application with poor efficient resource utilization would be a web server
-that uses ten replica pods, each reserving considerable resources,
+that uses many replica pods, each reserving considerable resources,
 to serve a very low volume of web requests.
 
+@TODO We will just have to make it clear that if we are using Idle CPU
+percentage of measure efficient resource utilization, than the lower the value,
+the better the efficient resource utilization.
+
 Specifically, we measure efficient resource utilization with respect to
-Kubernetes through examining the amount of CPU that the application currently uses in
-comparison to the amount of CPU that the application reserves. We define the
-amount of CPU that an application reserves as the summation of the CPU that all
-replica pods reserve. The amount of CPU that a pod reserves is the summation of
+Kubernetes through examining the percentage of idle CPU.
+The amount of CPU that a pod reserves is the summation of
 all resources that containers within the pod reserve
-\cite{k8s-compute-resources}. Our specific metric for efficient resource
-utilization will be measured in percentage of CPU and we name it \textit{CPU
-utilization}.
+\cite{k8s-compute-resources}. If our application is only using a small amount of
+that reserved CPU to run, than a large amount of CPU will be left idle. The
+larger the percentage of CPU that is left idle, the worse the efficient resource
+utilization, as many resources are just sitting. Our specific metric for efficient resource
+utilization will be measured in percentage of CPU that is idle and we name it
+\textit{Idle CPU}.
 
 The efficient resource utilization metric has direct links to the costs of
 running applications on a cluster manager. If applications are given resources

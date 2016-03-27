@@ -15,17 +15,17 @@ endpoints, ``/" and "/ready".
     send GET requests to the endpoint at ``\/", also known as the \textit{Load} endpoint.
     This endpoint has two functions. First, it must perform a task that is
     somewhat CPU intensive so as our application uses enough CPU that
-    auto-scaling may be triggered. Second, it must record its CPU utilization
-    percentage and an estimation of request response time as measures of
+    auto-scaling may be triggered. Second, it must record the percent of idle CPU
+    and an estimation of request response time as measures of
     efficient resource utilization and quality of service respectively. The
     function assigned to handle the GET request accomplishes these tasks as
     follows. Upon receiving a GET request to this endpoint, the handler function
-    records the start time of the function as well as the amount of CPU clock
-    already used by this process. It then executes a computationally intensive
+    records the start time of the function and records the starting percentage
+    of CPU that is idle. It then executes a computationally intensive
     task, which we define as repeatedly encrypting a passphrase. Once this task
-    is over, we once again record the time and CPU clock used by the process.
-    Having these two values allows us to calculate the CPU utilization
-    percentage and function exeuction time, which function as measurements of
+    is over, we once again record the time and the percentage of idle CPU.
+    Having these two values allows us to calculate average amount of idle CPU
+    and function exeuction time, which function as measurements of
     efficient resource utilization and quality of service. The function then
     records these values as a new point in the database, along with a
     an indicator of the values of independent variables in place for this trial
