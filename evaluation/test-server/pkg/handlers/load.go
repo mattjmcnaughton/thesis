@@ -1,15 +1,13 @@
 package handlers
 
 import (
-	//#include <time.h>
-	"C"
-
 	"encoding/json"
 	"github.com/mattjmcnaughton/test-server/pkg/database"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
-	"runtime"
 	"time"
+
+	linuxproc "github.com/c9s/goprocinfo/linux"
 )
 
 // LoadHandler is the handler for the request to "/". It is to this api endpoint
@@ -19,8 +17,14 @@ import (
 // the pod and some metric measuring of quality of service, such as how long it
 // took the pod to perform the previous computation.
 func LoadHandler(w http.ResponseWriter, r *http.Request) {
-	eru, qos := profileFunction(costIntensiveTask)
-	err := database.WriteMetrics(eru, qos)
+	eru, qos, err := profileFunction(costIntensiveTask)
+
+	if err != nil {
+		w.WriteHeader(500)
+		w.Write([]byte(err.Error()))
+	}
+
+	err = database.WriteMetrics(eru, qos)
 
 	if err != nil {
 		w.WriteHeader(500)
@@ -45,40 +49,70 @@ func LoadHandler(w http.ResponseWriter, r *http.Request) {
 // profileFunction is a helper method that takes a function and runs it,
 // while measuring the percent of CPU the processes uses while executing and the
 // amount of time it takes to execute.
-// @TODO It would be great if there was a way to measure CPU usage that didn't
-// require running C code from golang.
-func profileFunction(measureFunc func()) (eru float64, qos float64) {
+//
+// We measure ERU by recording the percent of idle CPU time. So if efficient
+// resource utilization is doing well, then we want this value to be low.
+func profileFunction(measureFunc func()) (eru float64, qos float64, err error) {
+	initIdlePercent, err := idleCPUPercent()
+	if err != nil {
+		return 0.0, 0.0, err
+	}
+
 	initTime := time.Now()
-	initTicks := C.clock()
 
 	measureFunc()
 
-	diffTime := time.Since(initTime)
-	diffTicks := float64(C.clock()-initTicks) / float64(C.CLOCKS_PER_SEC)
+	endIdlePercent, err := idleCPUPercent()
+	if err != nil {
+		return 0.0, 0.0, err
+	}
 
+	diffTime := time.Since(initTime)
+
+	avgIdleCPUPercent := (initIdlePercent + endIdlePercent) / 2.0
 	funcExecTime := diffTime.Seconds()
 
-	// @TODO Does CPU percentage have to be divided by cores?
-	totalCPUTime := funcExecTime * float64(runtime.NumCPU())
-	cpuUsagePercentage := (diffTicks / totalCPUTime) * 100.0
-
-	return cpuUsagePercentage, funcExecTime
+	return avgIdleCPUPercent, funcExecTime, nil
 }
 
 // costIntensiveTask is a useless task that is just required to take up CPU. We
 // run it while so that the number of requests will have some kind of influence
 // on the amount of pods needed.
 func costIntensiveTask() {
-	numPasswordsToGenerate := 100
+	numPasswordsToGenerate := 15
 	password := []byte("StartPassword")
 	var err error
 
 	for i := 0; i < numPasswordsToGenerate; i++ {
 		password, err = bcrypt.GenerateFromPassword([]byte(password),
-			bcrypt.MinCost)
+			bcrypt.DefaultCost)
 
 		if err != nil {
 			password = []byte("DefaultPassword")
 		}
 	}
+}
+
+// idleCPUPercent is a helper function to return the current percentage of CPU
+// that is idle.
+func idleCPUPercent() (float64, error) {
+	// The use of `/proc/stat` assumes we are running on Linux, which is a
+	// safe assumption to make.
+	statFile := "/proc/stat"
+	stat, err := linuxproc.ReadStat(statFile)
+	if err != nil {
+		return -1, err
+	}
+
+	allStat := stat.CPUStatAll
+
+	// @TODO Are these the only ones I need to calculate total CPU?
+	// There are the options -
+	// https://godoc.org/github.com/c9s/goprocinfo/linux#CPUStat
+	totalCPU := allStat.User + allStat.Nice + allStat.System + allStat.Idle +
+		allStat.IOWait + allStat.IRQ + allStat.Guest
+
+	percentIdle := float64(allStat.Idle) / float64(totalCPU)
+
+	return percentIdle, nil
 }
