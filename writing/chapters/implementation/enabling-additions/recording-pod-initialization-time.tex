@@ -44,33 +44,33 @@ results in the pod initialization time we desire. However, while Kubernetes
 records the time at which the pod first came into existence as
 \textit{pod.CreationTimestamp}, it does not record the time at which the
 readiness probe first returned \textit{Success}. Fortunately, Kubernetes pods
-emit events whenever their state changes. As such, the following algorithm
-records the initialization time for pods controlled by the auto-scaler.
+record their current state and all states in which they have been, and the time
+at which they assumed said states. As such, the following algorithm
+calculates the average initialization time for all pods controlled by the auto-scaler.
 
-%% @TODO Should this be a code snippet with minted?
 \begin{itemize}
-  \item Watch all of the pods controlled by the auto-scaler for a modification in
-    their state.
-  \item If a pod has been modified, and its new status is \textit{Ready}, and
-    it has not already had its \textit{InitializationTime} recorded.
-  \item Then subtract the \textit{CreationTimestamp} from the
-    \textit{LastTransitionTime} and record this value as
-    \textit{InitializationTime}.
+  \item For all pods controlled by the auto-scaler.
+  \item If the pod was ever in the ready state, find the first time that
+    occurred. If the pod has never been in the ready state, skip this pod.
+  \item If a \textit{InitializationTime} value has not already been recorded for
+    this pod, then subtract the \textit{CreationTime} from the time at which the
+    pod entered the ready phase, and record this time as
+    \textit{PodInitializationTime}
+  \item Add the value for \textit{InitializationTime} to
+    \textit{TotalInitializaitonTime}.
+  \item Divide \textit{TotalInitializationTime} by the total number of pods that
+    have been ready at some point.
 \end{itemize}
 
 This algortihm allows us to record the initialization time for each pod
-controlled by the auto-scaler.\footnote{We record the value in the
-  \textit{Annotations} map for each pod, which is basically a map for writing
+controlled by the auto-scaler, as well as calculate the average pod
+initialization time for all pods controlled by this auto-scaler.\footnote{We
+record the value in the \textit{Annotations} map for each pod,
+which is basically a map for writing
 values that are not necessarily in the Pod API object. If predictive
 auto-scaling becomes particularly popular, \textit{InitializationTime} may be
 included as a field in the Pod API object, although making such a change would
-be a fairly substantial process.} However, for predictive auto-scaling, we need
-the average pod initialization time across all pods belonging to a single
-auto-scaler. Our algorithm for calculating this average is simple: we retrieve
-each current pod created by the auto-scaler, sum its \textit{InitializationTime}, and
-then divide by the total number of current pods created by the auto-scaler.
-
-% @TODO Verify that list returns only the currently running pods. Is that ok?
+be a fairly substantial process.}
 
 At this point, all recorded initialization time values factor into the average.
 This inclusion could lead to a problem with extreme outliers drastically
