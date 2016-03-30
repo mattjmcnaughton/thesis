@@ -28,41 +28,39 @@ all pods controlled by this auto-scaler object. This last field, entitled
 \textit{CurrentCPUUtilizationPercentage}, provides part of the information
 needed to estimate the average derivative of CPU utilization
 percentage \cite{k8s-horizontal-pod-autoscaler-object}.
-However, to make any estimation, we need to know at least one previous average
-CPU utilization percentage value and the time at which said value was
-observed.
+However, to make any decent estimation, we need to know at the previous CPU
+utilization percentages at least as far into the past as we wish to predict into
+the future.
 
-Thus, we add a new field to the \textit{HorizontalPodAutoscalerStatus} object
-entitled \textit{PreviousCPUUtilizationPercentage}. It is identical to the
-\textit{CurrentCPUUtilizationPercentage} field with respect to integer type, yet
-differs in that it \textit{PreviousCPUUtilizationPercentage} represents the
-average CPU utilization percentage value at the previous observation time.
-Already Kubernetes implements code that updates the
-\textit{HorizontalPodAutoscalerStatus} object at a set duration interval. Our
-addition modifies the current code such that during this update, before the value of
-\textit{CurrentCPUUtilizationPercentage} is updated with the new value,
-\textit{CurrentCPUUtilizationPercentage} is copied to
-\textit{PreviousCPUUtilizationPercentage}. In other words, at time
-$t_{i}$, the \textit{HorizontalPodAutoscalerStatus} object will have access to
-CPU utilization percentage values for $t_{i}$ and $t_{i - 1}$. Given that the
-interval between these observational values is constant, we now have all of the
-information necessary to estimate the derivative of CPU utilization percentage
-in the previously described manner.
+Thus, we start tracking a new field entitled
+\textit{PreviousCPUUtilizationPercentages}. This field is a list of average previous CPU
+utilization percentages in integer form. Fortunately, Kubernetes already
+implements code that updates the \textit{CurrentCPUUtilizationPercentage} value
+at a set duration interval. We modify the code such that everytime a new
+\textit{CurrentCPUUtilizationPercentage} is recorded, we add onto the queue of
+\textit{PreviousCPUUtilizationPercentages}. We implement our queue such that it
+is of a fixed length, and newer utilization percentage readings bump older ones
+from the queue should we exceed the total number of observations we feel we need
+to keep to be able to make accurate predictions about the future. In other words, at time
+$t_{j}$, the \textit{HorizontalPodAutoscaler} object will have access to
+CPU utilization percentage values from $t_{i}$ to $t_{j}$, where $t_{i}$ is the
+first observation recorded after $t_{i} - (p * c)$, where $p$ is the
+amount of time it takes an
+average pod being run by this auto-scaler to initialize,\footnote{The
+amount of time it takes an
+average pod being run by this auto-scaler to initialize is how far into the
+future we seek to predict the state of the cluster.} and $c$ is a constant
+multiplier.\footnote{In our current implementation, $c$ has a value of
+$1$, indicating that we will predict based on past data equal in distance from
+the current time as the point in the future at which we wish to predict.}
+In our queue, we additionally record the time at which previous CPU utilization
+observation was taken, meaning that we can easily find a simple line of best fit
+for the graph in which time is the independent variable and CPU utilization is
+the dependent variable. Extrapolating with this line of best fit allows us to
+predict the future CPU utilization of our pods.
 
-%% @TODO Should I just go ahead and implement it with a queue?
-
-While not immediately pursued in this implementation, the derivative of average
-CPU utilization percentage could perhaps be estimated with greater accuracy if
-more previous values were recorded. For example,
-\textit{PreviousCPUUtilizationPercentage} could be renamed
-\textit{PreviousCPUUtilizationPercentages} and instead of being a single integer
-value, it could be a queue containing integers. The queue would have some set
-size, $n$, and if the queue was full, the least recent observation would be
-removed. The use of a queue data structure would support calculating the
-derivative based on CPU utilization percentage values for times $t_{i} \cdots
-t_{i - n}$. Ultimately, for concerns of initial simplicity, this method was not
-pursued, but it is interesting to consider if it would result in a more accurage
-prediction of future resource usage.
+@TODO Describe in detail the algorithm we use to calculate the line of best fit,
+and why that is important for prediction.
 
 The success of predictive auto-scaling in Kubernetes depends on greatly on the
 accuracy of future predictions of resource utilization. The accuracy of the
