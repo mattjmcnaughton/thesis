@@ -5,8 +5,8 @@ could be applied to other resources without the loss of generality.
 To begin, it requires the definition of
 three variables. Let \textit{TargetNumOfPods} be defined as the number of
 replica pods which should exist. The replication controller will be responsible
-for ensuring these pods exist. Let \textit{SumCurrentPodsCPUUtilization} be the
-summation of the CPU utilization percentage for all the currently existing
+for ensuring these pods exist. Let \textit{SumCurrentPodsCPUUtilization} be
+found by multiplying the average pod CPU utilization by the current number of
 replica pods. Finally, let \textit{TargetCPUUtilization} be the desired level of
 per pod CPU utilization percentage as specified by the user when they created
 the autoscaler. The algorithm can now be written as follows:

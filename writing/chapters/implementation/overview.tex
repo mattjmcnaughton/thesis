@@ -1,0 +1,11 @@
+In all, we have added predictive auto-scaling to Kubernetes, as well as a
+creating infrastructure to make this addition possible. We added calculation of
+the average pod initialization time as well as storing previous measurements of
+CPU utilization and the time at which they occurred. These two pieces of
+information allowed us to create a linear line of best fit which we used to
+predict the future CPU utilization, and thus predict the number of replica pods
+we would need in the future. In short, it allowed us to predictively auto-scale.
+Finally, we specified a mechanism for turning predictive auto-scaling on and
+off. Our version of Kubernetes, with predictive auto-scaling operational, can be
+deployed to Amazon Web Services or Google Cloud just like any other Kubernetes
+version.
