@@ -1,0 +1,66 @@
+Now that we have methods for calculate the average pod initilization time and
+keep records of previous average CPU utilizations, we can now auto-scale
+predictively. To do so, we must add an alternative branch of execution to the
+current method of reactive auto-scaling.
+
+With reactive auto-scaling, Kubernetes calculates the average current CPU utilization
+across all pods and divides this number by the target CPU utilization
+percentage to obtain the \textit{UsageRatio}. This usage ratio is then multipled
+by the current number of replica pods, resulting in the desired number of
+replica pods. A similar process occurs through predictive auto-scaling, with one
+significant change. Instead of calculating the average current CPU utilization,
+we seek to calculate the average predicted CPU utilization at
+\textit{PodInitializationTime} into the future. Given this value, we again
+calculate \textit{UsageRatio} and multiply that value by the current number of
+replica pods to give us the target number of replica pods.
+
+Thus, the final step to implementing predictive auto-scaling is calculating
+average predicted CPU utilization. There are a variety of different methods that
+we could use for making this prediction, but for our initial experiments, we
+choose the simplest method of generating a linear line of best fit for a
+plotting of \textit{Time}, $x$, as the independent variable and
+\textit{CPUUtilization}, $y$ as the dependent variable. As the points on our plot, we
+use all of our previous CPU utilization measurements and the current CPU
+utilization measurement, with \textit{Time}
+recorded as Unix seconds\footnote{Unix seconds are the number of seconds from a
+specific date in 1970} and CPU utilization recorded as a average percent CPU
+utilization. Given these separate lists of $x$ and $y$ values, we can now find a
+line of best fit. We define the line of best fit as the line minimizing the
+squares of any derivations between predicted and actual average CPU utilization.
+We calculate the slope of this line, $b$, with the following equation:
+
+\[ b = \frac{Cov_{xy}}{Var_{x}}\]
+
+$Cov_{xy}$ is a measure of how \textit{Time} and \textit{CPUUtilization} vary
+with respect to each other, while $Var_{{x}}$ is a measure of the squared standard
+deviation of all the different \textit{Time} values from the mean \textit{Time}
+measurement.
+
+Additionally, it has been proven that a linear line of best fit calculated in
+this manner will pass through the sample mean of \textit{Time} and
+\textit{CPUUtiization} respectively. Thus, we can calculate the y-intercept of
+our line of best fit, $a$, by subtracting $b * \overline{x}$ from $\overline{y}$. With
+these follows, we have a linear line of best fit, which we can use to make
+simple predictions about future CPU utilization \cite{line-of-best-fit}.
+
+Our final step is to get a \textit{Time} value to plug into this line of best
+fit to receive a future prediction. As we want to predict
+\textit{PodInitializationTime} into the future, we simply add
+\textit{PodInitializationTime}, measured in seconds, to the current time, for a
+new value $t_{p}$. By calculating $a + b * t_{p}$, we have a prediction of the
+future average CPU utilization. As mentioned previously, given this prediction,
+we can now plug it in as if it was the current CPU utilization, and proceed with
+the typical reactive method of auto-scaling.
+
+@TODO Get a better source to cite than the Radford article.
+
+Naturally, our method here is making a considerable assumption that a linear
+line of best fit can accurately model CPU utilization and also the amount of
+time we attempt to extrapolate when making our prediction is not too extreme.
+Our evaluation section will help us how concerned we should be about these
+potentially challenging aspects. Fortunately, should a linear line of best fit
+not prove to be a suitable first attempt, our implementation is designed such
+that it would be easy to examine a number of alternative modelling solutions,
+such as quadratic, exponential, or logarithmic lines of best fits. It would even
+be possible to try all the different modelling options, and ultimately select
+the one that had proven itself most accurate.
