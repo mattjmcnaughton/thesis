@@ -6,28 +6,27 @@ reactive horizontal pod auto-scaling algorithm appear again. Again, let
 \textit{TargetNumOfPods} defined as the number of replica pods which should
 exist and let \textit{TargetCPUUtilization} be the desired level of per pod CPU
 utilization percentage that the used specified when the autoscaler was created.
-As new variables, let \textit{CurrentPodCPUUtilization} be the CPU utilization
-percentage for a single pod and let \textit{CurrentPodCPUUtilizationDerivative}
-be the derivative of the CPU utilization for each pod. As in the previous section,
-let \textit{PodInitializationTime} be equal
-to the average amount of time it takes for replica pod to initialize,
-where initialized is defined as being ready to share in the work the
-service balances across the replica pods.\footnote{It is assumed that
-\textit{PodInitializationTime} and \textit{CurrentPodCPUUtilizationDerivative}
-utilize the same measurements of time.} It is then possible to calculate
-\textit{FuturePodCPUUtialization}, a single pod's predicted CPU utilization
-percentage after \textit{PodInitializationTime} with the following
-equation:\footnote{This equation makes assumptions about a linear progression of
-CPU utilization percentage of pods. While this seems like a safe initial
-assumption, it remains an area for future experimentation.}
+Let the function \textit{LineBestFit} be a line of best fit calculated
+to fit a plotting of observation time, $x$, and previous CPU utilization
+$y$.\footnote{We will discuss the method for calculating this line of best fit
+in the implementation section} Finally, let
+\textit{PredictionTime}, $t$, be the time in the future for
+which we seek to predict the \textit{FutureCPUUtilization}. We calculate
+\textit{PredictionTime} as follows:
 
 \begin{align*}
-  \mbox{FuturePodCPUUtiliazation} = \mbox{CurrentPodCPUUtilization } + \\
-  \mbox{(PodInitializationTime * CurrentPodCPUUtilizationDerivative)}
+  \mbox{PredictionTime} = \mbox{CurrentTime} + \mbox{{PodInitializationTime}}
 \end{align*}
 
-The variable \textit{SumFuturePodsCPUUtilization} can be defined as the
-summation of all of the \textit{FuturePodCPUUtilization} values for each pod.
+We then use \textit{PredictionTime} and the \textit{LineOfBestFit} function to
+calculate \textit{FutureCPUUtilization} as follows:
+
+\begin{align*}
+  \mbox{FutureCPUUtilization} = \mbox{LineOfBestFit(PredictionTime)}
+\end{align*}
+
+The variable \textit{SumFuturePodsCPUUtilization} can be defined by multiplying
+\textit{FuturePodCPUUtilization} by the current number of replica pods.
 With these variables defined, it is possible to calculate
 \textit{TargetNumOfPods} as follows:
 

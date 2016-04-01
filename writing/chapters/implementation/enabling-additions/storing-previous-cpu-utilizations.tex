@@ -2,19 +2,11 @@ The addition to record pod initialization time described in the
 previous section tell us how far into the future
 we want to predict the resource usage of the application. However, we still need
 a method of predicting the resource usage of the application at this point in
-time.
-
-To start, we implement a simple method of linear prediction. Given the usage of
-percent CPU utilization as the metric dictating when auto-scaling occurs, we
-predict the future resource utilization of the cluster by first estimating the
-derivative of average percent CPU utilization for all pods, and then adding the
-derivative multipled by the average pod initialization time to the average current CPU
-utilization percentage for all pod. Assuming a generally linear variation in CPU
-utilization percentage, the result of this calculation will be the average resource
-utilization of the pods after the interval of pod initialization time.
+time. To make this prediction of future CPU utilization values,
+we need to store multiple previous CPU utilization values.
 
 It is necessary to make a couple of changes to the Kubernetes code base in order
-to faciliatate the calculation of resource utilization's derivative. To start,
+to faciliatate this additional storage. To start,
 consider the contents of a \textit{HorizontalPodAutoscaler} object, which is
 just an Kubernetes api object representing an auto-scaler. This object contains
 two objects entitled \textit{HorizontalPodAutoscalerSpec} and
@@ -26,7 +18,7 @@ contained fields for the current and desired number of replicas, the last time
 at which scaling occured, and the current average CPU utilization percentage for
 all pods controlled by this auto-scaler object. This last field, entitled
 \textit{CurrentCPUUtilizationPercentage}, provides part of the information
-needed to estimate the average derivative of CPU utilization
+needed to estimate the predict the future CPU utilization
 percentage \cite{k8s-horizontal-pod-autoscaler-object}.
 However, to make any decent estimation, we need to know at the previous CPU
 utilization percentages at least as far into the past as we wish to predict into
@@ -58,11 +50,3 @@ observation was taken, meaning that we can easily find a simple line of best fit
 for the graph in which time is the independent variable and CPU utilization is
 the dependent variable. Extrapolating with this line of best fit allows us to
 predict the future CPU utilization of our pods.
-
-@TODO Describe in detail the algorithm we use to calculate the line of best fit,
-and why that is important for prediction.
-
-The success of predictive auto-scaling in Kubernetes depends on greatly on the
-accuracy of future predictions of resource utilization. The accuracy of the
-linear prediction mechanism described here will be examined in the evaluation
-section, as well as the accuracy of other slight variations.
