@@ -21,12 +21,11 @@ spec:
         # Because we aren't versioning the traffic-generator, make sure that we
         # are always pulling the latest pod verison.
         imagePullPolicy: Always
-        # @TODO Update this with values that I think make sense.
         resources:
           requests:
-            cpu: 500m
+            cpu: 100m
           limits:
-            cpu: 500m
+            cpu: 100m
         env:
           # Use `TEST_PLAN` env variable to control what test_plan is being run.
         - name: TEST_PLAN
