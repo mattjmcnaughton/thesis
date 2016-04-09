@@ -16,6 +16,9 @@ DOCKER_QUERY = label=project=test-server
 # A query for all relevant containers created through `docker-compose`.
 CONTAINERS_QUERY := `docker ps -a -q -f $(DOCKER_QUERY)`
 
+# The path in which k8s configuration files live.
+CONFIG_PATH = config/generated
+
 # Force docker-compose to rebuild the image.
 # This only needs to be run after updating the Dockerfile.
 #
@@ -99,3 +102,37 @@ push: build
 # Docker container will have either Git nor access to the `.git` directory.
 generate_k8s_config:
 	docker run --rm -i -v $(shell pwd)/config:/config mattjmcnaughton/thesis-python:latest python /config/generate_k8s_config.py $(shell git rev-parse HEAD)
+
+# Start all kubernetes objects needed for testing. It is necessary to specify
+# `TS_RC` as an environment file, as well as `HPA=TRUE` as
+# an environment variable if we wish to create a reactive auto-scaler.
+#
+# @TODO Is it possible to not use environment variables?
+# @TODO We will need a way of specifying if we are using predictive or reactive
+# auto-scaling.
+start_k8s_objects:
+	kubectl create -f $(CONFIG_PATH)/$(TS_RC) &&
+	kubectl create -f $(CONFIG_PATH)/test-server-service.yaml &&
+	ifeq ($(HPA), "TRUE")
+		kubectl create -f $(CONFIG_PATH)/hpa-test-server.yaml
+	endif
+
+# `make test_start`
+#
+# This command is responsible for running all parts of the k8s test that rely
+# upon `test-server`. It also includes ensures that the latest containers and
+# configuration files are being used.
+#
+# @TODO See `start_k8s_object` for a list of environment variables that must be
+# set.
+test_start: build push generate_k8s_config start_k8s_objects
+
+# Stop all rcs, svcs, and hpas running on k8s.
+stop_k8s_objects:
+	kubectl delete -f $(CONFIG_PATH)
+
+# `make test_stop`
+#
+# This function is responsible for stopping all parts of the k8s tests that rely
+# upon `test-server`.
+test_stop: stop_k8s_objects

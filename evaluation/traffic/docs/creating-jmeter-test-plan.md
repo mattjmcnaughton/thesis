@@ -13,12 +13,13 @@ generates traffic to `test-server`).
     throughput such that we need more threads - this can be calculated using
     this [method](http://jmeter-plugins.org/wiki/ThroughputShapingTimer/).
   - Do not modify `HTTP Request Defaults`, unless changing the `Server Name or
-    IP` field, which we may need to do if the k8s service/domain name has
-    changed.
-  - We should need to modify `HTTP Request`.
+    IP` field. Because we are using Kubernetes internal DNS, we will always
+    refer to our service by the same name, and thus this value should not need
+    to be updated.
+  - We should need not to modify `HTTP Request`.
   - Modify `Throughput Shaping Timer` with whatever pattern we are testing.
     **Currently the length of all tests is 60 minutes, and the largest amount of
-    requests per second we ever send is 1000** so do not deviate from these
+    requests per second we ever send is 500** so do not deviate from these
     values. @TODO Right now these constraints have little grounding, so come up
     with better ones or have a justification.
 - Save the plan in the `../test-plan` directory under the following convention

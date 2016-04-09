@@ -40,12 +40,21 @@ Before beginning we need:
 
 - To deploy a replication controller/service/hpa, use `kubectl create -f
   YAML_NAME`
-- Deploy a load balancing service - to get the IP for that service, do...
-  - `kubectl describe svc SERVICENAME`
+- Deploy a load balancing service - this service will be referred to by
+  `test-server.default.svc.cluster.local` according to the [DNS
+  guide](https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/dns)
+  - Alternatively, to get the IP for that service, do `kubectl describe svc SERVICENAME`
     - The `LoadBalancer Ingress` value is where we want to send requests (being
       sure to use the correct port).
 
 ## Automating
+
+- Currently, the process for running the tests is as follows:
+  - Make any updates the `test-server` and `traffic` applications/test-plans,
+    and then run `make build`, `make push`, and `make generate_k8s_config`.
+    - In `test-server/config/generated`, run `kubectl create -f RC`, `kubectl
+      create -f SVC`, and optionally `kubectl create -f HPA.
+    - In `traffic/config/generated`, run `kubectl create -f RC`.
 
 ## Tearing down Kubernetes
 

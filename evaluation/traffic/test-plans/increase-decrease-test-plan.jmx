@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="2.8" jmeter="2.13 r1665067">
   <hashTree>
-    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="sample-test-plan" enabled="true">
-      <stringProp name="TestPlan.comments">This is a sample test plan that can be used to generate the other patterns for traffic patterns.</stringProp>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="increase-decrease-test-plan" enabled="true">
+      <stringProp name="TestPlan.comments">increase-decrease is like ^</stringProp>
       <boolProp name="TestPlan.functional_mode">false</boolProp>
       <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
@@ -65,25 +65,15 @@
       </hashTree>
       <kg.apc.jmeter.timers.VariableThroughputTimer guiclass="kg.apc.jmeter.timers.VariableThroughputTimerGui" testclass="kg.apc.jmeter.timers.VariableThroughputTimer" testname="jp@gc - Throughput Shaping Timer" enabled="true">
         <collectionProp name="load_profile">
-          <collectionProp name="1817392502">
+          <collectionProp name="1781554284">
             <stringProp name="49">1</stringProp>
-            <stringProp name="1567">10</stringProp>
-            <stringProp name="60">60</stringProp>
+            <stringProp name="48625">100</stringProp>
+            <stringProp name="1515111">1800</stringProp>
           </collectionProp>
-          <collectionProp name="-719186528">
-            <stringProp name="1567">10</stringProp>
-            <stringProp name="49586">200</stringProp>
-            <stringProp name="1567">10</stringProp>
-          </collectionProp>
-          <collectionProp name="2145656096">
-            <stringProp name="49586">200</stringProp>
-            <stringProp name="1567">10</stringProp>
-            <stringProp name="1567">10</stringProp>
-          </collectionProp>
-          <collectionProp name="-2030794286">
-            <stringProp name="1567">10</stringProp>
+          <collectionProp name="-201158580">
+            <stringProp name="48625">100</stringProp>
             <stringProp name="49">1</stringProp>
-            <stringProp name="60">60</stringProp>
+            <stringProp name="1515111">1800</stringProp>
           </collectionProp>
         </collectionProp>
       </kg.apc.jmeter.timers.VariableThroughputTimer>
