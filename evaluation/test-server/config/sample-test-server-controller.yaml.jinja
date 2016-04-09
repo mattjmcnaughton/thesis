@@ -56,11 +56,15 @@ spec:
           value: {{ database_username }}
         - name: DATABASE_PASSWORD
           value: {{ database_password }}
+        - name: ROLLBAR_TOKEN
+          value: {{ rollbar_token }}
         # Need to set a PORT environment variable to tell the application to use
         # the production port 80, instead of the development port 3000. Need to
         # add quotes to force it to be a string.
         - name: PORT
           value: "80"
+        - name: TEST_SERVER_ENV
+          value: PRODUCTION
         ports:
         - name: http-server
           containerPort: 80

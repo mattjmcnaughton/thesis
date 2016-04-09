@@ -27,6 +27,10 @@
 			"Rev": "0703b85589d55e2ea6fcd42312a6d40e1cd46caa"
 		},
 		{
+			"ImportPath": "github.com/stvp/roll",
+			"Rev": "5a526501ee91574c9a06ed5ee5c2be0e22a8171d"
+		},
+		{
 			"ImportPath": "golang.org/x/crypto/bcrypt",
 			"Rev": "c84e1f8e3a7e322d497cd16c0e8a13c7e127baf3"
 		},

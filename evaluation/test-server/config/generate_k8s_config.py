@@ -117,6 +117,7 @@ def generate_unstable_files(config):
       commit hash for the latest git commit.
     - `database_[name|address|username|password]`: Strings representing the
       respective database configuration values for influxdb.
+    - `rollbar_token`: The token for recording errors to Rollbar.
     """
     rc_config_file = "{0}/{1}".format(_get_file_dir(),
                                       "sample-test-server-controller.yaml.jinja")
@@ -129,6 +130,7 @@ def generate_unstable_files(config):
     dba = config["database_address"]
     dbu = config["database_username"]
     dbp = config["database_password"]
+    rbt = config["rollbar_token"]
 
     for as_method in config["autoscaling_methods"]:
         for pit in config["pod_initialization_times"]:
@@ -142,7 +144,8 @@ def generate_unstable_files(config):
                                                                 database_name=dbn,
                                                                 database_address=dba,
                                                                 database_username=dbu,
-                                                                database_password=dbp)
+                                                                database_password=dbp,
+                                                                rollbar_token=rbt)
 
             with open(file_name, "w+") as new_config_file:
                 new_config_file.write(rendered_config_str)

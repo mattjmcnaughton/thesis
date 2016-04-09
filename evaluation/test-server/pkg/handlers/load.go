@@ -2,12 +2,30 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/mattjmcnaughton/test-server/pkg/database"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
+	"os"
 	"time"
 
+	"github.com/stvp/roll"
+
 	linuxproc "github.com/c9s/goprocinfo/linux"
+)
+
+const (
+	// RollbarTokenVariable is the name of the evironment variable that we
+	// use to store to Rollbar server-side access token.
+	RollbarTokenVariable = "ROLLBAR_TOKEN"
+
+	// EnvVariable is the name of the environment variable we use to
+	// indicate which environment we are running in.
+	EnvVariable = "TEST_SERVER_ENV"
+
+	// EnvProduction is the value for the os environment variable
+	// `TEST_SERVER_ENV` if running production mode.
+	EnvProduction = "PRODUCTION"
 )
 
 // LoadHandler is the handler for the request to "/". It is to this api endpoint
@@ -20,26 +38,24 @@ func LoadHandler(w http.ResponseWriter, r *http.Request) {
 	eru, qos, err := profileFunction(costIntensiveTask)
 
 	if err != nil {
-		w.WriteHeader(500)
-		w.Write([]byte(err.Error()))
-	}
-
-	err = database.WriteMetrics(eru, qos)
-
-	if err != nil {
-		w.WriteHeader(500)
-		w.Write([]byte(err.Error()))
+		handleError(err, w, r)
 	} else {
-		// Output the response as JSON.
-		w.WriteHeader(200)
+		err = database.WriteMetrics(eru, qos)
 
-		enc, err := json.Marshal(map[string]float64{
-			"eru": eru,
-			"qos": qos,
-		})
+		if err != nil {
+			handleError(err, w, r)
+		} else {
+			// Output the response as JSON.
+			w.WriteHeader(200)
 
-		if err == nil {
-			w.Write(enc)
+			enc, err := json.Marshal(map[string]float64{
+				"eru": eru,
+				"qos": qos,
+			})
+
+			if err == nil {
+				w.Write(enc)
+			}
 		}
 	}
 
@@ -115,4 +131,35 @@ func idleCPUPercent() (float64, error) {
 	percentIdle := float64(allStat.Idle) / float64(totalCPU)
 
 	return percentIdle, nil
+}
+
+// handleError is a helper function which, given an error during a http request,
+// writes 500 and the contents of the error, in addition to printing to log the
+// error, and recording it in rollbar.
+func handleError(err error, w http.ResponseWriter, r *http.Request) {
+	if inProduction() {
+		recordRollbar(err)
+	}
+
+	fmt.Printf("The following error occurred: %v", err.Error())
+
+	w.WriteHeader(500)
+	w.Write([]byte(err.Error()))
+}
+
+// inProduction checks if we are currently operating in production mode.
+// Production mode is set with `TEST_SERVER_ENV=PRODUCTION`
+func inProduction() bool {
+	return os.Getenv(EnvVariable) == EnvProduction
+}
+
+// recordRollbar records an error to the Rollbar aggregation service.
+func recordRollbar(err error) {
+	client := roll.New(os.Getenv(RollbarTokenVariable), EnvProduction)
+
+	_, rollbarErr := client.Error(err, map[string]string{})
+	if rollbarErr != nil {
+		fmt.Printf("Got the error %v recording the error %v to Rollbar.\n",
+			rollbarErr, err)
+	}
 }
