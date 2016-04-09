@@ -107,15 +107,16 @@ generate_k8s_config:
 # `TS_RC` as an environment file, as well as `HPA=TRUE` as
 # an environment variable if we wish to create a reactive auto-scaler.
 #
-# @TODO Is it possible to not use environment variables?
+# Note that the `ifeq` must not be intended.
+#
 # @TODO We will need a way of specifying if we are using predictive or reactive
 # auto-scaling.
 start_k8s_objects:
-	kubectl create -f $(CONFIG_PATH)/$(TS_RC) &&
-	kubectl create -f $(CONFIG_PATH)/test-server-service.yaml &&
-	ifeq ($(HPA), "TRUE")
+	kubectl create -f $(CONFIG_PATH)/$(TS_RC)
+	kubectl create -f $(CONFIG_PATH)/test-server-service.yaml
+ifeq ($(HPA), TRUE)
 		kubectl create -f $(CONFIG_PATH)/hpa-test-server.yaml
-	endif
+endif
 
 # `make test_start`
 #
