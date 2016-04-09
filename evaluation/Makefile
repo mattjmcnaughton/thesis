@@ -8,15 +8,18 @@
 # and `traffic`directories. A couple of environment variables must be set, as
 # can be seen in the example below.
 #
-# @EXAMPLE: TS_RC= test-server-controller-reactive-5s.yaml; TG_RC=traffic-generator-controller-increase-decrease-test-plan.yaml; HPA=TRUE; make test_start
+# @EXAMPLE: export TS_RC=test-server-controller-reactive-5s.yaml; export TG_RC=traffic-generator-controller-increase-decrease-test-plan.yaml; export HPA=TRUE; make test_start
 test_start:
-	cd test-server && $(MAKE) $@ &&
-	cd ../traffic && $(MAKE) $@
+	cd test-server && make $@
+	cd traffic && make $@
 
 # `make test_stop`
 #
 # Similar to `test_start`, but for stopping a test and tearing down any
 # aftermath from the test.
+#
+# We include the `-` to ignore errors, because there will be errors when we try
+# to stop configuration files that don't exist.
 test_stop:
-	cd traffic && $(MAKE) $@ &&
-	cd ../test-server && $(MAKE) $@
+	-cd traffic && make $@
+	-cd test-server && make $@
