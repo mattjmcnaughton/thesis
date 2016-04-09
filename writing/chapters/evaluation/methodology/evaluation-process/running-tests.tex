@@ -30,4 +30,12 @@ command.
   make test_stop
 \end{minted}
 
-As such, running a single test requires very little human involvement.
+As such, running a single test requires very little human involvement. The only
+task is monitoring the tests to ensure they are no errors. Particularly, we are
+concerned about writing our metrics to the database failing, Kubernetes
+running out of space to schedule replica pods, and potential errors in our
+predictive auto-scaling implementation. Fortunately, either Kubernetes provides,
+or we have implemented, methods for highlighting such errors and making the
+necessary adjustments to the evaluation process. In addition, after all the
+tests run, we are able to determine what percent of requests to
+\textit{test-server} were successful, and take action accordingly.
