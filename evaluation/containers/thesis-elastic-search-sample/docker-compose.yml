@@ -1,0 +1,12 @@
+elasticsearch:
+  image: elasticsearch:latest
+  ports:
+    - "9200:9200"
+    - "9300:9300"
+
+web:
+  build: .
+  ports:
+    - "5000:5000"
+  links:
+    - elasticsearch

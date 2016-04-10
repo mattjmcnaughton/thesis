@@ -13,11 +13,11 @@
     <hashTree>
       <kg.apc.jmeter.threads.UltimateThreadGroup guiclass="kg.apc.jmeter.threads.UltimateThreadGroupGui" testclass="kg.apc.jmeter.threads.UltimateThreadGroup" testname="jp@gc - Ultimate Thread Group" enabled="true">
         <collectionProp name="ultimatethreadgroupdata">
-          <collectionProp name="-1551598108">
+          <collectionProp name="-1006331772">
             <stringProp name="1507423">1000</stringProp>
             <stringProp name="0">0</stringProp>
             <stringProp name="48">0</stringProp>
-            <stringProp name="1572771">3600</stringProp>
+            <stringProp name="1575654">3900</stringProp>
             <stringProp name="48">0</stringProp>
           </collectionProp>
         </collectionProp>
@@ -65,14 +65,19 @@
       </hashTree>
       <kg.apc.jmeter.timers.VariableThroughputTimer guiclass="kg.apc.jmeter.timers.VariableThroughputTimerGui" testclass="kg.apc.jmeter.timers.VariableThroughputTimer" testname="jp@gc - Throughput Shaping Timer" enabled="true">
         <collectionProp name="load_profile">
-          <collectionProp name="1781554284">
-            <stringProp name="49">1</stringProp>
-            <stringProp name="48625">100</stringProp>
+          <collectionProp name="1950340012">
+            <stringProp name="48">0</stringProp>
+            <stringProp name="48">0</stringProp>
+            <stringProp name="50547">300</stringProp>
+          </collectionProp>
+          <collectionProp name="-2002084235">
+            <stringProp name="48">0</stringProp>
+            <stringProp name="1603">25</stringProp>
             <stringProp name="1515111">1800</stringProp>
           </collectionProp>
-          <collectionProp name="-201158580">
-            <stringProp name="48625">100</stringProp>
-            <stringProp name="49">1</stringProp>
+          <collectionProp name="-1528704797">
+            <stringProp name="1603">25</stringProp>
+            <stringProp name="48">0</stringProp>
             <stringProp name="1515111">1800</stringProp>
           </collectionProp>
         </collectionProp>

@@ -95,7 +95,7 @@ func profileFunction(measureFunc func()) (eru float64, qos float64, err error) {
 // run it while so that the number of requests will have some kind of influence
 // on the amount of pods needed.
 func costIntensiveTask() {
-	numPasswordsToGenerate := 1
+	numPasswordsToGenerate := 2
 	password := []byte("StartPassword")
 	var err error
 
