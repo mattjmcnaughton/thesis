@@ -1,13 +1,33 @@
 As will be discussed in detail in the later \textit{Tools} section, we've created a web
 server application that allows us to specify any \textit{pod
 initialization time} we desire. As such, we have considerable flexibility with
-respect to what initialization time values we test. Thus, we decided to test the
-following values: 1s, 5s, 60s, 100s.
+respect to what initialization time values we test. To begin, we decided to test the
+following values: 5s and 135s.
 
-@TODO Find pit values indicative of certain use cases and test those (i.e. light
-weight Go web server, heavy rate Rails server, application registering with
-manager, etc.). Create a list stating why each value was chosen
-and the use case it represents.
+We believe 5s and 135s are important independent variables to test because they
+are indicative of different classes of applications that could be run on
+Kubernetes. A pod initialization time of 5s is commonly found among web
+application frameworks, as we showed when writing a simple HTTP server in Go and
+using the Spring Java web application framework \cite{spring}. There web
+frameworks initialized, and were ready to serve requests, in 1s and 5s
+respectively. It is our strong belief that any web framework that simply
+needs to initialize, without any external communicating our data, will
+accomplish this task in under 5s. Thus, testing a pod initialization time of 5s
+allows us to consider how any web application framework would perform with
+predictive auto-scaling.
+
+We derive a pod initialization time of 135s from a simulation of downloading a
+shard database file, loading it into a database, and then starting a web
+application to process data from said database. More specifically, our sample
+pod downloaded a 25.2MB file and then batch inserted it into an Elasticsearch
+database \cite{elasticsearch}. It then started a web application framework. In
+all, this process took approximately 135s, although it is easy to imagine the
+time varying based on the size of the initial shard file. The file we downloaded
+came from an ElasticSearch tutorial on prepopulating a database
+\cite{elasticsearch-import-some-data}, and thus we believe it is a fairly
+representative size. By examining pod initialization times of 5s and 135s, we
+are confident that we are capturing the majority of the potential use cases for
+predictive auto-scaling.
 
 We believe that there will be a \textit{sweet spot} of pod initialization times
 for which predictive auto-scaling demonstrates the most benefits over reactive
