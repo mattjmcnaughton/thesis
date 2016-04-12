@@ -17,4 +17,33 @@ units. Furthermore, the scale for these metrics may be entirely different,
 meaning that small changes in one could completely overshadow larger changes in
 the other.
 
-@TODO How will we actually combine?
+We combine these \textit{eru} and \textit{qos} through the following process.
+First, we gather all measurements of \textit{eru} and \textit{qos},
+distinguished by the variables $E_{A}$ and $Q_{A}$ respectively. Importantly,
+if we are seeking to compare the summation of \textit{eru} and \textit{qos}
+across multiple trials, than $E_{A}$ and $Q_{A}$ is \textit{all} summations, not
+just the values from a single trial. Next, we define $e_{t}$ and $q_{t}$ as the
+respective \textit{eru} and \textit{qos} measurements at time $t$. We first
+normalize these measurements, by subtracting the individual observation value
+from the mean of all observations, and dividing by the standard deviation of all
+observations. This operation leaves us with $ne_{t}$ and $nq_{t}$ respectively.
+Then, as with our current implementation of the \textit{eru} and \textit{qos}
+metrics, smaller values indicated ``better'' performance, and with respect to
+summation of \textit{eru} and \textit{qos}, we expect larger values to indicate
+``better'' performance, we negate $ne_{t}$ and $nq_{t}$. Finally, we sum
+$-ne_{t}$ and $-nq_{t}$ together to get $s_{t}$, where $s_{t}$ is the summation
+of eru and qos at time $t$. In short, we add the negation of the z-score for
+\textit{eru} and \textit{qos}. Mathematically, this process can be written as
+follows:
+
+\begin{align*}
+  ne_{t} = ((e_{t} - \mbox{MEAN}(E_{A})) / \mbox{STDDEV}(E_{A})) \\
+  nq_{t} = ((q_{t} - \mbox{MEAN}(Q_{A})) / \mbox{STDDEV}(Q_{A})) \\
+  s_{t} = -ne_{t} + -nq_{t}
+\end{align*}
+
+Given a measurement of the summation of \textit{eru} and \textit{qos} for a set
+of observations, in which \textit{eru} and \textit{qos} have an equal impact in
+the summation, it is now possible to compare the summations of \textit{eru} and
+\textit{qos} within the different scaling methods or traffic patterns included
+in our evaluation trials.
