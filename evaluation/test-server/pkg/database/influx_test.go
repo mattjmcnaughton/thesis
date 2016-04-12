@@ -14,8 +14,8 @@ func TestWriteMetrics(t *testing.T) {
 
 	origCount := len(origQuery)
 
-	eru, qos := 1.0, 1.0
-	err = database.WriteMetrics(eru, qos)
+	eru, qos, trafficPattern := 1.0, 1.0, "increase-decrease"
+	err = database.WriteMetrics(eru, qos, trafficPattern)
 
 	if err != nil {
 		t.Fatal("Error writing metrics to the database.")

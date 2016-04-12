@@ -7,7 +7,8 @@ import (
 )
 
 func TestLoad(t *testing.T) {
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/", testServer.URL), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/?traffic-pattern=increase-decrease",
+		testServer.URL), nil)
 	res, err := http.DefaultClient.Do(req)
 
 	if err != nil {

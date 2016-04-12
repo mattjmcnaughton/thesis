@@ -8,7 +8,7 @@ import (
 
 // WriteMetrics is called from a handler to write the eru and qos metrics to the
 // influxdb database.
-func WriteMetrics(eru, qos float64) error {
+func WriteMetrics(eru, qos float64, trafficPattern string) error {
 	influxClient, err := createClient()
 
 	if err != nil {
@@ -27,8 +27,9 @@ func WriteMetrics(eru, qos float64) error {
 
 	tags := map[string]string{"scaling-method": scalingMethod}
 	fields := map[string]interface{}{
-		"eru": eru,
-		"qos": qos,
+		"eru":             eru,
+		"qos":             qos,
+		"traffic-pattern": trafficPattern,
 	}
 
 	pt, err := client.NewPoint(PointName, tags, fields, time.Now())
