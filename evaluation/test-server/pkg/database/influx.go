@@ -25,11 +25,13 @@ func WriteMetrics(eru, qos float64, trafficPattern string) error {
 		Precision: "s",
 	})
 
-	tags := map[string]string{"scaling-method": scalingMethod}
-	fields := map[string]interface{}{
-		"eru":             eru,
-		"qos":             qos,
+	tags := map[string]string{
+		"scaling-method":  scalingMethod,
 		"traffic-pattern": trafficPattern,
+	}
+	fields := map[string]interface{}{
+		"eru": eru,
+		"qos": qos,
 	}
 
 	pt, err := client.NewPoint(PointName, tags, fields, time.Now())
