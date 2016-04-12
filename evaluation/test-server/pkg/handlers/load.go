@@ -26,6 +26,11 @@ const (
 	// EnvProduction is the value for the os environment variable
 	// `TEST_SERVER_ENV` if running production mode.
 	EnvProduction = "PRODUCTION"
+
+	// TrafficPatternParam is the parameter
+	// `?traffic-pattern=increase-decrease` identifying the Traffic Pattern
+	// being used for this evaluation.
+	TrafficPatternParam = "traffic-pattern"
 )
 
 // LoadHandler is the handler for the request to "/". It is to this api endpoint
@@ -40,7 +45,8 @@ func LoadHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		handleError(err, w, r)
 	} else {
-		err = database.WriteMetrics(eru, qos)
+		trafficPattern := r.URL.Query().Get(TrafficPatternParam)
+		err = database.WriteMetrics(eru, qos, trafficPattern)
 
 		if err != nil {
 			handleError(err, w, r)
@@ -48,9 +54,10 @@ func LoadHandler(w http.ResponseWriter, r *http.Request) {
 			// Output the response as JSON.
 			w.WriteHeader(200)
 
-			enc, err := json.Marshal(map[string]float64{
-				"eru": eru,
-				"qos": qos,
+			enc, err := json.Marshal(map[string]interface{}{
+				"eru":             eru,
+				"qos":             qos,
+				"traffic-pattern": trafficPattern,
 			})
 
 			if err == nil {
