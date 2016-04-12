@@ -13,12 +13,13 @@ execution \cite{docker-up-and-running}.
 
 As was distinguished in the background section, Kubernetes currently implements reactive
 feedback control auto-scaling, which is defined as when auto-scaling occurs to
-ensure the preservation of a certain state.
-This classification becomes clear when examining
+ensure the preservation of a certain state. Reactive auto-scaling can be
+visualized through Figure \ref{fig:reactive-autoscale}.
+This operation becomes clear when examining
 the execution of the horizontal pod autoscaler. To begin, the autoscaler
 operates as a control loop, as it queries pods at a set interval to determine
 their current resource utilization, and performs auto-scaling actions depending on the
-resulting utilization. Currently, the only resource on which it is possible to
+resulting utilization. At the start of this thesis, the only resource on which it is possible to
 determine auto-scaling behavior is CPU utilization percentage, but possible
 resources could conceivably expand to include percent memory utilized, percent
 network bandwidth used, etc. Based on the average CPU utilization percentage, the
@@ -32,3 +33,9 @@ interval.\footnote{This interval is currently five minutes from the most recent
 rescaling for scale-down and three minutes from the most recent rescale for
 scale-up.} This waiting time ensures auto-scaling can actually take effect
 before it is potentially attempted again \cite{k8s-horizontal-pod-autoscaler-user-guide}.
+
+\begin{figure}[!h]
+  \centerline{\includegraphics[scale=.25]{reactive-autoscale}}
+  \caption{A Reactive Auto-scaled Application}
+  \label{fig:reactive-autoscale}
+\end{figure}
