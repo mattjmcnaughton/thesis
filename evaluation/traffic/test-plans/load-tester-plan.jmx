@@ -52,7 +52,7 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">/?traffic-pattern=increase-decrease</stringProp>
+          <stringProp name="HTTPSampler.path">/?traffic-pattern=load-tester</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -65,20 +65,20 @@
       </hashTree>
       <kg.apc.jmeter.timers.VariableThroughputTimer guiclass="kg.apc.jmeter.timers.VariableThroughputTimerGui" testclass="kg.apc.jmeter.timers.VariableThroughputTimer" testname="jp@gc - Throughput Shaping Timer" enabled="true">
         <collectionProp name="load_profile">
-          <collectionProp name="1950340012">
-            <stringProp name="48">0</stringProp>
-            <stringProp name="48">0</stringProp>
-            <stringProp name="50547">300</stringProp>
+          <collectionProp name="137921931">
+            <stringProp name="49">1</stringProp>
+            <stringProp name="1598">20</stringProp>
+            <stringProp name="1815">90</stringProp>
           </collectionProp>
-          <collectionProp name="556482324">
-            <stringProp name="48">0</stringProp>
-            <stringProp name="53">5</stringProp>
-            <stringProp name="1515111">1800</stringProp>
+          <collectionProp name="1842254668">
+            <stringProp name="1598">20</stringProp>
+            <stringProp name="1598">20</stringProp>
+            <stringProp name="48687">120</stringProp>
           </collectionProp>
-          <collectionProp name="477447204">
-            <stringProp name="53">5</stringProp>
-            <stringProp name="48">0</stringProp>
-            <stringProp name="1515111">1800</stringProp>
+          <collectionProp name="60288321">
+            <stringProp name="1598">20</stringProp>
+            <stringProp name="49">1</stringProp>
+            <stringProp name="1815">90</stringProp>
           </collectionProp>
         </collectionProp>
       </kg.apc.jmeter.timers.VariableThroughputTimer>

@@ -19,6 +19,8 @@ spec:
       containers:
       - name: test-server
         image: mattjmcnaughton/test-server:{{ head_commit_hash }}
+        # Always update the image, so can update within the same git commit.
+        imagePullPolicy: Always
         # @TODO Update this with values that I think make sense.
         resources:
           requests:
