@@ -115,7 +115,10 @@ start_k8s_objects:
 	kubectl create -f $(CONFIG_PATH)/$(TS_RC)
 	kubectl create -f $(CONFIG_PATH)/test-server-service.yaml
 ifeq ($(HPA), TRUE)
-		kubectl create -f $(CONFIG_PATH)/hpa-test-server.yaml
+	kubectl create -f $(CONFIG_PATH)/hpa-test-server.yaml
+endif
+ifeq ($(PREDICTIVE), TRUE)
+	kubectl annotate hpa test-server predictive='true'
 endif
 
 # `make test_start`

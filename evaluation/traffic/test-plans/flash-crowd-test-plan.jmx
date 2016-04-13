@@ -52,7 +52,7 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">/?traffic-pattern=increase-decrease</stringProp>
+          <stringProp name="HTTPSampler.path">/?traffic-pattern=flash-crowd</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -70,15 +70,25 @@
             <stringProp name="48">0</stringProp>
             <stringProp name="50547">300</stringProp>
           </collectionProp>
-          <collectionProp name="556482324">
+          <collectionProp name="1590999">
             <stringProp name="48">0</stringProp>
             <stringProp name="53">5</stringProp>
-            <stringProp name="1515111">1800</stringProp>
+            <stringProp name="1513437">1680</stringProp>
           </collectionProp>
-          <collectionProp name="477447204">
+          <collectionProp name="178949">
+            <stringProp name="53">5</stringProp>
+            <stringProp name="1598">20</stringProp>
+            <stringProp name="48687">120</stringProp>
+          </collectionProp>
+          <collectionProp name="1615799">
+            <stringProp name="1598">20</stringProp>
+            <stringProp name="53">5</stringProp>
+            <stringProp name="48687">120</stringProp>
+          </collectionProp>
+          <collectionProp name="1595649">
             <stringProp name="53">5</stringProp>
             <stringProp name="48">0</stringProp>
-            <stringProp name="1515111">1800</stringProp>
+            <stringProp name="1513437">1680</stringProp>
           </collectionProp>
         </collectionProp>
       </kg.apc.jmeter.timers.VariableThroughputTimer>
