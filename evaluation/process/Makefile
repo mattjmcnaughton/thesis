@@ -9,4 +9,4 @@
 # @example `export PIT=5s; export TP=increase-decrease; export OUT=/code/output; make
 # process`.
 process:
-	docker run --rm -i -v $(shell pwd):/code mattjmcnaughton/thesis-python:latest python /code/evaluate.py $(PIT) $(TP) $(OUT)
+	docker run --rm --env_file=.env -i -v $(shell pwd):/code mattjmcnaughton/thesis-python:latest python /code/evaluate.py $(PIT) $(TP) $(OUT)
