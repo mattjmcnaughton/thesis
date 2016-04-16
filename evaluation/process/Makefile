@@ -1,5 +1,13 @@
 # Makefile for processing the results of the evaluation tests.
 
+# `$ make test`
+#
+# Test the `Evaluation` class that serves as the formation of the `evaluation.py` script.
+# We do not need to include the `.env` file for connecting to the database,
+# because we are stubbing out the method that connects to the database.
+test:
+	docker run --rm -i mattjmcnaughton/thesis-python:latest python /code/test_evaluate.py
+
 # `$ make process`
 #
 # Process the results of an evaluation test and output the results into the
