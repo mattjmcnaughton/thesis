@@ -12,7 +12,7 @@ import json
 import os
 
 import numpy
-import scipy
+import scipy.stats
 import matplotlib.pyplot as plot
 
 from influxdb import InfluxDBClient
@@ -58,9 +58,9 @@ class Evaluate(object):
             InfluxDBClient: An instance of the InfluxDBClient.
         """
         if self._client is None:
-            self._client = InfluxDBClient(host=os.environ["DATABASE_HOST"],
+            self._client = InfluxDBClient(host=os.environ["DATABASE_ADDRESS"],
                                           port=os.environ["DATABASE_PORT"],
-                                          username=os.environ["DATABASE_USER"],
+                                          username=os.environ["DATABASE_USERNAME"],
                                           password=os.environ["DATABASE_PASSWORD"],
                                           database=os.environ["DATABASE_NAME"],
                                           ssl=True)
@@ -86,7 +86,7 @@ class Evaluate(object):
         return Template(query).render(pit=self._pit, tp=self._tp)
 
 
-    def _query_influx(self, value, scaling_method):
+    def query_influx(self, value, scaling_method):
         """
         Retrieve the data from the influxdb database.
 
@@ -104,7 +104,7 @@ class Evaluate(object):
                                                              sm=scaling_method)
 
         res = client.query(full_query)
-        return res
+        return list(res.get_points())
 
     def fetch_data(self):
         """
@@ -123,9 +123,9 @@ class Evaluate(object):
             full_results = {}
 
             for value in self.POSSIBLE_VALUES:
-                res = self._query_influx(value, scaling_method)
+                res = self.query_influx(value, scaling_method)
 
-                for entry in res.get_points():
+                for entry in res:
                     mean = entry["mean"]
 
                     if mean is not None:
@@ -169,7 +169,7 @@ class Evaluate(object):
 
         Return:
             (dict, dict): A dict where the key is the timestamp and the value is the
-            summation of eru and qos.
+            summation of eru and qos - first predictive and then reactive.
         """
         all_eru = [e["eru"] for e in pred.values()] + [e["eru"] for e in react.values()]
         all_qos = [e["qos"] for e in pred.values()] + [e["qos"] for e in react.values()]
@@ -236,7 +236,7 @@ class Evaluate(object):
 
         return time
 
-    def _convert_graph(self, pred, react):
+    def convert_graph(self, pred, react):
         """
         Convert the data so that it is ready to be graphed.
 
@@ -249,13 +249,30 @@ class Evaluate(object):
             list, list, list: The x_vals (timestamps), predictive values, and
             reactive values.
         """
-        # @TODO Ensure all components of this are returning in order.
-        f_time = self._convert_time(pred.keys()[0])
-        x_vals = [(self._convert_time(t) - f_time).total_seconds() for t in pred.keys()]
+        second_timestamps = [self._convert_time(t) for t in pred.keys()]
+        second_timestamps.sort()
+        f_time = second_timestamps[0]
 
-        pred_y_vals, react_y_vals = pred.values(), react.values()
-        return x_vals, pred_y_vals, react_y_vals
+        x_vals = [(t - f_time).total_seconds() for t in second_timestamps]
 
+        # @TODO Double check that this is sorting correctly. It should because
+        # the formatting is YYYY-MM-DDTH-M-SZ.
+        string_timestamps = pred.keys()
+        string_timestamps.sort()
+
+        results = {}
+        for scaling_method, dataset in {self.PREDICTIVE: pred, self.REACTIVE:
+                react}.iteritems():
+
+            ordered_output = []
+
+            # Sorting the string timestamps should still work.
+            for time in string_timestamps:
+                ordered_output.append(dataset.get(time))
+
+            results[scaling_method] = ordered_output
+
+        return x_vals, results[self.PREDICTIVE], results[self.REACTIVE]
 
     def graph(self, sum_p, sum_r):
         """
@@ -267,7 +284,7 @@ class Evaluate(object):
             the summation of eru and qos for predictive.
             sum_r (dict): Same as above but for reactive.
         """
-        x_vals, pred_y_vals, react_y_vals = self._convert_graph(sum_p, sum_r)
+        x_vals, pred_y_vals, react_y_vals = self.convert_graph(sum_p, sum_r)
 
         plot.plot(x_vals, pred_y_vals)
         plot.plot(x_vals, react_y_vals)
@@ -279,7 +296,7 @@ class Evaluate(object):
 
         plot.savefig(self._get_file_name(self.GRAPH))
 
-    def _calc_stats(self, pred_sums, react_sums):
+    def calc_stats(self, pred_sums, react_sums):
         """
         Given an ordered list of pred_sums and react_sums, that correspond with
         each other, return the mean difference, std dev of difference, z_score,
@@ -350,9 +367,9 @@ class Evaluate(object):
             sum_r (dict): Same as above but for reactive.
         """
 
-        # We assume that _convert_graphs returns in order.
-        _, pred_sums, react_sums = self._convert_graph(sum_p, sum_r)
-        stats = self._calc_stats(pred_sums, react_sums)
+        # We assume that convert_graphs returns in order.
+        _, pred_sums, react_sums = self.convert_graph(sum_p, sum_r)
+        stats = self.calc_stats(pred_sums, react_sums)
 
         self._output_stats(stats)
 

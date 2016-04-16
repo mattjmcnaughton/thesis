@@ -6,7 +6,7 @@
 # We do not need to include the `.env` file for connecting to the database,
 # because we are stubbing out the method that connects to the database.
 test:
-	docker run --rm -i mattjmcnaughton/thesis-python:latest python /code/test_evaluate.py
+	docker run --rm -i -v $(shell pwd):/code mattjmcnaughton/thesis-python:latest python /code/test_evaluate.py
 
 # `$ make process`
 #

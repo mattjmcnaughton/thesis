@@ -1,5 +1,7 @@
 jinja2
 influxdb
-yaml
+pyyaml
 scipy
 numpy
+matplotlib
+mock
