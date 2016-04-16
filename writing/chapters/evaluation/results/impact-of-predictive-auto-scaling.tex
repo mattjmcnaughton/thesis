@@ -1,7 +1,26 @@
-\subsubsection{Traffic Request Pattern}
+As has been discussed in the previous sections, we are interested in visualizing
+and understanding the difference in performance between predictive and
+horizontal auto-scaling for two different pod initialization times and two
+different traffic patterns. As such, we have four different tests on which we
+compare ERU and QOS: increase-decrease traffic pattern with 5s pod
+initialization time, increase-decrese traffic pattern with 135s pod
+initialization time, flash-crowd traffic pattern with 5s pod initialization
+time, and flash-crowd traffic pattern with 135s pod initialization time. This
+grouping of tests can be visualized through the matrix seen in Table
+\ref{tab:testmatrix}.
 
-\input{chapters/evaluation/results/impact-of-predictive-auto-scaling/traffic-request-pattern}
+\begin{table}
+  \setlength{\extrarowheight}{2pt}
+  \begin{tabular}{*{4}{c|}}
+    \multicolumn{2}{c}{} & \multicolumn{2}{c}{Pod Initialization Time}\\\cline{3-4}
+    \multicolumn{1}{c}{} &  & 5s  & 135s \\\cline{2-4}
+    \multirow{2}*{Traffic Pattern}  & increase-decrease & (5s, i-d) & (135s, i-d) \\\cline{2-4}
+    & flash-crowd & (5s, f-c) & (135s, f-c) \\\cline{2-4}
+  \end{tabular}
+  \caption{The Test Matrix}
+  \label{tab:testmatrix}
+\end{table}
 
-\subsubsection{Pod Initialization Time}
+%% The information we provide for each test
 
-\input{chapters/evaluation/results/impact-of-predictive-auto-scaling/pod-initialization-time}
+%% Results from each test (from a separate latex file)
