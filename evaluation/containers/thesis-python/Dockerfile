@@ -7,6 +7,9 @@ FROM python:2.7
 
 MAINTAINER mattjmcnaughton@gmail.com
 
+RUN apt-get update  -y
+RUN apt-get install -y python-numpy python-scipy python-matplotlib ipython ipython-notebook python-pandas python-sympy python-nose
+
 ADD . /config
 
 WORKDIR /config
