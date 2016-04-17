@@ -44,7 +44,13 @@ these follows, we have a linear line of best fit, which we can use to make
 simple predictions about future CPU utilization \cite{line-of-best-fit}.
 
 Our final step is to get a \textit{Time} value to plug into this line of best
-fit to receive a future prediction. As we want to predict
+fit to receive a future prediction.\footnote{As was mentioned in the
+Architecture section, we only utilize the predictive method when upscaling.
+Otherwise, if we notice the line of best fit has a negative slope, we simply
+return the current CPU estimation, essentially reactively auto-scaling. The
+similarity is because a replica pod is deleted almost immediately, and thus it
+does not make sense to use the measure of pod initialization time to predict
+into the future.} As we want to predict
 \textit{PodInitializationTime} into the future, we simply add
 \textit{PodInitializationTime}, measured in seconds, to the current time, for a
 new value $t_{p}$. By calculating $a + b * t_{p}$, we have a prediction of the

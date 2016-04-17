@@ -13,11 +13,25 @@ auto-scaling process. As the name predictive implies, auto-scaling no longer
 occurs in reaction to the current resource consumption of the pod. Rather, it occurs
 predictively based on the pod's predicted future resource consumption. The
 amount of time ahead for which resource consumption is predicted is dependent on
-the amount of time it takes a replica pod to be ready to partake in the work the
+the amount of time it takes a replica pod to achieve the state we desire. With
+respect to upscaling (i.e. creating pods) we are interested in how long it
+takes a replica pod to be ready to partake in the work the
 service is balancing across all replica pods.\footnote{For example, a pod may
 run a web server takes multiple minutes to initialize, and until that web server
 is initialized, the pod cannot handle any web requests load balanced to it by
 the service} This interval of time is referred to as \textit{PodInitializationTime}.
+With respect to downscaling (i.e. removing pods) we are interested in how long
+it takes to stop sending a pod requests and free any resources allocated to said
+pod. We assume that this amount of time is almost instantaneous, and thus for
+downscaling, predictive and reactive auto-scaling are very similar. Because of
+this, we discuss the predictive auto-scaling algorithm, we are discussing it
+with respect to upscaling. A similar algorithm could easily generated for
+down-scaling, by replacing \textit{PodInitializationTime} with $0s$. As that is
+essentially reactive auto-scaling, we do not devote a large portion of time to
+discussion predictive down-scaling, and instead use predictive auto-scaling to
+really refer to predictive upscaling.
+
+@TODO Does this make sense? Is it clear enough throughout the thesis?
 
 Aside from the switch to using predictive resource measurement, the
 general architecture of predictive horizontal pod auto-scaling is similar to the
