@@ -9,6 +9,6 @@ spec:
     name: test-server
     subresource: scale
   minReplicas: 1
-  maxReplicas: 40
+  maxReplicas: 30
   cpuUtilization:
-    targetPercentage: 90
+    targetPercentage: 80
