@@ -11,4 +11,4 @@ spec:
   minReplicas: 1
   maxReplicas: 30
   cpuUtilization:
-    targetPercentage: 80
+    targetPercentage: 60

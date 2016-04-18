@@ -80,10 +80,10 @@ class Evaluate(object):
         # like a fairly safe assumption, but is an assumption all the same.
         # @TODO Currently we group by 1m measurements, is that what we want?
         query = ("SELECT MEAN({{ value }}) from METRICS where time > now() - 10d and "
-                 "sm = '{{ sm }}' and pit = '{{ pt }}' and tp = '{{ tp }}'"
+                 "sm = '{{ sm }}' and pit = '{{ pt }}' and tp = '{{ tp }}' "
                  "group by time(1m)")
 
-        return Template(query).render(pit=self._pit, tp=self._tp)
+        return query
 
 
     def query_influx(self, value, scaling_method):
@@ -101,7 +101,9 @@ class Evaluate(object):
         """
         client = self._get_client()
         full_query = Template(self._get_base_query()).render(value=value,
-                                                             sm=scaling_method)
+                                                             sm=scaling_method,
+                                                             pt=self._pit,
+                                                             tp=self._tp)
 
         res = client.query(full_query)
         return list(res.get_points())
@@ -249,7 +251,12 @@ class Evaluate(object):
             list, list, list: The x_vals (timestamps), predictive values, and
             reactive values.
         """
-        second_timestamps = [self._convert_time(t) for t in pred.keys()]
+        # Cutoff any dangling values - fine to do because just 1rps tail.
+        cutoff_length = min(len(pred.keys()), react.keys())
+        pred_timestamps = pred.keys()[:cutoff_length]
+        react_timestamps = react.keys()[:cutoff_length]
+
+        second_timestamps = [self._convert_time(t) for t in pred_timestamps]
         second_timestamps.sort()
         f_time = second_timestamps[0]
 
@@ -257,14 +264,15 @@ class Evaluate(object):
 
         # @TODO Double check that this is sorting correctly. It should because
         # the formatting is YYYY-MM-DDTH-M-SZ.
-        string_timestamps = pred.keys()
-        string_timestamps.sort()
+        pred_timestamps.sort()
+        react_timestamps.sort()
 
         results = {}
-        for scaling_method, dataset in {self.PREDICTIVE: pred, self.REACTIVE:
-                react}.iteritems():
+        for scaling_method, stamps_and_values in {self.PREDICTIVE:
+                (pred_timestamps, pred), self.REACTIVE: (react_timestamps, react)}.iteritems():
 
             ordered_output = []
+            (string_timestamps, dataset) = stamps_and_values
 
             # Sorting the string timestamps should still work.
             for time in string_timestamps:
@@ -319,7 +327,6 @@ class Evaluate(object):
             dict: A dict of statistical measures including "mean", "std_dev",
             "z_score", "p_score".
         """
-
         differences = []
         for i, _ in enumerate(pred_sums):
             pred_sum, react_sum = pred_sums[i], react_sums[i]
