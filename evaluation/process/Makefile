@@ -18,3 +18,12 @@ test:
 # process`.
 process:
 	docker run --rm --env-file=.env -i -v $(shell pwd):/code mattjmcnaughton/thesis-python:latest python /code/evaluate.py $(PIT) $(TP) $(OUT)
+
+# `make backup`
+#
+# Backup the data stored into the influxdb database into the `backup/`
+# directory.
+#
+# @Example `export HOST=https://enchantmentunderthesea-hoverboard-44.c.influxdb:8086; export USERNAME=username; export PASSWORD=password; export DATABASE=test-server-prod; export OUTPUT=output/backup; make backup`
+backup:
+	curl -G $(HOST)/query -u $(USERNAME):$(PASSWORD) --data-urlencode "db=$(DATABASE)" --data-urlencode "q=SELECT * FROM METRICS" > $(OUTPUT)
