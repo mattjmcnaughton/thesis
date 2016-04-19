@@ -13,11 +13,11 @@
     <hashTree>
       <kg.apc.jmeter.threads.UltimateThreadGroup guiclass="kg.apc.jmeter.threads.UltimateThreadGroupGui" testclass="kg.apc.jmeter.threads.UltimateThreadGroup" testname="jp@gc - Ultimate Thread Group" enabled="true">
         <collectionProp name="ultimatethreadgroupdata">
-          <collectionProp name="-1005616788">
+          <collectionProp name="-1007404248">
             <stringProp name="1507423">1000</stringProp>
             <stringProp name="0">0</stringProp>
             <stringProp name="48">0</stringProp>
-            <stringProp name="1598718">4200</stringProp>
+            <stringProp name="1541058">2400</stringProp>
             <stringProp name="48">0</stringProp>
           </collectionProp>
         </collectionProp>
@@ -70,17 +70,17 @@
             <stringProp name="49">1</stringProp>
             <stringProp name="50547">300</stringProp>
           </collectionProp>
-          <collectionProp name="-2002824391">
+          <collectionProp name="1817468885">
             <stringProp name="49">1</stringProp>
             <stringProp name="1598">20</stringProp>
-            <stringProp name="1515111">1800</stringProp>
+            <stringProp name="56313">900</stringProp>
           </collectionProp>
-          <collectionProp name="-1552780513">
+          <collectionProp name="-2027454533">
             <stringProp name="1598">20</stringProp>
             <stringProp name="49">1</stringProp>
-            <stringProp name="1515111">1800</stringProp>
+            <stringProp name="56313">900</stringProp>
           </collectionProp>
-          <collectionProp name="82818">
+          <collectionProp name="1892775368">
             <stringProp name="1">1</stringProp>
             <stringProp name="49">1</stringProp>
             <stringProp name="50547">300</stringProp>
