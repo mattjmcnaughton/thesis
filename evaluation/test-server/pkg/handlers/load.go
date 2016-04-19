@@ -1,17 +1,20 @@
 package handlers
 
 import (
+	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/mattjmcnaughton/test-server/pkg/database"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"os"
+	"os/exec"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/stvp/roll"
-
-	linuxproc "github.com/c9s/goprocinfo/linux"
 )
 
 const (
@@ -76,7 +79,6 @@ func LoadHandler(w http.ResponseWriter, r *http.Request) {
 // We measure ERU by recording the percent of idle CPU time. So if efficient
 // resource utilization is doing well, then we want this value to be low.
 func profileFunction(measureFunc func()) (eru float64, qos float64, err error) {
-	initIdlePercent, err := idleCPUPercent()
 	if err != nil {
 		return 0.0, 0.0, err
 	}
@@ -85,17 +87,15 @@ func profileFunction(measureFunc func()) (eru float64, qos float64, err error) {
 
 	measureFunc()
 
-	endIdlePercent, err := idleCPUPercent()
+	diffTime := time.Since(initTime)
+
+	cpuPercent, err := idleCPUPercent()
 	if err != nil {
 		return 0.0, 0.0, err
 	}
 
-	diffTime := time.Since(initTime)
-
-	avgIdleCPUPercent := (initIdlePercent + endIdlePercent) / 2.0
 	funcExecTime := diffTime.Seconds()
-
-	return avgIdleCPUPercent, funcExecTime, nil
+	return cpuPercent, funcExecTime, nil
 }
 
 // costIntensiveTask is a useless task that is just required to take up CPU. We
@@ -118,26 +118,32 @@ func costIntensiveTask() {
 
 // idleCPUPercent is a helper function to return the current percentage of CPU
 // that is idle.
+// We check it using `top`. We use -n 2 to do 2 iterations, and make sure that
+// we don't just use the first observation, because it returns the average up to
+// this point.
 func idleCPUPercent() (float64, error) {
-	// The use of `/proc/stat` assumes we are running on Linux, which is a
-	// safe assumption to make.
-	statFile := "/proc/stat"
-	stat, err := linuxproc.ReadStat(statFile)
+	cpuCmd := "top -b -n 2 -d .5 | grep \"Cpu\" | tail -n1 | awk -F ',' '{print($4)}' | cut -d 'i' -f 1"
+	var stderr bytes.Buffer
+
+	cmd := exec.Command("bash", "-c", cpuCmd)
+	cmd.Stderr = &stderr
+
+	cmdOut, err := cmd.Output()
 	if err != nil {
-		return -1, err
+		err = errors.New(err.Error() + ": " + stderr.String())
+		return 0.0, err
 	}
 
-	allStat := stat.CPUStatAll
+	// cmdOut contains just the value for idle cpu so we can get the string
+	// and then try to parse it as a float - be sure to remove the new line.
+	cpuStr := strings.Trim(string(cmdOut), " \n")
 
-	// @TODO Are these the only ones I need to calculate total CPU?
-	// There are the options -
-	// https://godoc.org/github.com/c9s/goprocinfo/linux#CPUStat
-	totalCPU := allStat.User + allStat.Nice + allStat.System + allStat.Idle +
-		allStat.IOWait + allStat.IRQ + allStat.Guest
+	cpu, err := strconv.ParseFloat(cpuStr, 64)
+	if err != nil {
+		return 0.0, err
+	}
 
-	percentIdle := float64(allStat.Idle) / float64(totalCPU)
-
-	return percentIdle, nil
+	return cpu, nil
 }
 
 // handleError is a helper function which, given an error during a http request,

@@ -3,10 +3,6 @@
 	"GoVersion": "go1.5.2",
 	"Deps": [
 		{
-			"ImportPath": "github.com/c9s/goprocinfo/linux",
-			"Rev": "19cb9f127a9c8d2034cf59ccb683cdb94b9deb6c"
-		},
-		{
 			"ImportPath": "github.com/codegangsta/negroni",
 			"Comment": "v0.1-62-g8d75e11",
 			"Rev": "8d75e11374a1928608c906fe745b538483e7aeb2"
