@@ -1,25 +1,9 @@
 As has been discussed in the previous sections, we are interested in visualizing
 and understanding the difference in performance between predictive and
 horizontal auto-scaling for two different pod initialization times and two
-different traffic patterns. As such, we have four different tests on which we
-compare ERU and QOS: increase-decrease traffic pattern with 5s pod
-initialization time, increase-decrese traffic pattern with 135s pod
-initialization time, flash-crowd traffic pattern with 5s pod initialization
-time, and flash-crowd traffic pattern with 135s pod initialization time. This
-grouping of tests can be visualized through the matrix seen in Table
-\ref{tab:testmatrix}.
-
-\begin{table}
-  \setlength{\extrarowheight}{2pt}
-  \begin{tabular}{*{4}{c|}}
-    \multicolumn{2}{c}{} & \multicolumn{2}{c}{Pod Initialization Time}\\\cline{3-4}
-    \multicolumn{1}{c}{} &  & 5s  & 135s \\\cline{2-4}
-    \multirow{2}*{Traffic Pattern}  & increase-decrease & (5s, i-d) & (135s, i-d) \\\cline{2-4}
-    & flash-crowd & (5s, f-c) & (135s, f-c) \\\cline{2-4}
-  \end{tabular}
-  \caption{The Test Matrix}
-  \label{tab:testmatrix}
-\end{table}
+different traffic patterns. As such, we have two different tests on which we
+compare ERU and QOS: increase-decrese traffic pattern with 135s pod
+initialization time and flash-crowd traffic pattern with 135s pod initialization time.
 
 For each test on the matrix, we provide two different sources of information.
 First, we generate a graph comparing the summation of eru and qos across the 60
@@ -40,17 +24,9 @@ significance at the $5\%$ significance level, meaning that if $p < 0.05$, we can
 reject our null hypothesis in favor of our alternative hypothesis that
 predictive auto-scaling performs better than reactive auto-scaling.
 
-\subsubsection{5s and increase-decrease}
-
-\input{chapters/evaluation/results/impact-of-predictive-auto-scaling/5s-and-increase-decrease}
-
 \subsubsection{135s and increase-decrease}
 
 \input{chapters/evaluation/results/impact-of-predictive-auto-scaling/135s-and-increase-decrease}
-
-\subsubsection{5s and flash-crowd}
-
-\input{chapters/evaluation/results/impact-of-predictive-auto-scaling/5s-and-flash-crowd}
 
 \subsubsection{135s and flash-crowd}
 
