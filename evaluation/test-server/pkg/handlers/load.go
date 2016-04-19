@@ -122,7 +122,7 @@ func costIntensiveTask() {
 // we don't just use the first observation, because it returns the average up to
 // this point.
 func idleCPUPercent() (float64, error) {
-	cpuCmd := "top -b -n 2 -d .5 | grep \"Cpu\" | tail -n1 | awk -F ',' '{print($4)}' | cut -d 'i' -f 1"
+	cpuCmd := "top -b -n 4 -d .5 | grep \"Cpu\" | tail -n1 | awk -F ',' '{print($4)}' | cut -d 'i' -f 1"
 	var stderr bytes.Buffer
 
 	cmd := exec.Command("bash", "-c", cpuCmd)

@@ -252,7 +252,7 @@ class Evaluate(object):
             reactive values.
         """
         # Cutoff any dangling values - fine to do because just 1rps tail.
-        cutoff_length = min(len(pred.keys()), react.keys())
+        cutoff_length = min(len(pred.keys()), len(react.keys()))
         pred_timestamps = pred.keys()[:cutoff_length]
         react_timestamps = react.keys()[:cutoff_length]
 

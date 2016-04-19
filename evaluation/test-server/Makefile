@@ -119,6 +119,8 @@ ifeq ($(HPA), TRUE)
 endif
 ifeq ($(PREDICTIVE), TRUE)
 	kubectl annotate hpa test-server predictive='true'
+else
+	kubectl annotate hpa test-server predictive='false'
 endif
 
 # `make test_start`
