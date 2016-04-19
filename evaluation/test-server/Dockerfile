@@ -8,6 +8,9 @@ MAINTAINER mattjmcnaughton@gmail.com
 ENV GOPATH /go
 ENV PATH /go/bin:$PATH
 
+# Indicate that we are using the linux as our TERM so we can run and parse top.
+ENV TERM linux
+
 # Add go dependencies that are not bundled with Godeps.
 RUN go get -u github.com/golang/lint/golint
 RUN go get github.com/tools/godep
