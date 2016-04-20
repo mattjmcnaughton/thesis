@@ -1,7 +1,58 @@
-\subsubsection{Pro Predictive Auto-scaling Scenarios}
+Given the evaluation of a typical application benefitting from horizontal
+auto-scaling on two distinct test patterns, we can comment on the general
+scenarios in which predictive auto-scaling is effective and beneficial, and the
+situations in which reactive auto-scaling is either less effective or
+detrimental.
 
-\input{chapters/evaluation/results/scenarios/pro-predictive-auto-scaling-scenarios}
+To begin, we consider when predictive auto-scaling is less
+effective. Predictive auto-scaling offers little distinction from reactive
+auto-scaling when the pod initialization time approaches 0s. Thus, predictive
+auto-scaling is not particularly interesting for containerized web server
+applications. This lack of difference is particularly noticeable given the
+multi-minute threshold Kubernetes imposes between when auto-scalings can occur.
+Our decision to not even evaluate a 5s pod initialization time reflected our
+understanding of the lack of utility for predictive auto-scaling for web servers
+that start particularly quickly.
 
-\subsubsection{Anti Predictive Auto-scaling Scenarios}
+Predictive auto-scaling has a greater positive and negative impact
+with a longer pod initialization time, as we saw when auto-scaling on an
+application simulating downloading shard data. From our graphs, we could see
+repeatable performance differences, and scenarios in which predictive
+auto-scaling offered the most benefits and scenarios in which reactive
+auto-scaling offered the most benefits. Specifically, predictive auto-scaling
+allows us to respond to quickly to increases in load, ensuring that we
+substantially react to initial spikes. While such behavior is beneficial in the
+immediate aftermath of increased load, it can raise challenges if an even
+greater scaling would otherwise be performed at a time within the
+threshold Kubernetes imposes in
+which scaling cannot occur. Particularly if predictive auto-scaling
+underestimated the initial amount to scale, or only created a small replica
+number of pods, scaling too early can lead to
+performance decreases during the threshold period. Reactive auto-scaling avoids
+these performance decreases by performing its scaling actions during period of
+peak load, and thus creating greater replica pods. In short, predictive
+auto-scaling offers a tradeoff between quickly and immediately responding to
+increased load, while taking the risk that even greater increases during the
+threshold time while go unaddressed until the threshold period ends.
 
-\input{chapters/evaluation/results/scenarios/anti-predictive-auto-scaling-scenarios}
+With an eye towards the real-world, there are a variety of scenarios in
+predictive auto-scaling would be particularly useful. Specifically, the ability
+to ensure we repsond aggressively to an initial burst in traffic corresponds
+nicely with notification services which will notify users and then achieve a
+very steep, quick increase in users, before an equally steep decline. If this
+burst occurs within the span of the threshold in which auto-scaling is
+prevented, there will be no penalty to predictive auto-scalings aggressive
+scaling. Furthermore, we can examine other scenarios in which we would rather
+have high performance at the beginning of a heavy load period than the end. For
+example, if we have a peer to peer system established in which all nodes in the
+system originally query a single node, until they themselves have the
+information and can be queryable, we would prefer a predictive auto-scaling
+implementation. Predictive auto-scaling should sufficiently handle the initial
+burst, and if there are any performance degradations during the threshold
+period, they will be in part diminished by the previous successful queries of
+the first node ensuring other nodes have the data and can thus serve as
+additional replicas. This performance is in comparison to reactive auto-scaling,
+which may not be able to handle the additional burst, and thus the system would
+crash as no nodes would have been able to get the shared data. There are likely
+a variety of additional operations and systems matching this general theme in
+which predictive auto-scaling is particularly useful.
