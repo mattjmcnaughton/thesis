@@ -1,0 +1,51 @@
+While this thesis accomplishes much in the realm of auto-scaling, and more
+specifically predictive auto-scaling, there are multiple exciting paths
+available for future exploration. Predominately these paths relates to expanding
+our implementation of predictive auto-scaling, as well as expanding the
+conditions under which we perform evaluation. Hopefully this process will be
+positively cyclical in that new types of evaluation will engender new
+implementation variables, which will enable new avenues for evaluation, and so
+on.
+
+First off, it would be fascinating to consider alternative traffic patterns.
+Both of the increase-decrease and flash-crowd test plans are linear, yet real
+world network traffic does not follow a linear pattern. Thus it would be
+fascinating to analyze the performance of predictive auto-scaling when the
+traffic pattern is polynomial, exponential, logarithmic, etc. It is likely that
+we would find that the linear prediction method we have implemented does not
+perform effectively in these scenarios. This recognition suggests implementing
+different prediction mechanisms as another exciting avenue for future work.
+Specifically, instead of only creating a linear line of best fit, we could
+create a number of line of best fits, modelling the different possible equations
+for a line, and then choose the one that best explained our observations so far.
+Such improvements would vastly expand the scope under which predictive
+auto-scaling would be useful.
+
+In a similar vein, we mentioned how the current implementation of a threshold time
+interval that most be observed between scalings was at time detrimental to
+Kubernetes. It would be interesting to vary the length of this interval, in
+order if it was possible to maintain the benefits of such an interval on prevent
+thrasing, while also diminishing any negative impacts on predictive
+auto-scaling.
+
+Additionally, as was previously mentioned, when work on this thesis began,
+Kubernetes only supported scaling based on CPU utilization. Yet, since then, it
+is now possible to auto-scale with respect to custom metrics such as memory
+usage. While our current auto-scaling implementation only works for CPU
+utilization, the general algorithm should work, with small modifications, for
+any metric that can be predictively auto-scaled. Particularly interesting would
+be auto-scaling with respect to network congestion on the pod.
+
+Fortunately, the majority of the tooling we built for this thesis is general
+enough to be used for the majority of our areas of future exploration.
+Furthermore, care was taken to implement predictive auto-scaling in an easily
+extensible manor. As both the predictive auto-scaling implementation, and the
+testing infrastructure for performing evaluations are open-sourced, any
+interested individual should be able to contribute to future work.
+
+Finally, one of the most important goals of this thesis remains as future work.
+Much of the initial excitement about Kubernetes arose from its status as an
+increasingly popular open-source application. While our predictive auto-scaling
+implementation has not yet been merged into the Kubernetes master branch, we
+remain workiing with core Kubernetes engineers to continue to implementation
+process, and are excited about the potential for such contributions happening.
