@@ -34,3 +34,25 @@ peak load, and thus creating greater replica pods. In short, predictive
 auto-scaling offers a tradeoff between quickly and immediately responding to
 increased load, while taking the risk that even greater increases during the
 threshold time while go unaddressed until the threshold period ends.
+
+With an eye towards the real-world, there are a variety of scenarios in
+predictive auto-scaling would be particularly useful. Specifically, the ability
+to ensure we repsond aggressively to an initial burst in traffic corresponds
+nicely with notification services which will notify users and then achieve a
+very steep, quick increase in users, before an equally steep decline. If this
+burst occurs within the span of the threshold in which auto-scaling is
+prevented, there will be no penalty to predictive auto-scalings aggressive
+scaling. Furthermore, we can examine other scenarios in which we would rather
+have high performance at the beginning of a heavy load period than the end. For
+example, if we have a peer to peer system established in which all nodes in the
+system originally query a single node, until they themselves have the
+information and can be queryable, we would prefer a predictive auto-scaling
+implementation. Predictive auto-scaling should sufficiently handle the initial
+burst, and if there are any performance degradations during the threshold
+period, they will be in part diminished by the previous successful queries of
+the first node ensuring other nodes have the data and can thus serve as
+additional replicas. This performance is in comparison to reactive auto-scaling,
+which may not be able to handle the additional burst, and thus the system would
+crash as no nodes would have been able to get the shared data. There are likely
+a variety of additional operations and systems matching this general theme in
+which predictive auto-scaling is particularly useful.
