@@ -22,10 +22,10 @@ endpoints, ``/" and "/ready".
     follows. Upon receiving a GET request to this endpoint, the handler function
     records the start time of the function and records the starting percentage
     of CPU that is idle. It then executes a computationally intensive
-    task, which we define as repeatedly encrypting a passphrase. Once this task
+    task, which we define as repeatedly encrypting a password. Once this task
     is over, we once again record the time and the percentage of idle CPU.
     Having these two values allows us to calculate average amount of idle CPU
-    and function exeuction time, which function as measurements of
+    and function execution time, which function as measurements of
     efficient resource utilization and quality of service. The function then
     records these values as a new point in the database, along with a
     an indicator of the values of independent variables in place for this trial
@@ -33,7 +33,7 @@ endpoints, ``/" and "/ready".
     returning a status code of 200.
   \item \textbf{``/ready" - Ready}: The \textit{Ready} endpoint is used to allow
     us fine grained control over pod initialization time during experimentation.
-    Kubernetes determines if a pod is initiliazed based on a
+    Kubernetes determines if a pod is initialized based on a
     \textit{ReadinessProbe}. This probe was discussed in greater detail earlier,
     but suffice to say it works by defining an HTTP endpoint that will return a
     successful status code if the pod is initialized. During experimentation, we

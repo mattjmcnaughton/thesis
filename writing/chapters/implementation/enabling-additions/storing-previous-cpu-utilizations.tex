@@ -6,16 +6,16 @@ time. To make this prediction of future CPU utilization values,
 we need to store multiple previous CPU utilization values.
 
 It is necessary to make a couple of changes to the Kubernetes code base in order
-to faciliatate this additional storage. To start,
+to facilitate this additional storage. To start,
 consider the contents of a \textit{HorizontalPodAutoscaler} object, which is
-just an Kubernetes api object representing an auto-scaler. This object contains
+just an Kubernetes API object representing an auto-scaler. This object contains
 two objects entitled \textit{HorizontalPodAutoscalerSpec} and
 \textit{HorizontalPodAutoscalerStatus}. Traditionally within
 Kubernetes, \textit{Spec} represents the desired state of the object and
 \textit{State} represents the current state of the object. Before the addition
 of predictive auto-scaling, the \textit{HorizontalPodAutoscalerStatus} object
 contained fields for the current and desired number of replicas, the last time
-at which scaling occured, and the current average CPU utilization percentage for
+at which scaling occurred, and the current average CPU utilization percentage for
 all pods controlled by this auto-scaler object. This last field, entitled
 \textit{CurrentCPUUtilizationPercentage}, provides part of the information
 needed to estimate the predict the future CPU utilization
@@ -28,7 +28,7 @@ Thus, we start tracking a new field entitled
 \textit{PreviousCPUUtilizationPercentages}. This field is a list of average previous CPU
 utilization percentages in integer form. Fortunately, Kubernetes already
 implements code that updates the \textit{CurrentCPUUtilizationPercentage} value
-at a set duration interval. We modify the code such that everytime a new
+at a set duration interval. We modify the code such that every time a new
 \textit{CurrentCPUUtilizationPercentage} is recorded, we add onto the queue of
 \textit{PreviousCPUUtilizationPercentages}. We implement our queue such that it
 is of a fixed length, and newer utilization percentage readings bump older ones

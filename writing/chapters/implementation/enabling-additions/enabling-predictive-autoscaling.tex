@@ -27,23 +27,23 @@ annotated value to anything other than \textit{true}.
   kubectl annotate hpa foo predictive=`false'
 \end{minted}
 
-Within the code for determining the number of replia pods to create when
+Within the code for determining the number of replica pods to create when
 auto-scaling, we can easily check if the \textit{predictive} annotation is
 \textit{true} for that particular auto-scaler. If the value is not set, or
 anything other than true, the auto-scaler will reactively auto-scale as normal.
 This flexibility allows different auto-scalers to utilize different auto-scaling
-methods. Additionally, it allows a single autoscaler to utilize different
+methods. Additionally, it allows a single auto-scaler to utilize different
 auto-scaling methods throughout its lifetime.
 
 If the benefits of predictive auto-scaling are substantial, then it will make
 sense to transition this value from one recorded in \textit{Annotations} to a
-more permananet field defined a autoscaler's
+more permanent field defined a auto-scaler's
 \textit{HorizontalPodAutoscalerSpec} object. A field entitled
 \textit{Predictive} could be added to this object which, if set to true, would
 turn on predictive auto-scaling. This addition would enable to configure a
-autoscaler to perform predictively from the start, as opposed to having to first
-create the autoscaler and then turn on prediction. Making prediction a part of
-the static configuration for an autoscaler has the benefit of linking predictive
+auto-scaler to perform predictively from the start, as opposed to having to first
+create the auto-scaler and then turn on prediction. Making prediction a part of
+the static configuration for an auto-scaler has the benefit of linking predictive
 behavior with all other pod state, especially as configuration files are used
 among multiple projects. However, until substantial benefits of predictive
 auto-scaling are demonstrated, it does not make sense to undertake this effort.

@@ -2,23 +2,23 @@ As has been discussed in the previous sections, we are interested in visualizing
 and understanding the difference in performance between predictive and
 horizontal auto-scaling for two different pod initialization times and two
 different traffic patterns. As such, we have two different tests on which we
-compare ERU and QOS: increase-decrese traffic pattern with 135s pod
+compare ERU and QOS: increase-decrease traffic pattern with 135s pod
 initialization time and flash-crowd traffic pattern with 135s pod initialization time.
 
 For each test on the matrix, we provide two different sources of information.
-First, we generate a graph comparing the summation of eru and qos across the 60
+First, we generate a graph comparing the summation of ERU and QOS across the 60
 minute evaluation time for predictive and reactive auto-scaling. Additionally,
 we provide statistical measurements for the difference of predictive and
 reactive auto-scaling at the same point in the evaluation sequence (i.e. we
-compare the summation of eru and qos after 10 minutes for predictive with the
-summation of eru and qos after 10 minutes for predictive). We process all of the
-observations that we recorded in 1 minute intervals, for which we calcualte the
-mean eru and qos observations. With respect to statistical measurements, we
+compare the summation of ERU and QOS after 10 minutes for predictive with the
+summation of ERU and QOS after 10 minutes for predictive). We process all of the
+observations that we recorded in 1 minute intervals, for which we calculate the
+mean ERU and QOS observations. With respect to statistical measurements, we
 calculate a one-sided p-value based on the null hypothesis that difference
-between the summation of eru and qos for predictive and reactive auto-scaling is
+between the summation of ERU and QOS for predictive and reactive auto-scaling is
 $0$. As we are interested in seeing if predictive auto-scaling performs better
 than reactive auto-scaling, we calculate a one-sided p-value, $p$, with the alternative
-hypothesis that the difference between the summation of eru and qos for
+hypothesis that the difference between the summation of ERU and QOS for
 predictive and reactive auto-scaling is greater than $0$. We test for
 significance at the $5\%$ significance level, meaning that if $p < 0.05$, we can
 reject our null hypothesis in favor of our alternative hypothesis that

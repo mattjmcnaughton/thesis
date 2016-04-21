@@ -1,13 +1,13 @@
 The pod is the smallest deployable unit that Kubernetes can create and
 manage. Importantly, the pod's role as the smallest abstraction means a user of
 Kubernetes does not interact with containers, except to the extent that
-containeres are contained within a pod. A pod can contain one or more
+containers are contained within a pod. A pod can contain one or more
 applications, and one or more containers can comprise each of these applications.
 Multiple applications should run on the same pod
 if these applications need to be run on the same
 physical machine; otherwise, the applications should be in separate pods.
 Applications within a pod can see each other's processes,
-access the same IP network, and share the same hostname. Like well-designed
+access the same IP network, and share the same host name. Like well-designed
 containers within the microservices model, well-designed containers should be
 focused, stateless, and concurrent. Kubernetes assumes that pods can be deleted,
 created, and replicated at will. The user can either submit a

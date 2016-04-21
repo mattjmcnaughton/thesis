@@ -82,7 +82,7 @@ second is if the auto-scaling is reactive or predictive.
     is run.\footnote{For background on the different manners of running
       applications on nodes in a cluster, please see the \textit{Virtualization}
     section of the Appendix.} If the application is run directly on a machine,
-    then it is extremely difficuly to assign the application more resources
+    then it is extremely difficulty to assign the application more resources
     without stopping it from running, as it would require transferring a running
     process to a new machine with more abundant resources.\footnote{In reality,
     it would be extremely rare for a cluster manager to run applications
@@ -93,7 +93,7 @@ second is if the auto-scaling is reactive or predictive.
     resources it needs. KVM, the hypervisor within the Linux kernel, implements
     this process through ``balloon'' drivers \cite{kvm-automatic-ballooning}.
     Finally, if the application is running within a container, performing
-    vertical scaling is simple. Linux container implementaions allocate
+    vertical scaling is simple. Linux container implementations allocate
     resources using cgroups, which assign set amounts of resources to certain
     processes. It is possible to modify the cgroup allocation while the process
     is still running, meaning vertical auto-scaling without stopping the

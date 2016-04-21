@@ -1,6 +1,6 @@
-The current algorithm for determing the number of replica pods at each interval
+The current algorithm for determining the number of replica pods at each interval
 of the control loop is fairly simple. It is assumed that auto-scaling is
-occuring based on the pod's CPU utilization percentage, but this same algorithm
+occurring based on the pod's CPU utilization percentage, but this same algorithm
 could be applied to other resources without the loss of generality.
 To begin, it requires the definition of
 three variables. Let \textit{TargetNumOfPods} be defined as the number of

@@ -35,7 +35,7 @@ applications, as it is possible to over, under, or average provision.
     context of horizontal pod auto-scaling, under provisioning leads to user to
     statically set the replication controller to ensure the existence of
     $y$ pods, where $y$ is the number of pods needed to maintain quality of
-    serice when the application is asked to perform the least work. Under
+    service when the application is asked to perform the least work. Under
     provisioning ensures efficient resource utilization, as the application will
     never reserve any resources and then leave them idle. However, in all
     situations except for when the application performs the minimum possible
@@ -93,7 +93,7 @@ claiming and utilization of a static amount of resources
 \cite{k8s-compute-resources}. Ensuring static provisioning
 is reserving a consistent amount of resources
 allows us to still examine idle CPU percentage, our way of investigating
-efficient resource utializaiton. We additionally incorporate similar CPU limits
+efficient resource utilization. We additionally incorporate similar CPU limits
 and requests when testing reactive and predictive auto-scaling, again because it
 makes it easier to reason about idle CPU.
 

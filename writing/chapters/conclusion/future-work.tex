@@ -16,7 +16,7 @@ we would find that the linear prediction method we have implemented does not
 perform effectively in these scenarios. This recognition suggests implementing
 different prediction mechanisms as another exciting avenue for future work.
 Specifically, instead of only creating a linear line of best fit, we could
-create a number of line of best fits, modelling the different possible equations
+create a number of line of best fits, modeling the different possible equations
 for a line, and then choose the one that best explained our observations so far.
 Such improvements would vastly expand the scope under which predictive
 auto-scaling would be useful.
@@ -25,7 +25,7 @@ In a similar vein, we mentioned how the current implementation of a threshold ti
 interval that most be observed between scalings was at time detrimental to
 Kubernetes. It would be interesting to vary the length of this interval, in
 order if it was possible to maintain the benefits of such an interval on prevent
-thrasing, while also diminishing any negative impacts on predictive
+thrashing, while also diminishing any negative impacts on predictive
 auto-scaling.
 
 Additionally, as was previously mentioned, when work on this thesis began,
@@ -47,5 +47,5 @@ Finally, one of the most important goals of this thesis remains as future work.
 Much of the initial excitement about Kubernetes arose from its status as an
 increasingly popular open-source application. While our predictive auto-scaling
 implementation has not yet been merged into the Kubernetes master branch, we
-remain workiing with core Kubernetes engineers to continue to implementation
+remain working with core Kubernetes engineers to continue to implementation
 process, and are excited about the potential for such contributions happening.
