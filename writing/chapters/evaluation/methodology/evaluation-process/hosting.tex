@@ -32,9 +32,6 @@ EC2 instance as the master and 4 \textit{t2.micro} instances as workers, all
 running in the \textit{us-west-2a} region. These defaults make
 sense for the workload we expect \cite{getting-started-k8s-aws}.
 
-@TODO Document how we are going to send requests (they probably shouldn't all be
-sent from my local computer right?)
-
 Additionally, for simplicity's sake, we decided to host the InfluxDB database
 instance used for storing our evaluation data. It would have also been possible
 to run an instance of InfluxDB ourselves on an Amazon EC2 machine, but the
