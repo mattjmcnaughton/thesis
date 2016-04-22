@@ -14,10 +14,9 @@ With predictive feedback control, we can create instances of the application
 so they are ready as soon as they are needed. For example, if it takes 10
 minutes for our application to be created and ready to operate, and we predict
 we will need to application at 4pm, we can begin building it at 3:50 pm, so it
-is ready as soon as needed.\footnote{If we were using reactive auto-scaling, we
+is ready as soon as needed. If we were using reactive auto-scaling, we
 would not know we needed the application until 4pm, and it would not be ready to
-run until 4:10 pm.}
-Ultimately, we hypothesize that adding a predictive component to
+run until 4:10 pm. Ultimately, we hypothesize that adding a predictive component to
 Kubernetes' current feedback control auto-scaling will allow us to auto-scale in
-a manner that maintains efficient resource utilization and improves quality of
-service.
+a manner that improves the summation of efficient resource utilization and
+quality of service.

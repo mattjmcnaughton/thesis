@@ -1,7 +1,7 @@
 A couple of changes need to be made to the current reactive horizontal pod
 auto-scaling algorithm in order for it to incorporate prediction. Again, we
 assume that auto-scaling is occurring based on the resource utilization metric of
-CUP utilization percentage. Additionally, some of the variables from the
+CPU utilization percentage. Additionally, some of the variables from the
 reactive horizontal pod auto-scaling algorithm appear again. Again, let
 \textit{TargetNumOfPods} defined as the number of replica pods which should
 exist and let \textit{TargetCPUUtilization} be the desired level of per pod CPU
@@ -15,14 +15,14 @@ which we seek to predict the \textit{FutureCPUUtilization}. We calculate
 \textit{PredictionTime} as follows:
 
 \begin{align*}
-  \mbox{PredictionTime} = \mbox{CurrentTime} + \mbox{{PodInitializationTime}}
+  t = \mbox{CurrentTime} + \mbox{{PodInitializationTime}}
 \end{align*}
 
-We then use \textit{PredictionTime} and the \textit{LineOfBestFit} function to
+We then use $t$ and the \textit{LineOfBestFit} function to
 calculate \textit{FutureCPUUtilization} as follows:
 
 \begin{align*}
-  \mbox{FutureCPUUtilization} = \mbox{LineOfBestFit(PredictionTime)}
+  \mbox{FutureCPUUtilization} = \mbox{LineOfBestFit($t$)}
 \end{align*}
 
 The variable \textit{SumFuturePodsCPUUtilization} can be defined by multiplying

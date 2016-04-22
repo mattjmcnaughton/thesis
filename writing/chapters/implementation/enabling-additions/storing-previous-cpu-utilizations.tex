@@ -5,7 +5,7 @@ a method of predicting the resource usage of the application at this point in
 time. To make this prediction of future CPU utilization values,
 we need to store multiple previous CPU utilization values.
 
-It is necessary to make a couple of changes to the Kubernetes code base in order
+It is necessary to change the Kubernetes code base in order
 to facilitate this additional storage. To start,
 consider the contents of a \textit{HorizontalPodAutoscaler} object, which is
 just an Kubernetes API object representing an auto-scaler. This object contains
@@ -30,7 +30,8 @@ utilization percentages in integer form. Fortunately, Kubernetes already
 implements code that updates the \textit{CurrentCPUUtilizationPercentage} value
 at a set duration interval. We modify the code such that every time a new
 \textit{CurrentCPUUtilizationPercentage} is recorded, we add onto the queue of
-\textit{PreviousCPUUtilizationPercentages}. We implement our queue such that it
+\textit{PreviousCPUUtilizationPercentages} along with the timestamp at which
+this observation occurred. We implement our queue such that it
 is of a fixed length, and newer utilization percentage readings bump older ones
 from the queue should we exceed the total number of observations we feel we need
 to keep to be able to make accurate predictions about the future. In other words, at time
@@ -43,10 +44,10 @@ amount of time it takes an
 average pod being run by this auto-scaler to initialize is how far into the
 future we seek to predict the state of the cluster.} and $c$ is a constant
 multiplier.\footnote{In our current implementation, $c$ has a value of
-$1$, indicating that we will predict based on past data equal in distance from
-the current time as the point in the future at which we wish to predict.}
-In our queue, we additionally record the time at which previous CPU utilization
-observation was taken, meaning that we can easily find a simple line of best fit
+$20$, indicating that we will predict based on measures twenty times as for from
+in distance from the current time as the point in
+the future at which we wish to predict.} With this recorded info,
+meaning that we can now easily find a simple line of best fit
 for the graph in which time is the independent variable and CPU utilization is
 the dependent variable. Extrapolating with this line of best fit allows us to
 predict the future CPU utilization of our pods.

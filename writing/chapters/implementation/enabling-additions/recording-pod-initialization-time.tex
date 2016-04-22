@@ -1,7 +1,7 @@
 This thesis' implementation of predictive auto-scaling predicts \textit{pod
-initialization time} into the future. As was made explicit in the
-\textit{Benefits of Predictive Auto-scaling} section, this time
-frame allows any replica pods created to be ready to share in the work by the
+initialization time} into the future. As was made explicit in section
+\ref{architecture-predictive-autoscaling-in-relation-to-kubernetes-benefits-of-predictive-autoscaling},
+this time frame allows any replica pods created to be ready to share in the work by the
 time in which they are needed.
 
 Pod \textit{initialization} time is distinct from pod \textit{creation} time and
@@ -39,7 +39,7 @@ We can rely on the existence of the readiness probe to
 measure the amount of time it took for a pod
 to initialize. Each pod records the time at which it was first ordered into
 existence. Subtracting the time at which the pod first came into existence
-from the time at which the readiness probe first returned \textit{Success}
+from the time at which a request to the readiness probe was first successful.
 results in the pod initialization time we desire. However, while Kubernetes
 records the time at which the pod first came into existence as
 \textit{pod.CreationTimestamp}, it does not record the time at which the
@@ -50,16 +50,18 @@ calculates the average initialization time for all pods controlled by the auto-s
 
 \begin{itemize}
   \item For all pods controlled by the auto-scaler.
-  \item If the pod was ever in the ready state, find the first time that
-    occurred. If the pod has never been in the ready state, skip this pod.
-  \item If a \textit{InitializationTime} value has not already been recorded for
-    this pod, then subtract the \textit{CreationTime} from the time at which the
-    pod entered the ready phase, and record this time as
-    \textit{PodInitializationTime}
-  \item Add the value for \textit{InitializationTime} to
-    \textit{TotalInitializaitonTime}.
-  \item Divide \textit{TotalInitializationTime} by the total number of pods that
-    have been ready at some point.
+    \begin{itemize}
+      \item If the pod was ever in the ready state, find the first time that
+        occurred. If the pod has never been in the ready state, skip this pod.
+      \item If a \textit{InitializationTime} value has not already been recorded for
+        this pod, then subtract the \textit{CreationTime} from the time at which the
+        pod entered the ready phase, and record this time as
+        \textit{PodInitializationTime}
+      \item Add the value for \textit{InitializationTime} to
+        \textit{TotalInitializaitonTime}.
+      \end{itemize}
+    \item Divide \textit{TotalInitializationTime} by the total number of pods that
+      have been ready at some point.
 \end{itemize}
 
 This algorithm allows us to record the initialization time for each pod

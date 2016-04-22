@@ -1,14 +1,14 @@
 Additionally, previous to this thesis, it was possible to scale applications in
 Kubernetes using horizontal, reactive pod based auto-scaling. We examine the implementation
-and utilization of this method of scaling in depth in the \textit{Autoscaling in
-Kubernetes} section, so we will not repeat it here.
+and utilization of this method of scaling in depth in the section
+\ref{architecture-autoscaling-in-kubernetes}, so we will not repeat it here.
 
 However, some additional detail assists in understanding the potential values of
 CPU utilization percentage that result from reactive horizontal auto-scaling.
 Remember that the current implementation of reactive horizontal auto-scaling
 occurs by having the auto-scaler create sufficient replica pods such that each
-replica pods operates within a specified range of CPU utilization percentage.
-\footnote{If we decide to enact resource requests\/limits on our replica pods, we can also
+replica pods operates within a specified range of CPU utilization percentage.\footnote{If
+  we decide to enact resource requests/limits on our replica pods, we can also
 calculate the exact amount of resources being utilized, as opposed to just a
 percentage. However, we are not particularly concerned about non-percentage
 values because we measure efficient resource utilization using CPU utilization

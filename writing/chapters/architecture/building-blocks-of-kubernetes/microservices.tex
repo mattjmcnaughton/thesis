@@ -1,8 +1,9 @@
 Additionally, Kubernetes fits within the recent interest in, and adoption of,
 microservices. Microservices is a new paradigm of developing computer
 applications. It is particularly suited towards developing large, complex
-applications requiring many computing resources - the same types of applications
-that are typically benefit from\/require being run on a cluster.
+applications requiring many computing resources, which are the
+same types of applications that are typically benefit from/require
+being run on a cluster.
 
 In short, microservices are ``small, autonomous services that work
 together.''\cite[pg. 2]{building-microservices-designing-fine-grained-systems}
@@ -30,7 +31,7 @@ More specifically, microservices reflect the following characteristics:
 Microservice design principles are particularly supportive of horizontal
 auto-scaling. Microservices should be easily replicable and easily replaceable.
 In other words, because microservices are stateless and can be run concurrently,
-it is possible to easily scale a microservice by replicating it and then
+it is possible to easily scale up a microservice by replicating it and then
 dividing the work between the two. Auto-scaling down is supported, as it is
 possible to delete an instance of the microservice without worrying about
 loosing any important state. When the design principles of

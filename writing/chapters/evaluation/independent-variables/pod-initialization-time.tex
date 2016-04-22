@@ -1,5 +1,5 @@
-As will be discussed in detail in the later \textit{Tools} section, we've created a web
-server application that allows us to specify any \textit{pod
+As will be discussed in detail in section \ref{evaluation-methodology-tools},
+we've created a web server application that allows us to specify any \textit{pod
 initialization time} we desire. As such, we have considerable flexibility with
 respect to what initialization time values we test. To begin, we decided to test the
 following value of 135s.
@@ -8,10 +8,10 @@ We initially believed 5s and 135s would important independent variables to test 
 are indicative of different classes of applications that could be run on
 Kubernetes. A pod initialization time of 5s is commonly found among web
 application frameworks, as we showed when writing a simple HTTP server in Go and
-using the Spring Java web application framework \cite{spring}. There web
+using the Spring Java web application framework \cite{spring}. These web
 frameworks initialized, and were ready to serve requests, in 1s and 5s
-respectively. It is our strong belief that any web framework that simply
-needs to initialize, without any external communicating our data, will
+respectively. It is our belief that any web framework that simply
+needs to initialize, without any external communicating of data, will
 accomplish this task in under 5s. Thus, testing a pod initialization time of 5s
 would allows us to consider how any web application framework would perform with
 predictive auto-scaling. However, when pod initialization time is as little as
@@ -35,7 +35,7 @@ representative size. By examining the pod initialization time of 5s, we
 are confident that we are capturing the majority of the potential interesting use cases for
 predictive auto-scaling.
 
-We believe that there will be a \textit{sweet spot} of pod initialization times
+We believe that there will be a sweet spot of pod initialization times
 for which predictive auto-scaling demonstrates the most benefits over reactive
 auto-scaling. Obviously the smaller the pod initialization time value, the lesser
 the difference between reactive and predictive auto-scaling, as predictive

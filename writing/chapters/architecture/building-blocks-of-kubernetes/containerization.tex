@@ -1,5 +1,5 @@
 Google often describes Kubernetes as ``an open source orchestration system for
-Docker containers.''\cite{k8s-website} From this statement, it is clear that
+Docker containers''\cite{k8s-website}. From this statement, it is clear that
 containers, and more specifically Docker containers, inform much of Kubernetes.
 To begin, it is important to understand the benefits of containers in comparison
 to other similar options, and also to understand the technological underpinnings
@@ -16,17 +16,17 @@ system and the hardware has efficiency costs. More specifically, virtual
 machines are substantially more memory intensive, and have a higher startup cost,
 than lightweight containers \cite{distributed-systems-principles-and-paradigms}.
 In contrast, containers should be thought of as ``lightweight wrappers around a
-single Unix process.''\cite[pg. 15]{docker-up-and-running} As such, containers
+single Unix process''\cite[pg. 15]{docker-up-and-running}. As such, containers
 require substantially less memory and can be started, destroyed, and restarted
 in a matter of seconds. However, these ephemeral benefits come at the cost of
 limited isolation between two containers running on the same physical host.
 While there are ways to increase container isolation, it is not possible to
-achieve the complete separation benefits of virtual
+achieve the complete separation offered by virtual
 machines \cite{docker-up-and-running}.
 
 More formally, containers can be thought of as a single Unix process bundled
 with the operating system and application specific files needed to run said process.
-Containerizing a process involves saving a snapshot of a Linux operating system
+Containerizing a process involves saving a snapshot of the Linux operating system
 running the process. This snapshot can be given to any platform which can run
 the container, and the platform will then be able to simulate running the
 application on the operating system bundled in the container.
