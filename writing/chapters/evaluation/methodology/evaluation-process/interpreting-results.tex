@@ -2,10 +2,10 @@ Just as we have automated the process for running our evaluation tests, we have
 also automated the process for interpreting the results from these tests. As all
 of the results from our evaluation tests are stored in InfluxDB, we need to
 write a script that retrieves these results in aggregated 1 minute intervals,
-sums eru and qos for each observation, and generates graphs and summary
-statistics comparing the difference in the summation of eru and qos for
-predictive and reactive auto-scaling. We run this same script for all 4
+sums ERU and QOS for each observation, and generates graphs and summary
+statistics comparing the difference in the summation of ERU and QOS for
+predictive and reactive auto-scaling. We run this same script for all four
 combinations of traffic pattern and pod initialization time that we are
 interested in. A more in-depth discussion of the analysis performed and the
 combinations of traffic pattern and pod initialization time that we wish to test
-will occur in the Results section.
+will occur in the section \ref{evaluation-results}.

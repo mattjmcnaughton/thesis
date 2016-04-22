@@ -3,8 +3,8 @@ Services are necessary because pods are ephemeral. As a pod may be deleted or
 replaced at any time, it is important that no entity is trying to communicate
 with a specific pod, because that pod may disappear. What is needed is a
 consistent endpoint with which entities wishing to communicate with a pod can
-always contact. A service is just such a consistent endpoint. Services prevent a
-single, long-running access points for multiple replica pods, as it receives
+always establish contact. A service offers just such a consistent endpoint. Services prevent a
+single, long-running access point for multiple replica pods, as it receives
 requests to the pods, and load-balances them among the replicas.\footnote{The replication of
 these pods is handled by a replication controller.} This endpoint is used within
 a Kubernetes cluster as pods wish to communicate with each other and it can also

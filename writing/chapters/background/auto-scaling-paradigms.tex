@@ -27,7 +27,21 @@ and quality of service will deteriorate. Alternatively, if we assign the
 application $2x$ resources on the cluster, then on Monday and Friday we will
 essentially be wasting $x$ resources on the cluster, as they are assigned to an
 application that does not need them. Such waste indicates inefficient
-resource utilization.
+resource utilization. The difficulties static resource provisioning suggests can
+be seen in Figure \ref{fig:static-over-provision} and Figure
+\ref{fig:static-average-provision}.
+
+\begin{figure}[!h]
+  \centerline{\includegraphics[scale=.25]{static-over-provision.jpg}}
+  \caption{A Over Provisioned Application}
+  \label{fig:static-over-provision}
+\end{figure}
+
+\begin{figure}[!h]
+  \centerline{\includegraphics[scale=.25]{static-average-provision.jpg}}
+  \caption{A Average Provisioned Application}
+  \label{fig:static-average-provision}
+\end{figure}
 
 We use auto-scaling to address the inability of statically allocated
 resources to efficiently handle all the variances in application load.
@@ -39,7 +53,14 @@ both goals: our application has the needed resources for a high quality
 of service, and our cluster is efficiently utilizing resources by only
 allocating the application what it needs.
 Overall, auto-scaling can make applications on a cluster more performant and
-the cluster more cost-effective.
+the cluster more cost-effective, as can be seen Figure
+\ref{fig:reactive-autoscale}.
+
+\begin{figure}[!h]
+  \centerline{\includegraphics[scale=.25]{reactive-autoscale}}
+  \caption{A Reactive Auto-scaled Application}
+  \label{fig:reactive-autoscale}
+\end{figure}
 
 Given an understanding of the importance of auto-scaling, we now begin to
 examine the differing implementations of auto-scaling. Auto-scaling
@@ -79,10 +100,8 @@ second is if the auto-scaling is reactive or predictive.
     on operation.} Historically, vertical auto-scaling has been more complex,
     although that is rapidly changing.
     The complexity of vertical auto-scaling depends on how the application
-    is run.\footnote{For background on the different manners of running
-      applications on nodes in a cluster, please see the \textit{Virtualization}
-    section of the Appendix.} If the application is run directly on a machine,
-    then it is extremely difficuly to assign the application more resources
+    is run. If the application is run directly on a machine,
+    then it is extremely difficulty to assign the application more resources
     without stopping it from running, as it would require transferring a running
     process to a new machine with more abundant resources.\footnote{In reality,
     it would be extremely rare for a cluster manager to run applications
@@ -93,7 +112,7 @@ second is if the auto-scaling is reactive or predictive.
     resources it needs. KVM, the hypervisor within the Linux kernel, implements
     this process through ``balloon'' drivers \cite{kvm-automatic-ballooning}.
     Finally, if the application is running within a container, performing
-    vertical scaling is simple. Linux container implementaions allocate
+    vertical scaling is simple. Linux container implementations allocate
     resources using cgroups, which assign set amounts of resources to certain
     processes. It is possible to modify the cgroup allocation while the process
     is still running, meaning vertical auto-scaling without stopping the
@@ -109,7 +128,7 @@ second is if the auto-scaling is reactive or predictive.
     examining the distinction between reactive and predictive
     auto-scaling. At the simplest level, reactive auto-scaling reacts to
     the current state of the application and cluster, while predictive
-    auto-scaling reacts to the future state of the application and cluster
+    auto-scaling reacts to a prediction of the future state of the application and cluster
     \cite{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}.
     While reactive auto-scaling must only consider one
     time-frame when gathering and interpreting information, predictive
@@ -119,8 +138,9 @@ second is if the auto-scaling is reactive or predictive.
     the cluster manager to decrease the time-costs of certain actions by performing
     them before a reactive cluster manager would suggest.\footnote{We will spend
     considerable time later on this concept. Basically, predictive auto-scaling
-    makes it easier to account for the amount of time necessary to perform
-    horizontal auto-scaling (i.e. creating a new virtual machine instance running
+    makes it easier to account for the amount of time necessary to create the
+    replicas used in horizontal auto-scaling (i.e. creating
+    a new virtual machine instance running
     the application). If we know we need a machine in the future, we can start
     creating it before it is needed, so it is ready by the time it is needed. With reactive
     auto-scaling, we do not know we need the replication until the current state of

@@ -1,6 +1,6 @@
-The current algorithm for determing the number of replica pods at each interval
+The current algorithm for determining the number of replica pods at each interval
 of the control loop is fairly simple. It is assumed that auto-scaling is
-occuring based on the pod's CPU utilization percentage, but this same algorithm
+occurring based on the pod's CPU utilization percentage, but this same algorithm
 could be applied to other resources without the loss of generality.
 To begin, it requires the definition of
 three variables. Let \textit{TargetNumOfPods} be defined as the number of
@@ -20,5 +20,4 @@ sensitive, scaling will only occur if the current resource utilization is
 outside of a 10\% tolerance range \cite{k8s-horizontal-pod-autoscaler-proposal}.
 
 Implementing this thesis' new auto-scaling additions, namely utilizing
-predictive feedback control, will require modifications to this algorithm, which
-will be examined in detail later.
+predictive feedback control, will require modifications to this algorithm.

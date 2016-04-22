@@ -7,10 +7,6 @@ an application with poor efficient resource utilization would be a web server
 that uses many replica pods, each reserving considerable resources,
 to serve a very low volume of web requests.
 
-@TODO We will just have to make it clear that if we are using Idle CPU
-percentage of measure efficient resource utilization, than the lower the value,
-the better the efficient resource utilization.
-
 Specifically, we measure efficient resource utilization with respect to
 Kubernetes through examining the percentage of idle CPU.
 The amount of CPU that a pod reserves is the summation of
@@ -20,7 +16,53 @@ that reserved CPU to run, than a large amount of CPU will be left idle. The
 larger the percentage of CPU that is left idle, the worse the efficient resource
 utilization, as many resources are just sitting. Our specific metric for efficient resource
 utilization will be measured in percentage of CPU that is idle and we name it
-\textit{Idle CPU}.
+\textit{Idle CPU}. Using this metric to indicate efficient resource utilization,
+if the ERU value is high, the application is not using resources efficiently. If
+the metric is low, the application is using resources efficiently.\footnote{In a
+similar vein, a low measure for quality of service is actually preferable to a
+high value for quality of service when we are measuring quality of service
+through request response time.} The process for summing ERU and QOS will resolve
+this slight discrepancy a high summation of ERU and QOS is preferrable for an
+application, will a high singular ERU value is not.
+
+Our decision to use idle load to measure efficient resource utilization
+in Kubernetes makes the assumption that
+creating a static number of pods equates to reserve resources which it may or
+may not use resources. In the default case, the previous statement is not necessarily true,
+yet it is possible to craft specialized pods which validate this equality. To
+start, remember that pods contain containers. When Kubernetes receives a pod, it
+seeks to schedule all of its containers on a physical node within the cluster.
+By default, containers within the pod run with no bounds on their CPU and memory
+beyond the constrictions the physical node on which they are scheduled. As such,
+declaring $x$ number of pods does not give any guarantees of resource usage, as
+the amount of resources available to the containers within the pod vary
+drastically based on their specific node \cite{k8s-limit-range}. This variability challenges the
+stability of static provisioning, and weakens its ability to serve as a control
+group with which we can compare predictive horizontal auto-scaling.
+
+Fortunately, there is a way to modify configure Kubernetes such that a static number of
+pods equates to a static number of resources.\footnote{Right now in Kubernetes,
+resources relates to either CPU or memory. CPU is requested in cores. Memory is
+requested in bytes of RAM.} This configuration involves
+setting resource requests and limits for each container within the pod. A
+resource request for a container indicates the minimum amount of resources that
+should always be available. A pod will not be scheduled on a node within the
+cluster, unless that node can guarantee the requested amount of resources to all
+containers within the pod. A resource limit for a container indicates the
+maximum amount of resources that a container can claim. Depending on the
+resource, a container exceeding the maximum amount of resources will either be
+throttled (CPU) or killed (memory).\footnote{It is also possible to configure
+Kubernetes such that a container using too much CPU is killed.} A pod's resource
+request/limit is the summation of the resource request/limit for all of its
+containers. Setting a container's, or pod's, resource request equal to its
+resource limit essentially guarantees that the existence of a pod represents the
+claiming and utilization of a static amount of resources
+\cite{k8s-compute-resources}. Ensuring static provisioning
+is reserving a consistent amount of resources
+allows us to still examine idle CPU percentage, our way of investigating
+efficient resource utilization. We additionally incorporate similar CPU limits
+and requests when testing reactive and predictive auto-scaling, again because it
+makes it easier to reason about idle CPU.
 
 The efficient resource utilization metric has direct links to the costs of
 running applications on a cluster manager. If applications are given resources

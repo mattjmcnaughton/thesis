@@ -3,7 +3,7 @@ implementing Model Predictive Control auto-scaling, instead of the current Model
 Control auto-scaling. With a greater understanding of the building blocks of
 Kubernetes, and the current implementation of auto-scaling in Kubernetes, it is
 now possible to understand Model Predictive Control in a Kubernetes specific
-context. Given the Kubernetes specific auto-scaling implementaiton is horizontal
+context. Given the Kubernetes specific auto-scaling implementation is horizontal
 pod auto-scaling, the updated, predictive version investigated in this thesis
 will be referred to as predictive horizontal pod auto-scaling.
 
@@ -14,34 +14,30 @@ occurs in reaction to the current resource consumption of the pod. Rather, it oc
 predictively based on the pod's predicted future resource consumption. The
 amount of time ahead for which resource consumption is predicted is dependent on
 the amount of time it takes a replica pod to achieve the state we desire. With
-respect to upscaling (i.e. creating pods) we are interested in how long it
+respect to up-scaling (i.e. creating pods) we are interested in how long it
 takes a replica pod to be ready to partake in the work the
 service is balancing across all replica pods.\footnote{For example, a pod may
-run a web server takes multiple minutes to initialize, and until that web server
+run a web server which takes multiple minutes to initialize, and until that web server
 is initialized, the pod cannot handle any web requests load balanced to it by
 the service} This interval of time is referred to as \textit{PodInitializationTime}.
-With respect to downscaling (i.e. removing pods) we are interested in how long
+
+With respect to down-scaling (i.e. removing pods) we are interested in how long
 it takes to stop sending a pod requests and free any resources allocated to said
 pod. We assume that this amount of time is almost instantaneous, and thus for
-downscaling, predictive and reactive auto-scaling are very similar. Because of
+down-scaling, predictive and reactive auto-scaling are very similar. Because of
 this, we discuss the predictive auto-scaling algorithm, we are discussing it
-with respect to upscaling. A similar algorithm could easily generated for
+with respect to up-scaling. A similar algorithm could easily generated for
 down-scaling, by replacing \textit{PodInitializationTime} with $0s$. As that is
 essentially reactive auto-scaling, we do not devote a large portion of time to
-discussion predictive down-scaling, and instead use predictive auto-scaling to
-really refer to predictive upscaling.
-
-@TODO Does this make sense? Is it clear enough throughout the thesis?
+discussion predictive down-scaling, and instead uses predictive auto-scaling
+actually refer to predictive up-scaling.
 
 Aside from the switch to using predictive resource measurement, the
 general architecture of predictive horizontal pod auto-scaling is similar to the
-architecture of horizontal pod auto-scaling. Again, the autoscaler operates as a
+architecture of horizontal pod auto-scaling. Again, the auto-scaler operates as a
 control loop, yet at each looped interval, it utilizes the current resource
 utilization of pods to predict the resource utilization of the pods after
 \textit{PodInitializationTime}. Assuming the resource in question is CPU
 utilization percentage, the auto-scaler will create or delete replica pods
 to ensure the future CPU utilization percentage will be within the target range
-the user specified when the autoscaler. It is important to remember that, while
-the new replica pods are created immediately, they are not actually initialized
-and reducing the work load of the other replica pods until after
-\textit{PodInitializationTime}.
+the user specified when the auto-scaler.

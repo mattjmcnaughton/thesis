@@ -9,10 +9,8 @@ require hosting Kubernets on external cloud servers.
 There are a couple of different options for a hosting service which will provide
 the machines for our Kubernetes cluster. The simplest method
 of using Kubernetes is to use \textit{Google Container
-Engine}. Google Container Engine is a verison of Kubernetes hosted by Google
-itself. The number of machines managed by Kubernetes is completely abstracted,
-as the user only interacts with the Kubernetes command line tool,
-\textit{kubectl}. While this method is admired for its simplicity, it is not
+Engine}. Google Container Engine is a version of Kubernetes hosted by Google
+itself. While this method is admired for its simplicity, it is not
 feasible for this thesis. Because we want to be able to test our modifications
 to Kubernetes, without waiting for them to be accepted in the stable version of
 Kubernetes used for Google Container Engine, we must instead use a platform that
@@ -31,9 +29,6 @@ pursue hosting on Amazon AWS. Kubernetes typically runs 1 \textit{m3.medium}
 EC2 instance as the master and 4 \textit{t2.micro} instances as workers, all
 running in the \textit{us-west-2a} region. These defaults make
 sense for the workload we expect \cite{getting-started-k8s-aws}.
-
-@TODO Document how we are going to send requests (they probably shouldn't all be
-sent from my local computer right?)
 
 Additionally, for simplicity's sake, we decided to host the InfluxDB database
 instance used for storing our evaluation data. It would have also been possible

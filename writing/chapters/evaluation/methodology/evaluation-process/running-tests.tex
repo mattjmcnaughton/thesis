@@ -1,5 +1,5 @@
 Given the powerful tooling described in the previous section, the process for
-running a set of tests is completely automatable and quite simple. Each test
+running a set of tests is completely automated and quite simple. Each test
 must specify a traffic pattern, a scaling method, and a pod initialization time.
 These variables influence Kubernetes' \textit{ReplicationController} and
 \textit{HorizontalPodAutoscaler} objects. Thus, while some configuration files
@@ -13,8 +13,10 @@ tests with the following single \textit{make} command.
 
 \begin{minted}{bash}
   export TS_RC=test-server-controller-reactive-5s.yaml;
-  export TG_RC=traffic-generator-increase-decrease-test-plan.yaml; export HPA=TRUE; make
-  test_start
+  export TG_RC=traffic-generator-increase-decrease-test-plan.yaml;
+  export HPA=TRUE;
+  export PREDICTIVE=TRUE;
+  make test_start
 \end{minted}
 
 The above command indicates a wish to start a test instance with reactive

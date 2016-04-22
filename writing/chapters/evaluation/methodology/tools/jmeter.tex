@@ -12,7 +12,3 @@ described patterns of traffic that we seek to test.
 We containerize JMeter and place it into a pod which we run on Kubernetes. This
 gives us considerably more resources with which to generate traffic, as opposed
 to trying to generate a high volume of network requests from a laptop.
-Importantly, we run JMeter within a different namespace than
-\textit{test-server} pods, and also impose CPU limits on JMeter, to ensure that
-our \textit{test-server} pods are isolated from JMeter's traffic generation
-regardless of how much traffic JMeter generates.
