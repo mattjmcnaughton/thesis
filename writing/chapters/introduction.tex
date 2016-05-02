@@ -1,7 +1,11 @@
 Over the past few decades, an explosion in the need for computing resources,
 and the existence of inexpensive, interconnected computers, has
 driven a significant increase in the feasibility and benefits of distributed
-systems \cite{distributed-systems-principles-and-paradigms}.
+systems \cite{distributed-systems-principles-and-paradigms}. Before progressing
+to a discussion of our specific contributions to the field of distributed
+systems, we present a broad overview of the field. We then conduct analysis of
+greater and greater focus, until finally discussing the benefits and impacts of
+predictive auto-scaling in Google's Kuberentes container cluster manager.
 
 First, we consider the origin of distributed systems as a field of computer
 science. Before the availability of cheap, powerful microprocessors and reliable,
@@ -58,9 +62,9 @@ computing. In this thesis, we focus on cluster computing. Cluster computing
 groups together similar commodity PCs on the same LAN to offer a singular mass
 of computing resources. Specifically, we focus on the
 cluster manager, an integral component of cluster computing. Cluster managers
-are responsible for abstracting all of the management details of the distinct
-nodes in the cluster, and instead presenting a single collection of computing
-power on which the user can run jobs or applications. More succinctly,
+abstract all of the management details of the distinct
+nodes in the cluster, and instead present a single collection of computing
+resources on which the user can run jobs or applications. More succinctly,
 a cluster manager ``admits, schedules, starts, restarts, and monitors the full
 range of applications'' on the cluster \cite{borg}. Overall, a cluster
 manager can be thought of like an operating system for a cluster of computers. There are a
@@ -84,10 +88,11 @@ still comfortably running the cluster's current application load
 particularly important, because the more efficient the cluster manager is at
 utilizing resources, the less the cluster costs, and the more accessible cluster
 computing becomes to the general public. A final important
-cluster management metric is quality of service (QOS). Quality of service measures the
+cluster management metric is quality of service (QoS). Quality of service measures the
 ability of an application to function at a specified
 performance level, despite ever-changing
-external factors.\footnote{The most prominent varying external factor is changes
+external factors.\footnote{In many instances, the most
+prominent varying external factor is changes
 in the load on the application. For example, for an application serving a
 website, changes in the number of people requesting web pages from the website
 would vary the application load.} Again, this metric is particularly important because

@@ -6,4 +6,5 @@
 *.log
 *.toc
 *.bak
+*.out
 _minted-thesis

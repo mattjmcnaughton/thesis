@@ -27,7 +27,10 @@ and quality of service will deteriorate. Alternatively, if we assign the
 application $2x$ resources on the cluster, then on Monday and Friday we will
 essentially be wasting $x$ resources on the cluster, as they are assigned to an
 application that does not need them. Such waste indicates inefficient
-resource utilization. The difficulties static resource provisioning suggests can
+resource utilization. If we desire to run additional jobs on the cluster, we
+must allocate more resources, even though our statically over-provisioned
+application has plently of resources it is not using.
+The difficulties static resource provisioning suggests can
 be seen in Figure \ref{fig:static-over-provision} and Figure
 \ref{fig:static-average-provision}.
 
@@ -51,7 +54,10 @@ would allow us to assign the cluster $x$ resources on Monday and Friday and
 $2x$ resources on Tuesday through Thursday. Through auto-scaling, we accomplish
 both goals: our application has the needed resources for a high quality
 of service, and our cluster is efficiently utilizing resources by only
-allocating the application what it needs.
+allocating the application what it needs. If we desire to run more jobs on our
+cluster, they can ``fill-in'' the resources our application relinquishes when it
+auto-scales, preventing us from having to purchase more computing power that
+will just be wasted.
 Overall, auto-scaling can make applications on a cluster more performant and
 the cluster more cost-effective, as can be seen Figure
 \ref{fig:reactive-autoscale}.
@@ -92,20 +98,23 @@ second is if the auto-scaling is reactive or predictive.
     both of these variations of auto-scaling accomplish the same goal, horizontal
     auto-scaling is a little simpler. Given we know how to create an instance of a
     virtual machine running the application, an entirely safe assumption
-    considering we already created one such instance, it is fairly trivial to create
+    considering we already created one such instance, in many cases it is
+    fairly trivial to create
     another instance, and then split the load between these two instances using
     standard methods of load balancing.\footnote{Claiming
     simplicity assumes the application is written
     such that it can be replicated with no unexpected modifications
-    on operation.} Historically, vertical auto-scaling has been more complex,
+    on operation. For example, a static web server is trivial to horizontally
+    auto-scale, while a relational database is not}
+    Historically, vertical auto-scaling has been more complex,
     although that is rapidly changing.
     The complexity of vertical auto-scaling depends on how the application
-    is run. If the application is run directly on a machine,
-    then it is extremely difficulty to assign the application more resources
+    is run. If the application is run directly on a fully utilized machine,
+    then it is extremely difficult to assign the application more resources
     without stopping it from running, as it would require transferring a running
     process to a new machine with more abundant resources.\footnote{In reality,
     it would be extremely rare for a cluster manager to run applications
-  directly on the nodes of the cluster with no degree of isolation.} The complexity
+    directly on the nodes of the cluster with no degree of isolation.} The complexity
     slightly decreases, although is still considerable, when the application is
     running on a virtual machine. Virtual machines can claim or relinquish
     resources from their host, thus allowing the application the varying

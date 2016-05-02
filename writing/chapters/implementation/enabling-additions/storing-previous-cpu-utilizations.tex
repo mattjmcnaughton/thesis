@@ -1,23 +1,22 @@
-The addition to record pod initialization time described in the
-previous section tell us how far into the future
+Recording pod initialization time tells us how far into the future
 we want to predict the resource usage of the application. However, we still need
 a method of predicting the resource usage of the application at this point in
 time. To make this prediction of future CPU utilization values,
 we need to store multiple previous CPU utilization values.
 
-It is necessary to change the Kubernetes code base in order
-to facilitate this additional storage. To start,
-consider the contents of a \textit{HorizontalPodAutoscaler} object, which is
+The following changes must be made to the Kubernetes to facilitate this
+recording. To start,
+consider the contents of a \code{HorizontalPodAutoscaler} object, which is
 just an Kubernetes API object representing an auto-scaler. This object contains
-two objects entitled \textit{HorizontalPodAutoscalerSpec} and
-\textit{HorizontalPodAutoscalerStatus}. Traditionally within
-Kubernetes, \textit{Spec} represents the desired state of the object and
-\textit{Status} represents the current state of the object. Before the addition
-of predictive auto-scaling, the \textit{HorizontalPodAutoscalerStatus} object
+two objects entitled \code{HorizontalPodAutoscalerSpec} and
+\code{HorizontalPodAutoscalerStatus}. Traditionally within
+Kubernetes, \code{Spec} represents the desired state of the object and
+\code{Status} represents the current state of the object. Before the addition
+of predictive auto-scaling, the \code{HorizontalPodAutoscalerStatus} object
 contained fields for the current and desired number of replicas, the last time
 at which scaling occurred, and the current average CPU utilization percentage for
 all pods controlled by this auto-scaler object. This last field, entitled
-\textit{CurrentCPUUtilizationPercentage}, provides part of the information
+\code{CurrentCPUUtilizationPercentage}, provides part of the information
 needed to estimate and predict the future CPU utilization
 percentage \cite{k8s-horizontal-pod-autoscaler-object}.
 However, to make any decent estimation, we need to know the previous CPU
@@ -25,17 +24,17 @@ utilization percentages at least as far into the past as we wish to predict into
 the future.
 
 Thus, we start tracking a new field entitled
-\textit{PreviousCPUUtilizationPercentages}. This field is a list of average previous CPU
+\code{PreviousCPUUtilizationPercentages}. This field is a list of average previous CPU
 utilization percentages in integer form. Fortunately, Kubernetes already
-implements code that updates the \textit{CurrentCPUUtilizationPercentage} value
+implements code that updates the \code{CurrentCPUUtilizationPercentage} value
 at a set duration interval. We modify the code such that every time a new
-\textit{CurrentCPUUtilizationPercentage} is recorded, we add onto the queue of
-\textit{PreviousCPUUtilizationPercentages} along with the timestamp at which
+\code{CurrentCPUUtilizationPercentage} is recorded, we add onto the queue of
+\code{PreviousCPUUtilizationPercentages} along with the timestamp at which
 this observation occurred. We implement our queue such that it
 is of a fixed length, and newer utilization percentage readings bump older ones
 from the queue should we exceed the total number of observations we feel we need
 to keep to be able to make accurate predictions about the future. In other words, at time
-$t_{j}$, the \textit{HorizontalPodAutoscaler} object will have access to
+$t_{j}$, the \code{HorizontalPodAutoscaler} object will have access to
 CPU utilization percentage values from $t_{i}$ to $t_{j}$, where $t_{i}$ is the
 first observation recorded after $t_{i} - (p * c)$, where $p$ is the
 amount of time it takes an

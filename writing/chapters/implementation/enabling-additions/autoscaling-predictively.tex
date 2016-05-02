@@ -5,13 +5,13 @@ current method of reactive auto-scaling.
 
 With reactive auto-scaling, Kubernetes calculates the average current CPU utilization
 across all pods and divides this number by the target CPU utilization
-percentage to obtain the \textit{UsageRatio}. This usage ratio is then multiplied
+percentage to obtain the \code{UsageRatio}. This usage ratio is then multiplied
 by the current number of replica pods, resulting in the desired number of
 replica pods. A similar process occurs through predictive auto-scaling, with one
 significant change. Instead of calculating the average current CPU utilization,
 we seek to calculate the average predicted CPU utilization at
-\textit{PodInitializationTime} into the future. Given this value, we again
-calculate \textit{UsageRatio} and multiply that value by the current number of
+\code{PodInitializationTime} into the future. Given this value, we again
+calculate \code{UsageRatio} and multiply that value by the current number of
 replica pods to give us the target number of replica pods.
 
 Thus, the final step to implementing predictive auto-scaling is calculating
@@ -51,8 +51,8 @@ return the current CPU estimation, essentially reactively auto-scaling. The
 similarity is because a replica pod is deleted almost immediately, and thus it
 does not make sense to use the measure of pod initialization time to predict
 into the future.} As we want to predict
-\textit{PodInitializationTime} into the future, we simply add
-\textit{PodInitializationTime}, measured in seconds, to the current time, for a
+\code{PodInitializationTime} into the future, we simply add
+\code{PodInitializationTime}, measured in seconds, to the current time, for a
 new value $t_{p}$. By calculating $a + b * t_{p}$, we have a prediction of the
 future average CPU utilization. As mentioned previously, given this prediction,
 we can now plug it in as if it was the current CPU utilization, and proceed with

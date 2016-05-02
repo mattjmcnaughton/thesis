@@ -1,7 +1,7 @@
 Currently Kubernetes implements horizontal pod auto-scaling.
 As this title suggests, auto-scaling in
 Kubernetes involves creating and deleting replica pods for a specific replication
-controller such that the replica pods handling the requests load-balanced by the service
+controller such that the replicas handling the requests load-balanced by a service
 operate within a specified resource range. Kubernetes
 implementation of auto-scaling is referred to as horizontal because
 auto-scaling occurs by creating replicas of each pod and then dividing the work
@@ -12,10 +12,9 @@ methods for increasing the resources available to a container without stopping
 execution \cite{docker-up-and-running}.
 
 As was distinguished in the background section, Kubernetes currently implements reactive
-feedback control auto-scaling, which is defined as when auto-scaling occurs to
-ensure the preservation of a certain state. Reactive auto-scaling can be
-visualized through the previously shown Figure \ref{fig:reactive-autoscale}.
-To begin, the autoscaler operates as a control loop,
+feedback control auto-scaling, which is when auto-scaling occurs to
+ensure the preservation of a certain state.
+In Kubernetes, the autoscaler operates as a control loop,
 as it queries pods at a set interval to determine
 their current resource utilization, and performs auto-scaling actions to
 preserve our desired level of per replica pod resource utilization.
@@ -27,9 +26,9 @@ utilization throughout this thesis.
 Thus, Based on the average CPU utilization percentage, the
 auto-scaler will create or delete replica pods to ensure average CPU utilization
 percentage is within the target range the user specified when creating the
-autoscaler. The algorithm for determining the correct number of replica pods
+autoscaler. The algorithm for determining the correct number of replicas
 will be discussed in detail in the next section. The final implementation detail
-is that, in order to ensure auto-scaling is not attempted to frequently, once a
+is that, in order to ensure auto-scaling is not attempted too frequently, once a
 scale up or scale down happens, no more auto-scaling will occur for a constant
 threshold interval. As of the implementation at the beginning of this thesis,
 this interval is currently five minutes from the most recent
