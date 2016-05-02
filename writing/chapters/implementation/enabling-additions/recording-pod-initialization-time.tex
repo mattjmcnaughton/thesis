@@ -52,11 +52,11 @@ calculates the average initialization time for all pods controlled by the auto-s
   \item For all pods controlled by the auto-scaler.
     \begin{itemize}
       \item If the pod was ever in the ready state, find the first time that
-        occurred. If the pod has never been in the ready state, skip this pod.
-      \item If a \textit{InitializationTime} value has not already been recorded for
+        event occurred. If the pod has never been in the ready state, skip this pod.
+      \item If an \textit{InitializationTime} value has not already been recorded for
         this pod, then subtract the \textit{CreationTime} from the time at which the
         pod entered the ready phase, and record this time as
-        \textit{PodInitializationTime}
+        \textit{InitializationTime}
       \item Add the value for \textit{InitializationTime} to
         \textit{TotalInitializaitonTime}.
       \end{itemize}

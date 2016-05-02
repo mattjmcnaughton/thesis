@@ -9,24 +9,47 @@ on.
 
 First off, it would be fascinating to consider alternative traffic patterns.
 Both of the increase-decrease and flash-crowd test plans are linear, yet real
-world network traffic does not follow a linear pattern. Thus it would be
+world network traffic does not always follow a linear pattern. Thus it would be
 fascinating to analyze the performance of predictive auto-scaling when the
-traffic pattern is polynomial, exponential, logarithmic, etc. It is likely that
-we would find that the linear prediction method we have implemented does not
-perform effectively in these scenarios. This recognition suggests implementing
-different prediction mechanisms as another exciting avenue for future work.
-Specifically, instead of only creating a linear line of best fit, we could
+traffic pattern is polynomial, exponential, logarithmic, etc. Furthermore, it
+would be fascinating to identify real-world use cases in which auto-scaling is
+particularly important, for example news websites, video streaming services, and
+e-commerce retailers. We could then partner with sites in these categories to
+obtain their real world traffic patterns. Utilizing these real-world patterns
+would give us tremendous insight into the real-world scenarios in which
+predictive auto-scaling is effective and the real-world scenarios in which it is
+equivalent, or worse, than reactive auto-scaling.
+
+This recognition of alternative traffic patterns suggests implementing
+different prediction mechanisms as another exciting avenue for future work. As
+the traffic patterns on which we evaluate our predictive auto-scaling
+implementation are no longer strictly linear, we expect our linear
+line-of-best-fit method for predictive future resource utilization will be
+significantly less accurate. As a result of this decreased accuracy, we would
+expect predicted auto-scaling to perform substantially worse. Fortunately, a
+number of opportunities exist for addressing the inability of a simple linear
+line-of-best-fit to model a variety of different traffic patterns.
+First, instead of only creating a linear line of best fit, we could
 create a number of line of best fits, modeling the different possible equations
 for a line, and then choose the one that best explained our observations so far.
-Such improvements would vastly expand the scope under which predictive
-auto-scaling would be useful.
+Additionally, given more divergent real-world traffic patterns, we may wish to
+examine the applicability of machine learning algorithms to the problem of
+predicting future resource utilization. Machine learning algorithms could be
+particularly useful in those scenarios in which traffic follows a repeatable
+pattern, yet that pattern does not fit nicely within the category of a
+polynomial, exponential, or logarithmic equation. Such improvements to our
+ability to accurately predict future resource utilization
+would vastly expand the scope under which predictive auto-scaling would be
+useful and should greatly increase the benefits of predictive auto-scaling in
+relation to reactive auto-scaling.
 
 In a similar vein, we mentioned how the current implementation of a threshold time
 interval that most be observed between scalings was at time detrimental to
 Kubernetes. It would be interesting to vary the length of this interval, in
-order if it was possible to maintain the benefits of such an interval on prevent
+order to determine if it is possible to maintain the benefits of such an interval on prevent
 thrashing, while also diminishing any negative impacts on predictive
-auto-scaling.
+auto-scaling. Again, this analysis would be dependent on the given traffic
+patterns on which we are analyzing predictive and reactive auto-scaling.
 
 Additionally, as was previously mentioned, when work on this thesis began,
 Kubernetes only supported scaling based on CPU utilization. Yet, since then, it
@@ -35,6 +58,21 @@ usage. While our current auto-scaling implementation only works for CPU
 utilization, the general algorithm should work, with small modifications, for
 any metric that can be predictively auto-scaled. Particularly interesting would
 be auto-scaling with respect to network congestion on the pod.
+
+Finally, we previously mentioned in this thesis how we predictively auto-scaled
+only when the application was up-scaling (i.e. increasing the number of replica
+applications). When the auto-scaling was down-scaling, meaning the current
+resource utilization was less than previous observations, we did not auto-scale
+predictively due to a difficulty in determining the amount of time it took for a
+replica pod to stop sharing in work. Again, when down-scaling, predictive
+auto-scaling worked exactly as reactive auto-scaling does. Given we predictively
+auto-scale in only half of the possible situations for auto-scaling, it would be
+interesting to begin tracking the amount of time it takes for replica pods to
+stop sharing in the computational work, $t$, and down-scale predictively based on
+predictions of the application's state at time $t_{now} + t$. In scenarios in
+which predictive auto-scaling is beneficial, predictively down-scaling, in
+addition to predictively up-scaling, should double the benefits of predictive
+auto-scaling in improving the summation of ERU and QOS.
 
 Fortunately, the majority of the tooling we built for this thesis is general
 enough to be used for the majority of our areas of future exploration.

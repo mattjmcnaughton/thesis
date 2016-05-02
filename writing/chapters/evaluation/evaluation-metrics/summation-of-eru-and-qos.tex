@@ -23,15 +23,17 @@ distinguished by the variables $E_{A}$ and $Q_{A}$ respectively, from our
 predictive and reactive measurements for a single combination of independent
 variables. Next, we define $e_{t}$ and $q_{t}$ as the
 respective \textit{ERU} and \textit{QOS} measurements at time $t$. We first
-normalize these measurements, by subtracting the individual observation value
-from the mean of all observations, and dividing by the standard deviation of all
+normalize these measurements through calculating their respective z-scores,
+by first subtracting the individual observation value
+from the mean of all observations, and then dividing by the standard deviation of all
 observations. This operation leaves us with $ne_{t}$ and $nq_{t}$ respectively.
 Then, as with our current implementation of the \textit{ERU} and \textit{QOS}
 metrics smaller values indicate ``better'' performance, and with respect to
 summation of \textit{ERU} and \textit{QOS}, we expect larger values to indicate
 ``better'' performance, we negate $ne_{t}$ and $nq_{t}$. Finally, we sum
 $-ne_{t}$ and $-nq_{t}$ together to get $s_{t}$, where $s_{t}$ is the summation
-of ERU and QOS at time $t$. In short, we add the negation of the z-score for
+of \textit{ERU} and \textit{QOS} at time $t$.
+In short, we add the negation of the z-score for
 \textit{ERU} and \textit{QOS}. Mathematically, this process can be written as
 follows:
 
