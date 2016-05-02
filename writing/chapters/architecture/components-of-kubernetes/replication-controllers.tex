@@ -6,10 +6,9 @@ seemingly simple task, it is useful for scaling the number of pods and for
 performing a rolling update of the pod \cite{k8s-replication-controllers}.
 
 Additionally, auto-scaling is closely associated with replication controllers, as
-auto-scalers are attached to replication controllers for pods. When an
-auto-scaler is attached, a replication controller no longer ensures a given
-number of replica pods are running, but rather ensures that the number of
-replica pods will result in pods consuming certain percentages of resources.
-This relationship will be discussed in considerably more detail later when
+auto-scalers are attached to replication controllers for pods. In short, the
+auto-scaler tells the replication controller how many pods should exist, and the
+replication controller ensures that number of pods exist and is operating
+successfuly. This relationship will be discussed in considerably more detail later when
 examining the architecture and implementation of auto-scaling in Kubernetes
 \cite{k8s-horizontal-pod-autoscaler-proposal}.

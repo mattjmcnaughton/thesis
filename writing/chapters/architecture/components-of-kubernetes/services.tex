@@ -1,11 +1,12 @@
 The final main architectural building block of Kubernetes is the service.
 Services are necessary because pods are ephemeral. As a pod may be deleted or
 replaced at any time, it is important that no entity is trying to communicate
-with a specific pod, because that pod may disappear. What is needed is a
-consistent endpoint with which entities wishing to communicate with a pod can
-always establish contact. A service offers just such a consistent endpoint. Services prevent a
+with a specific pod, because that pod may disappear. Instead, entities wishing to
+communicate with a pod always establish contact with a \textit{service}.
+A service offers just such a consistent endpoint. A service presents a
 single, long-running access point for multiple replica pods, as it receives
-requests to the pods, and load-balances them among the replicas.\footnote{The replication of
+external requests to the pods, and load-balances
+these requests across the replicas.\footnote{The replication of
 these pods is handled by a replication controller.} This endpoint is used within
 a Kubernetes cluster as pods wish to communicate with each other and it can also
 be exposed outside of the cluster. Again, the concept of a service is

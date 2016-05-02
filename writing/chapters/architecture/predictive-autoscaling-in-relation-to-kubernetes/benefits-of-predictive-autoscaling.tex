@@ -1,16 +1,16 @@
 Overall, this thesis seeks to answer the question of how to ensure Kubernetes
 uses as few resources as possible while still supporting the application's
-resources needs. Within an understanding of the internal of Kubernetes, it is now
+resources needs. With an understanding of Kubernetes' internal components, it is now
 possible to understand the theoretical underpinnings of how predictive
 horizontal pod auto-scaling accomplishes the stated goal.
 
-Specifically, utilizing prediction approves quality of service, without
+Specifically, prediction improves quality of service without
 requiring any additional resources, thus achieving the goal of increasing the
 summation of efficient resource utilization and quality of service. Prediction
-increases quality of service, because it helps avoid the decreases in quality of
+increases quality of service because it helps avoid the decreases in quality of
 service that can occur if pod initialization time is not taken into account.
 These decreases can best be understood in the context of a simple example.
-Imagine that if takes 10 minutes for a pod to initialize. Imagine that at 5:50pm
+Imagine that it takes 10 minutes for a pod to initialize. Imagine that at 5:50pm
 reactive algorithm instructs the auto-scaler that 10 pods should exist and at
 6:00pm, the reactive algorithm instructs the auto-scaler that 20 pods should
 exist. Using the reactive algorithm, the 10 replica pods will not be created
@@ -27,7 +27,7 @@ Adding prediction avoids this problem, ensuring an improved summation of ERU and
 QoS. Consider the following example again, yet this time with predictive
 horizontal auto-scaling. Again, imagine the exact same scenario as above, yet
 this time, the predictive algorithm will instruct the creation of 10 replica
-pods at 5:50pm. By 6:00pm, when 20 replica pods are needed, 20 replica pods are
+pods at 5:50pm. By 6:00pm, when 20 replica pods are needed, 20 replicas are
 initialized and ready to balance the load, ensuring that all pods operate at a
 higher quality of service than they would otherwise, without any wasted
 resources.

@@ -1,13 +1,14 @@
-This thesis' implementation of predictive auto-scaling predicts \textit{pod
-initialization time} into the future. As was made explicit in section
+This thesis' implementation of predictive auto-scaling uses \textit{pod
+initialization time} to determine at which future time we should predict
+resource utilization. As was made explicit in section
 \ref{architecture-predictive-autoscaling-in-relation-to-kubernetes-benefits-of-predictive-autoscaling},
 this time frame allows any replica pods created to be ready to share in the work by the
-time in which they are needed.
+time they are needed.
 
 Pod \textit{initialization} time is distinct from pod \textit{creation} time and
 the idea of a pod \textit{running}. We define an initialized pod as one that is
 ready to perform computational work. This contrasts with a \textit{created} pod,
-which merely signifies that all the containers within the pod are created. It
+which indicates that all the containers within the pod are created. It
 does not signify that these containers have started running, performed any
 initialization tasks, and are now ready to share in computational work. The time
 necessary to create all containers for a pod is not equal to the time necessary
@@ -15,15 +16,12 @@ for all containers within the pod to perform their computational work.
 Furthermore, a \textit{running} pod is merely a pod in which all containers have
 been created, and at least one container is running or in the process of
 starting. This description does not guarantee that the containers have started
-and are ready to perform work \cite{k8s-pod-states}. With conceptions
-of pod creation and pod's
-running being insufficient to determine whether a pod has initialized, we must
-find an alternative mechanism.
+and are ready to perform work \cite{k8s-pod-states}.
 
 Fortunately, Kubernetes defines the idea of a \textit{Readiness Probe}. A
 readiness probe shows whether a pod is ready to handle incoming requests.
-Services use this probe to determine whether to pass work along to a newly
-created replica pod through ensuring that pods with long startup times do not
+Services use this probe to determine whether to pass work along to a
+replica pod through ensuring that pods with long startup times do not
 receive proxy traffic until ready to handle it. Pods must implement a readiness
 probe, or else it will be assumed that if the pod is running, it is ready
 \cite{k8s-pod-states}. Each container within a pod defines its own readiness
@@ -42,7 +40,7 @@ existence. Subtracting the time at which the pod first came into existence
 from the time at which a request to the readiness probe was first successful.
 results in the pod initialization time we desire. However, while Kubernetes
 records the time at which the pod first came into existence as
-\textit{pod.CreationTimestamp}, it does not record the time at which the
+\code{pod.CreationTimestamp}, it does not record the time at which the
 readiness probe first returned \textit{Success}. Fortunately, Kubernetes pods
 record their current state and all states in which they have been, and the time
 at which they assumed said states. As such, the following algorithm
@@ -53,24 +51,24 @@ calculates the average initialization time for all pods controlled by the auto-s
     \begin{itemize}
       \item If the pod was ever in the ready state, find the first time that
         event occurred. If the pod has never been in the ready state, skip this pod.
-      \item If an \textit{InitializationTime} value has not already been recorded for
-        this pod, then subtract the \textit{CreationTime} from the time at which the
+      \item If an \code{InitializationTime} value has not already been recorded for
+        this pod, then subtract the \code{CreationTime} from the time at which the
         pod entered the ready phase, and record this time as
-        \textit{InitializationTime}
-      \item Add the value for \textit{InitializationTime} to
-        \textit{TotalInitializaitonTime}.
+        \code{InitializationTime}
+      \item Add the value for \code{InitializationTime} to
+        \code{TotalInitializaitonTime}.
       \end{itemize}
-    \item Divide \textit{TotalInitializationTime} by the total number of pods that
+    \item Divide \code{TotalInitializationTime} by the total number of pods that
       have been ready at some point.
 \end{itemize}
 
 This algorithm allows us to record the initialization time for each pod
 controlled by the auto-scaler, as well as calculate the average pod
 initialization time for all pods controlled by this auto-scaler.\footnote{We
-record the value in the \textit{Annotations} map for each pod,
+record the value in the \code{Annotations} map for each pod,
 which is basically a map for writing
 values that are not necessarily in the Pod API object. If predictive
-auto-scaling becomes particularly popular, \textit{InitializationTime} may be
+auto-scaling becomes particularly popular, \code{InitializationTime} may be
 included as a field in the Pod API object, although making such a change would
 be a fairly substantial process.}
 

@@ -20,7 +20,7 @@ all application instances utilize $70\%$ of the CPU.
 Done correctly, feedback control theory offers substantial advantages over
 threshold-based rules. Specifically, it is as simple to write auto-scaling
 specifications with control theory as it is to write specification with
-threshold-based policies, as in both the author simply defines well-understood
+threshold-based policies: in both the author simply defines well-understood
 resource metrics. Yet, it is easier to determine the effects of feedback
 control systems. When a new instance is created as the result of the violation
 of a threshold-based rule, we do not exactly know what the result will be with
@@ -29,6 +29,10 @@ we are certain about the results of the auto-scaling, as we auto-scale
 specifically to ensure the maintenance of certain metrics.
 
 Kubernetes currently implements auto-scaling through a feedback control system.
+More specificlly, Kubernetes' auto-scaling utilizes a
+Proportional-Integral-Derivative (PID) controller, which is a
+conventional feedback controller design seen in a variety of mechanical and
+computational uses \cite{pid-controller}.
 While we will spend substantially more time discussing the Kubernetes auto-scaling
 implementation later, the basics are as follows. The user specifies a target resource
 metric, for example CPU utilization. At a specified time interval,
@@ -39,7 +43,7 @@ value \cite{k8s-horizontal-pod-autoscaler-proposal}. In the context of control
 theory, the output is the CPU utilization for each machine and the input is the
 number of application instances, which varies to ensure the output is at the
 proper level. Using this method, it is possible to auto-scale such that the
-application is always running our chosen percent CPU utilization.
+application is always running with our chosen percent CPU utilization.
 
 \subsubsection{Predictive Feedback Control}
 

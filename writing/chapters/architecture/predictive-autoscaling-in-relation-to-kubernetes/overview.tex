@@ -21,16 +21,33 @@ run a web server which takes multiple minutes to initialize, and until that web 
 is initialized, the pod cannot handle any web requests load balanced to it by
 the service} This interval of time is referred to as \textit{PodInitializationTime}.
 
-With respect to down-scaling (i.e. removing pods) we are interested in how long
-it takes to stop sending a pod requests and free any resources allocated to said
-pod. We assume that this amount of time is almost instantaneous, and thus for
-down-scaling, predictive and reactive auto-scaling are very similar. Because of
-this, we discuss the predictive auto-scaling algorithm, we are discussing it
-with respect to up-scaling. A similar algorithm could easily generated for
-down-scaling, by replacing \textit{PodInitializationTime} with $0s$. As that is
-essentially reactive auto-scaling, we do not devote a large portion of time to
-discussion predictive down-scaling, and instead uses predictive auto-scaling
-actually refer to predictive up-scaling.
+With respect to down-scaling (i.e. removing pods) we are additionally
+interested in how long it takes to stop sending a pod requests
+and free any resources allocated to said
+pod. Kubernetes uses \textit{graceful termination} to remove pods. Thus, a
+number of actions occur when a replication controller terminates a pod. Most
+importantly with respect to horizontal pod auto-scaling, the pod is removed from
+the list of endpoints for a service, meaning it is no longer able to share in
+the work given to the service. However, a pod continues to handle traffic while
+it shuts down. Additionally, the processes within the pod are sent the
+\textit{TERM} Unix signal, alerting said processes that they will soon be
+terminated. If the pod does not finish these steps, and a couple others
+unrelated to horizontal pod auto-scaling, within a predefined \textit{grace
+period}, the \textit{SIGKILL} signal will be sent to all processes on the pod
+and the pod is finally deleted. The default \textit{grace period} is 30
+seconds.\cite{k8s-pods} Given this variability, it is difficult
+to determine exactly when a replica pod can no longer share the service's work.
+Without this information, we cannot predict how far into the future to predict
+the replica pods' resource utilization, making predicitve down-scaling
+impossible at this point in time. Because of
+this, when we discuss the predictive auto-scaling algorithm, we are discussing it
+with respect to up-scaling. Because the default grace period is a fairly short
+time frame, we believe there will be limited differences between reactive and
+predictive down-scaling, particularly because Kuberentes limits the number of
+down-scalings that can occur within a given time range to prevent thrashing
+\cite{k8s-horizontal-pod-autoscaler-proposal}. Still, we discuss the possibility
+of predictively down-scaling, in addition to predicitve up-scaling, in our
+future work section.
 
 Aside from the switch to using predictive resource measurement, the
 general architecture of predictive horizontal pod auto-scaling is similar to the

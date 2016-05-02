@@ -17,9 +17,8 @@ Essentially, microservices are the division of applications
 into small, easily scalable services which communicate with each other across
 the network.} Kubernetes predominantly focuses on effectively running service
 jobs, which require high-availability and potentially varying amounts of resources.
-Additionally, Kubernetes currently utilizes a simple
-monolithic scheduler, although
-there are plans to grow the scheduler in the future \cite{k8s-design-overview}.
+Additionally, Kubernetes currently allows one scheduler per namespace, making it
+somewhat of a combination of the monolithic and shared-state schedulers.
 Finally, Kubernetes is an open source project, yet is also used in production at
 Google, and available to the public through the Google Container
 Engine \cite{google-container-engine}.
