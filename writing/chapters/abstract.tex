@@ -1,0 +1,22 @@
+Recent increases in the volume and scope of computable tasks drive increases in
+the utilization of distributed systems, specifically cluster computing.
+Essential to ensuring cluster computing can reliably and cost-effectively handle
+these new types of resource-intensive computing tasks is working to increase the
+efficient resource utilization (ERU) and quality of service (QOS) of cluster
+managers. One predominant method for improving ERU and QOS is utilizing
+auto-scaling, which allocates applications running on a cluster exactly the
+resources they need. Kubernetes, an new open-source cluster manager from
+Google, successfully implements reactive horizontal auto-scaling, meaning
+Kubernetes uses the current resource utilization of
+the application to determine how to
+replicate applications across the cluster to ensure each application operates
+at a previously specified resource utilization. We implement predictive
+auto-scaling in Kubernetes, in which we use predictions about the future state
+of the cluster to replicate applications across the cluster. While we find
+the addition of predictive auto-scaling does not universally improve the
+summation of ERU and QOS in representative trials, we highlight certain
+scenarios in which predictive auto-scaling is particularly beneficial. In short,
+this thesis presents users of Kubernetes, and cluster managers in general, an
+additional option for efficiently and reliably running their application. In
+doing so, we expand the realm of issues addressable through computing with
+distributed systems.
