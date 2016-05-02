@@ -20,7 +20,7 @@ application simulating downloading shard data. From our graphs, we could see
 repeatable performance differences, and scenarios in which predictive
 auto-scaling offered the most benefits and scenarios in which reactive
 auto-scaling offered the most benefits. Specifically, predictive auto-scaling
-allows us to respond to quickly to increases in load, ensuring that we
+allows us to respond quickly to increases in load, ensuring that we
 substantially react to initial spikes. While such behavior is beneficial in the
 immediate aftermath of increased load, it can raise challenges if an even
 greater scaling would otherwise be performed at a time within the
@@ -35,7 +35,7 @@ auto-scaling offers a trade off between quickly and immediately responding to
 increased load, while taking the risk that even greater increases during the
 threshold time while go unaddressed until the threshold period ends.
 
-With an eye towards the real-world, there are a variety of scenarios in
+With an eye towards the real-world, there are a variety of scenarios in which
 predictive auto-scaling would be particularly useful. Specifically, the ability
 to ensure we respond aggressively to an initial burst in traffic corresponds
 nicely with notification services which will notify users and then achieve a

@@ -1,5 +1,5 @@
 Overall, this thesis seeks to answer the question of how to ensure Kubernetes
-uses as few resources possible while still supporting the application's
+uses as few resources as possible while still supporting the application's
 resources needs. Within an understanding of the internal of Kubernetes, it is now
 possible to understand the theoretical underpinnings of how predictive
 horizontal pod auto-scaling accomplishes the stated goal.
@@ -21,9 +21,7 @@ ensures high quality of service, but only 10 pods will be operating. Thus, for
 10 minutes there will be low quality of service, as pods try to operate without
 enough resources. This delay is particularly troublesome if pod initialization
 time is particularly high or if there is a particularly high quality of service
-cost for pods operating outside of target resource consumption. A large part of
-the evaluation component of this thesis the prevalence and impacts of such
-situations.
+cost for pods operating outside of target resource consumption.
 
 Adding prediction avoids this problem, ensuring an improved summation of ERU and
 QOS. Consider the following example again, yet this time with predictive

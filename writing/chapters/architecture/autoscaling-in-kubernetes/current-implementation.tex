@@ -31,7 +31,7 @@ autoscaler. The algorithm for determining the correct number of replica pods
 will be discussed in detail in the next section. The final implementation detail
 is that, in order to ensure auto-scaling is not attempted to frequently, once a
 scale up or scale down happens, no more auto-scaling will occur for a constant
-threshold interval. As of the implementation at the beginning of this thesism,
+threshold interval. As of the implementation at the beginning of this thesis,
 this interval is currently five minutes from the most recent
 re-scaling for scale-down and three minutes from the most recent re-scale for
 scale-up. This waiting time prevents thrashing by ensuring

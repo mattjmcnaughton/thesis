@@ -12,15 +12,15 @@ just an Kubernetes API object representing an auto-scaler. This object contains
 two objects entitled \textit{HorizontalPodAutoscalerSpec} and
 \textit{HorizontalPodAutoscalerStatus}. Traditionally within
 Kubernetes, \textit{Spec} represents the desired state of the object and
-\textit{State} represents the current state of the object. Before the addition
+\textit{Status} represents the current state of the object. Before the addition
 of predictive auto-scaling, the \textit{HorizontalPodAutoscalerStatus} object
 contained fields for the current and desired number of replicas, the last time
 at which scaling occurred, and the current average CPU utilization percentage for
 all pods controlled by this auto-scaler object. This last field, entitled
 \textit{CurrentCPUUtilizationPercentage}, provides part of the information
-needed to estimate the predict the future CPU utilization
+needed to estimate and predict the future CPU utilization
 percentage \cite{k8s-horizontal-pod-autoscaler-object}.
-However, to make any decent estimation, we need to know at the previous CPU
+However, to make any decent estimation, we need to know the previous CPU
 utilization percentages at least as far into the past as we wish to predict into
 the future.
 
@@ -47,7 +47,7 @@ multiplier.\footnote{In our current implementation, $c$ has a value of
 $20$, indicating that we will predict based on measures twenty times as for from
 in distance from the current time as the point in
 the future at which we wish to predict.} With this recorded info,
-meaning that we can now easily find a simple line of best fit
+we can now easily find a simple line of best fit
 for the graph in which time is the independent variable and CPU utilization is
 the dependent variable. Extrapolating with this line of best fit allows us to
 predict the future CPU utilization of our pods.

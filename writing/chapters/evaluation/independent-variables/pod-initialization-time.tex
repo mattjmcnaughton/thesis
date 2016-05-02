@@ -4,7 +4,7 @@ initialization time} we desire. As such, we have considerable flexibility with
 respect to what initialization time values we test. To begin, we decided to test the
 following value of 135s.
 
-We initially believed 5s and 135s would important independent variables to test because they
+We initially believed 5s and 135s would be important independent variables to test because they
 are indicative of different classes of applications that could be run on
 Kubernetes. A pod initialization time of 5s is commonly found among web
 application frameworks, as we showed when writing a simple HTTP server in Go and
@@ -13,7 +13,7 @@ frameworks initialized, and were ready to serve requests, in 1s and 5s
 respectively. It is our belief that any web framework that simply
 needs to initialize, without any external communicating of data, will
 accomplish this task in under 5s. Thus, testing a pod initialization time of 5s
-would allows us to consider how any web application framework would perform with
+would allow us to consider how any web application framework would perform with
 predictive auto-scaling. However, when pod initialization time is as little as
 5s, there is essentially no difference between predictive and reactive
 auto-scaling, particularly because we aggregate all of our measurements over a
@@ -38,9 +38,8 @@ predictive auto-scaling.
 We believe that there will be a sweet spot of pod initialization times
 for which predictive auto-scaling demonstrates the most benefits over reactive
 auto-scaling. Obviously the smaller the pod initialization time value, the lesser
-the difference between reactive and predictive auto-scaling, as predictive
-auto-scaling predicts into the future a time closer and closer to the current
-moment. However, the larger the pod initialization time value, the further into
+the difference between reactive and predictive auto-scaling.
+However, the larger the pod initialization time value, the further into
 the future we must predict the state of the application. While large pod
 initialization times have the potential for considerable benefits when using
 predictive auto-scaling, we can only realize that potential if predictions of

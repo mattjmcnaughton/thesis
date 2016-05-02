@@ -61,10 +61,10 @@ the typical reactive method of auto-scaling.
 Naturally, our method here is making a considerable assumption that a linear
 line of best fit can accurately model CPU utilization and also the amount of
 time we attempt to extrapolate when making our prediction is not too extreme.
-Our evaluation section will help us how concerned we should be about these
-potentially challenging aspects. Fortunately, should a linear line of best fit
+Our evaluation section will help us quantify the validity of this assumption.
+Fortunately, should a linear line of best fit
 not prove to be a suitable first attempt, our implementation is designed such
 that it would be easy to examine a number of alternative modeling solutions,
 such as quadratic, exponential, or logarithmic lines of best fits. It would even
 be possible to try all the different modeling options, and ultimately select
-the one that had proven itself most accurate.
+the one that had proven itself most accurate for this given auto-scaler..
