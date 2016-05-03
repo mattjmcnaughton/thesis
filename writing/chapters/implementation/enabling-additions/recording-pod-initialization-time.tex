@@ -1,5 +1,5 @@
-This thesis' implementation of predictive auto-scaling uses \textit{pod
-initialization time} to determine at which future time we should predict
+This thesis' implementation of predictive auto-scaling uses
+\code{PodInitializationTime} to determine at which future time we should predict
 resource utilization. As was made explicit in section
 \ref{architecture-predictive-autoscaling-in-relation-to-kubernetes-benefits-of-predictive-autoscaling},
 this time frame allows any replica pods created to be ready to share in the work by the
@@ -42,7 +42,7 @@ results in the pod initialization time we desire. However, while Kubernetes
 records the time at which the pod first came into existence as
 \code{pod.CreationTimestamp}, it does not record the time at which the
 readiness probe first returned \textit{Success}. Fortunately, Kubernetes pods
-record their current state and all states in which they have been, and the time
+record their current state, all states in which they have been, and the time
 at which they assumed said states. As such, the following algorithm
 calculates the average initialization time for all pods controlled by the auto-scaler.
 
@@ -56,7 +56,7 @@ calculates the average initialization time for all pods controlled by the auto-s
         pod entered the ready phase, and record this time as
         \code{InitializationTime}
       \item Add the value for \code{InitializationTime} to
-        \code{TotalInitializaitonTime}.
+        \code{TotalInitializationTime}.
       \end{itemize}
     \item Divide \code{TotalInitializationTime} by the total number of pods that
       have been ready at some point.
@@ -67,9 +67,9 @@ controlled by the auto-scaler, as well as calculate the average pod
 initialization time for all pods controlled by this auto-scaler.\footnote{We
 record the value in the \code{Annotations} map for each pod,
 which is basically a map for writing
-values that are not necessarily in the Pod API object. If predictive
+values that are not necessarily in the \code{Pod} API object. If predictive
 auto-scaling becomes particularly popular, \code{InitializationTime} may be
-included as a field in the Pod API object, although making such a change would
+included as a field in the \code{Pod} API object, although making such a change would
 be a fairly substantial process.}
 
 At this point, all recorded initialization time values factor into the average.

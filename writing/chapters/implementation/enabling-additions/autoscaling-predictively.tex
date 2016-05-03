@@ -39,18 +39,16 @@ measurement.
 Additionally, it has been proven that a linear line of best fit calculated in
 this manner will pass through the sample mean of \textit{Time} and
 \textit{CPUUtilization} respectively. Thus, we can calculate the y-intercept of
-our line of best fit, $a$, by subtracting $b * \overline{x}$ from $\overline{y}$. With
-these follows, we have a linear line of best fit, which we can use to make
+our line of best fit,  with $a = \overline{y} - (b * \overline{x})$. With
+these variables, we have a linear line of best fit, which we can use to make
 simple predictions about future CPU utilization \cite{line-of-best-fit}.
 
 Our final step is to get a \textit{Time} value to plug into this line of best
 fit to receive a future prediction.\footnote{As was mentioned in the
 Architecture section, we only utilize the predictive method when up-scaling.
 Otherwise, if we notice the line of best fit has a negative slope, we simply
-return the current CPU estimation, essentially reactively auto-scaling. The
-similarity is because a replica pod is deleted almost immediately, and thus it
-does not make sense to use the measure of pod initialization time to predict
-into the future.} As we want to predict
+return the current CPU estimation, essentially reactively auto-scaling.}
+As we want to predict
 \code{PodInitializationTime} into the future, we simply add
 \code{PodInitializationTime}, measured in seconds, to the current time, for a
 new value $t_{p}$. By calculating $a + b * t_{p}$, we have a prediction of the
@@ -67,4 +65,4 @@ not prove to be a suitable first attempt, our implementation is designed such
 that it would be easy to examine a number of alternative modeling solutions,
 such as quadratic, exponential, or logarithmic lines of best fits. It would even
 be possible to try all the different modeling options, and ultimately select
-the one that had proven itself most accurate for this given auto-scaler..
+the one that had proven itself most accurate for this given auto-scaler.

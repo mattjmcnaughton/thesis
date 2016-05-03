@@ -14,7 +14,7 @@ endpoints, ``/" and "/ready".
   \item \textbf{``/" - Load}: Traffic generators simulating user requests will
     send GET requests to the endpoint at ``\/", also known as the \textit{Load} endpoint.
     This endpoint has two functions. First, it must perform a task that is
-    somewhat CPU intensive so as our application uses enough CPU that
+    somewhat CPU intensive so that our application uses enough CPU that
     auto-scaling may be triggered. Second, it must record the percent of idle CPU
     and an estimation of request response time as measures of
     efficient resource utilization and quality of service respectively. The
@@ -69,7 +69,7 @@ currently .1 cores, for the container running the application. This ensures
 measures of efficient resource utilization are consistent across scaling method.
 Finally, our pod contains a number of environment variables including
 \textit{SCALING\_METHOD} and \textit{INITIALIZATION\_TIME} which allow us the
-fine grained control and measuring previously mentioned. Additionally,
+fine grained control previously mentioned. Additionally,
 regardless of the scaling method, we define a replication controller for
 ensuring whatever the scaled amount of pods exist, and a service for balancing
 requests across all \textit{test-server} containers and exposing

@@ -1,8 +1,8 @@
 As described in the Background chapter, this thesis examines the impacts of
-implementing Model Predictive Control auto-scaling, instead of the current Model Reactive
-Control auto-scaling. With a greater understanding of the building blocks of
+implementing model predictive control auto-scaling, instead of the current model reactive
+control auto-scaling. With a greater understanding of the building blocks of
 Kubernetes, and the current implementation of auto-scaling in Kubernetes, it is
-now possible to understand Model Predictive Control in a Kubernetes specific
+now possible to understand model predictive control in a Kubernetes specific
 context. Given the Kubernetes specific auto-scaling implementation is horizontal
 pod auto-scaling, the updated, predictive version investigated in this thesis
 will be referred to as predictive horizontal pod auto-scaling.
@@ -19,34 +19,33 @@ takes a replica pod to be ready to partake in the work the
 service is balancing across all replica pods.\footnote{For example, a pod may
 run a web server which takes multiple minutes to initialize, and until that web server
 is initialized, the pod cannot handle any web requests load balanced to it by
-the service} This interval of time is referred to as \textit{PodInitializationTime}.
+the service.} This interval of time is referred to as \code{PodInitializationTime}.
 
 With respect to down-scaling (i.e. removing pods) we are additionally
-interested in how long it takes to stop sending a pod requests
-and free any resources allocated to said
-pod. Kubernetes uses \textit{graceful termination} to remove pods. Thus, a
+interested in how long it takes for a pod to stop consuming resources and
+sharing the work. Kubernetes uses \textit{graceful termination} to remove pods. Thus, a
 number of actions occur when a replication controller terminates a pod. Most
 importantly with respect to horizontal pod auto-scaling, the pod is removed from
 the list of endpoints for a service, meaning it is no longer able to share in
-the work given to the service. However, a pod continues to handle traffic while
+the work given to the service. However, a pod may continue to handle traffic while
 it shuts down. Additionally, the processes within the pod are sent the
-\textit{TERM} Unix signal, alerting said processes that they will soon be
+\code{TERM} Unix signal, alerting said processes that they will soon be
 terminated. If the pod does not finish these steps, and a couple others
 unrelated to horizontal pod auto-scaling, within a predefined \textit{grace
-period}, the \textit{SIGKILL} signal will be sent to all processes on the pod
+period}, the \code{SIGKILL} signal will be sent to all processes on the pod
 and the pod is finally deleted. The default \textit{grace period} is 30
 seconds.\cite{k8s-pods} Given this variability, it is difficult
 to determine exactly when a replica pod can no longer share the service's work.
 Without this information, we cannot predict how far into the future to predict
-the replica pods' resource utilization, making predicitve down-scaling
+the replica pods' resource utilization, making predictive down-scaling
 impossible at this point in time. Because of
 this, when we discuss the predictive auto-scaling algorithm, we are discussing it
 with respect to up-scaling. Because the default grace period is a fairly short
 time frame, we believe there will be limited differences between reactive and
-predictive down-scaling, particularly because Kuberentes limits the number of
+predictive down-scaling, particularly because Kubernetes limits the number of
 down-scalings that can occur within a given time range to prevent thrashing
 \cite{k8s-horizontal-pod-autoscaler-proposal}. Still, we discuss the possibility
-of predictively down-scaling, in addition to predicitve up-scaling, in our
+of predictively down-scaling, in addition to predictively up-scaling, in our
 future work section.
 
 Aside from the switch to using predictive resource measurement, the
@@ -54,7 +53,7 @@ general architecture of predictive horizontal pod auto-scaling is similar to the
 architecture of horizontal pod auto-scaling. Again, the auto-scaler operates as a
 control loop, yet at each looped interval, it utilizes the current resource
 utilization of pods to predict the resource utilization of the pods after
-\textit{PodInitializationTime}. Assuming the resource in question is CPU
+\code{PodInitializationTime}. Assuming the resource in question is CPU
 utilization percentage, the auto-scaler will create or delete replica pods
 to ensure the future CPU utilization percentage will be within the target range
-the user specified when the auto-scaler.
+the user specified when creating the auto-scaler.

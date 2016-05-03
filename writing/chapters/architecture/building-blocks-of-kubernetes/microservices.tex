@@ -32,13 +32,13 @@ Microservice design principles are particularly supportive of horizontal
 auto-scaling. Microservices should be easily replicable and easily replaceable.
 In other words, because microservices are stateless and can be run concurrently,
 it is possible to easily scale up a microservice by replicating it and then
-dividing the work between the two. Auto-scaling down is supported, as it is
+dividing the work between the replicas. Auto-scaling down is supported as well, as it is
 possible to delete an instance of the microservice without worrying about
 loosing any important state. When the design principles of
 microservices are followed, horizontal auto-scaling is possible, and its
 implementation supports Kubernetes goal of easy automation. Additionally,
 applications that follow microservice design principles are particularly easy to
-containerize.
+containerize and run on Kubernetes.
 
 As will become evident in the following sections, Kubernetes is designed to
 easily run applications developed based on the microservices model.

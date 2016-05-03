@@ -29,7 +29,7 @@ to the proper machine. With two-level scheduling, the cluster manager simply
 offers resources, which can then be accepted or rejected by the distributed
 computing frameworks.\footnote{Distributed computing frameworks are frameworks
 built to function over multiple machines. Some popular examples include
-Apache Hadoop, Apache Spark\dots \cite{mesos}}
+Apache Hadoop, Apache Spark, etc. \cite{mesos}}
 Finally, with shared state scheduling, multiple different algorithms concurrently work to
 schedule jobs on the cluster \cite{omega}. Naturally, all
 of these methods have positives and negatives. While monolithic scheduling is
@@ -69,7 +69,8 @@ systems.
 
 Naturally, cluster managers can vary in multiple additional ways. However,
 the previous three differences, highlighted in Table
-~\ref{table:cluster-management-paradigms-comparison-table}, recognize the most important distinctions in
+~\ref{table:cluster-management-paradigms-comparison-table}, recognize the most
+important distinctions in
 the context of this thesis. Given this understanding, we can now begin to examine specific
 cluster management implementations and defend our choice of Kubernetes as the
 cluster manager on which we will ask and answer our research questions.

@@ -3,17 +3,12 @@ this thesis' goal of ensuring efficient resource utilization and quality of
 service. Specifically, we introduce
 auto-scaling, a method of ensuring each application has the necessary amount
 of computational resources to handle varying external
-demands.\footnote{Importantly, auto-scaling is
-made possible by current models of cluster/cloud computing, in which it is
-possible to automatically obtain and relinquish computing resources within a
-very short time frame. Obviously, if adding computing resources requires buying
-a new physical server, as was the case before the advent of cloud computing,
-auto-scaling becomes impossible.}
+demands.
 
 To better understand both the implementation and benefits of auto-scaling, let
 us consider a simple scenario. Imagine you have an application running on a
 cluster for a week. On Monday, it will need $x$ resources.\footnote{By
-  \textit{resources}, we mean CPU, memory, etc\ldots} On Tuesday through
+  \textit{resources}, we mean CPU, memory, etc.} On Tuesday through
 Thursday, the application will need $2x$ resources. Finally, on Friday the
 application will again need $x$ resources. Without auto-scaling, we are forced
 to assign a constant amount of resources to the application running on our
@@ -29,10 +24,13 @@ essentially be wasting $x$ resources on the cluster, as they are assigned to an
 application that does not need them. Such waste indicates inefficient
 resource utilization. If we desire to run additional jobs on the cluster, we
 must allocate more resources, even though our statically over-provisioned
-application has plently of resources it is not using.
+application has plenty of resources it is not using.
 The difficulties static resource provisioning suggests can
 be seen in Figure \ref{fig:static-over-provision} and Figure
-\ref{fig:static-average-provision}.
+\ref{fig:static-average-provision} \footnote{The graphs showing the
+  benefits of auto-scaling are inspired by the informative graphs
+showing the benefits of auto-scaling in the Amazon EC2 auto-scaling
+documentation.\cite{amazon-ec2}.}
 
 \begin{figure}[!h]
   \centerline{\includegraphics[scale=.25]{static-over-provision.jpg}}
@@ -53,11 +51,11 @@ the status of the cluster. In our previous example, perfect auto-scaling
 would allow us to assign the cluster $x$ resources on Monday and Friday and
 $2x$ resources on Tuesday through Thursday. Through auto-scaling, we accomplish
 both goals: our application has the needed resources for a high quality
-of service, and our cluster is efficiently utilizing resources by only
+of service and our cluster is efficiently utilizing resources by only
 allocating the application what it needs. If we desire to run more jobs on our
 cluster, they can ``fill-in'' the resources our application relinquishes when it
 auto-scales, preventing us from having to purchase more computing power that
-will just be wasted.
+will just be wasted at certain times.
 Overall, auto-scaling can make applications on a cluster more performant and
 the cluster more cost-effective, as can be seen Figure
 \ref{fig:reactive-autoscale}.
@@ -105,13 +103,14 @@ second is if the auto-scaling is reactive or predictive.
     simplicity assumes the application is written
     such that it can be replicated with no unexpected modifications
     on operation. For example, a static web server is trivial to horizontally
-    auto-scale, while a relational database is not}
+    auto-scale, while a relational database is not.}
     Historically, vertical auto-scaling has been more complex,
     although that is rapidly changing.
     The complexity of vertical auto-scaling depends on how the application
     is run. If the application is run directly on a fully utilized machine,
     then it is extremely difficult to assign the application more resources
-    without stopping it from running, as it would require transferring a running
+    without stopping it from running, as assigning more resources
+    would require transferring a running
     process to a new machine with more abundant resources.\footnote{In reality,
     it would be extremely rare for a cluster manager to run applications
     directly on the nodes of the cluster with no degree of isolation.} The complexity

@@ -2,7 +2,7 @@ Over the past few decades, an explosion in the need for computing resources,
 and the existence of inexpensive, interconnected computers, has
 driven a significant increase in the feasibility and benefits of distributed
 systems \cite{distributed-systems-principles-and-paradigms}. Before progressing
-to a discussion of our specific contributions to the field of distributed
+to a discussion of this thesis' specific contributions to the field of distributed
 systems, we present a broad overview of the field. We then conduct analysis of
 greater and greater focus, until finally discussing the benefits and impacts of
 predictive auto-scaling in Google's Kuberentes container cluster manager.
@@ -67,7 +67,8 @@ nodes in the cluster, and instead present a single collection of computing
 resources on which the user can run jobs or applications. More succinctly,
 a cluster manager ``admits, schedules, starts, restarts, and monitors the full
 range of applications'' on the cluster \cite{borg}. Overall, a cluster
-manager can be thought of like an operating system for a cluster of computers. There are a
+manager can be thought of like an operating system
+for a cluster of networked computers. There are a
 variety of different cluster managers, the most important of which will be
 discussed in the next chapter, each pursuing different objectives. This
 thesis will ultimately focus on Kubernetes, an open-source cluster
@@ -80,7 +81,7 @@ with respect to reliability and downtime \cite{autopilot}.
 Alternatively, a number of cluster managers measure themselves based on
 efficient resource utilization (ERU) \cite{borg}. Essentially, efficient
 resource utilization relates to the percent of cluster resources which are
-actually being used to perform computation/store data.
+actually being used by applications to perform computation/store data.
 One such measurement of this metric, cluster
 compaction, examines how many machines could be removed from the cluster, while
 still comfortably running the cluster's current application load
@@ -90,8 +91,7 @@ utilizing resources, the less the cluster costs, and the more accessible cluster
 computing becomes to the general public. A final important
 cluster management metric is quality of service (QoS). Quality of service measures the
 ability of an application to function at a specified
-performance level, despite ever-changing
-external factors.\footnote{In many instances, the most
+performance level, despite ever-changing external factors.\footnote{In many instances, the most
 prominent varying external factor is changes
 in the load on the application. For example, for an application serving a
 website, changes in the number of people requesting web pages from the website

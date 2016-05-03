@@ -1,7 +1,7 @@
-Overall, this thesis seeks to answer the question of how to ensure Kubernetes
-uses as few resources as possible while still supporting the application's
-resources needs. With an understanding of Kubernetes' internal components, it is now
-possible to understand the theoretical underpinnings of how predictive
+Overall, this thesis seeks to improve the summation of ERU and QoS for
+applications running on Kubernetes.
+With an understanding of Kubernetes' internal components, it is now
+possible to comprehend the theoretical underpinnings of how predictive
 horizontal pod auto-scaling accomplishes the stated goal.
 
 Specifically, prediction improves quality of service without
@@ -11,7 +11,7 @@ increases quality of service because it helps avoid the decreases in quality of
 service that can occur if pod initialization time is not taken into account.
 These decreases can best be understood in the context of a simple example.
 Imagine that it takes 10 minutes for a pod to initialize. Imagine that at 5:50pm
-reactive algorithm instructs the auto-scaler that 10 pods should exist and at
+the reactive algorithm instructs the auto-scaler that 10 pods should exist and at
 6:00pm, the reactive algorithm instructs the auto-scaler that 20 pods should
 exist. Using the reactive algorithm, the 10 replica pods will not be created
 until 6:00pm, and as a result of the 10 minute pod initialization time, they
