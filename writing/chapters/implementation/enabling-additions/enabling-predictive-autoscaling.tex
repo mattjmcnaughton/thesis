@@ -34,11 +34,12 @@ auto-scaling, we can easily check if the \code{predictive} annotation is
 is anything other than true, the auto-scaler will reactively auto-scale as normal.
 This flexibility allows different auto-scalers to utilize different auto-scaling
 methods. Additionally, it allows a single auto-scaler to utilize different
-auto-scaling methods throughout its lifetime.
+auto-scaling methods throughout its lifetime, and even automatically stop using
+predictive auto-scaling if it is performing poorly.
 
 If the benefits of predictive auto-scaling are substantial, then it will make
 sense to transition this value from one recorded in \code{Annotations} to a
-more permanent field defined a auto-scaler's
+more permanent field defined in an auto-scaler's
 \code{HorizontalPodAutoscalerSpec} object. A field entitled
 \code{Predictive} could be added to this object which, if set to true, would
 turn on predictive auto-scaling. This addition would enable the user to

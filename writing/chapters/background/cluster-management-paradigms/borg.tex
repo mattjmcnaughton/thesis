@@ -6,7 +6,7 @@ handling, maintain high availability, and efficiently utilize resources on the
 cluster. It is responsible for managing the hundreds of
 thousands of batch and production jobs run everyday at Google.
 Borg utilizes a monolithic scheduler, as jobs specify the
-resources they need, and a single Borg scheduler decides whether to admit and
+resources they need, and a single Borg scheduler decides how to admit and
 schedule said jobs. Finally, Borg is not open-source. In fact, it was not even
 publicly announced or described until 2015, despite running at Google for over a
 decade. However, Kubernetes, Google's open-source cluster manager and the focus

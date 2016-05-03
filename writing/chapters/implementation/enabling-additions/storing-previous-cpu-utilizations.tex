@@ -28,7 +28,7 @@ Thus, we start tracking a new field entitled
 utilization percentages in integer form. Fortunately, Kubernetes already
 implements code that updates the \code{CurrentCPUUtilizationPercentage} value
 at a set duration interval. We modify the code such that every time a new
-\code{CurrentCPUUtilizationPercentage} is recorded, we add onto the queue of
+\code{CurrentCPUUtilizationPercentage} is recorded, we add it onto the queue of
 \code{PreviousCPUUtilizationPercentages} along with the timestamp at which
 this observation occurred. We implement our queue such that it
 is of a fixed length, and newer utilization percentage readings bump older ones
@@ -43,9 +43,10 @@ amount of time it takes an
 average pod being run by this auto-scaler to initialize is how far into the
 future we seek to predict the state of the cluster.} and $c$ is a constant
 multiplier.\footnote{In our current implementation, $c$ has a value of
-$20$, indicating that we will predict based on measures twenty times as for from
+$20$, indicating that we will predict based on measures twenty times as far from
 in distance from the current time as the point in
-the future at which we wish to predict.} With this recorded info,
+the future at which we wish to predict. However, if $p * c$ is greater than 3
+minutes, we simply record observations 3 minutes into the past.} With this recorded info,
 we can now easily find a simple line of best fit
 for the graph in which time is the independent variable and CPU utilization is
 the dependent variable. Extrapolating with this line of best fit allows us to

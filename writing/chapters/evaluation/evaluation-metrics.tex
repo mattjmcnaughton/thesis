@@ -3,16 +3,16 @@ to measure the efficacy of predictive auto-scaling. We seek specific metrics rel
 the general concepts of efficient resource utilization and quality of service.
 A selection of a ``typical'' service to run on Kubernetes influences how exactly
 we will measure efficient resource utilization and quality of service. We posit
-a web application as the best choice for a representative application. A number
+a web service as the best choice for a representative application. A number
 of factors support our decision. First, Kubernetes is built for running
 long-term, stable service jobs, and a well-built web application desires to be
 both long-running and crash free \cite{k8s-design-overview}. Second, Kubernetes
 focuses on running ephemeral, containerized applications which can be started or
-stopped at any time. Containerized web applications achieve these goals as, as
+stopped at any time. Containerized web services achieve these goals as, as
 long as the database layer is abstracted, web applications are stateless and can
 restart with few ramifications. Third, applications on Kubernetes should be
 concurrent, meaning replicas can be added or removed to divide the work any
-individual application must handle. Stateless web applications are easily
+individual application must handle. Stateless web services are easily
 parallelized, as the requests can be easily distributed across all of the
 replicas. Finally, much of the appeal of the simplicity of Kubernetes is that a
 user can construct a containerized application and then pass it to an

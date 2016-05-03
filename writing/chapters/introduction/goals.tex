@@ -8,31 +8,29 @@ As such, this thesis pursues three goals:
     service stays consistently high regardless of variation in
     certain external factors. While it is
     difficult to make guarantees regarding quality of service, because
-    application performance is dependent on a number of uncontrollable, varying
-    external factors, it is possible to
+    application performance is dependent on a number of uncontrollable
+    external variables, it is possible to
     ensure each application has, and is utilizing, the resources it needs to
     function efficiently.
   \item A simplistic solution to the first goal of ensuring a high application
     quality of service is to just give each application many more resources than
-    it will ever request.\footnote{Assigning an application more resources than it needs
-    to function is defined as over-provisioning.}
-    Yet, this over-provisioning is inefficient and costly. Thus, our
+    it will ever request. Yet, this over-provisioning is inefficient and costly. Thus, our
     methods for ensuring a high quality of service must also ensure the
     maintenance, or improvement, of the efficient resource utilization metric.
     As such, we add an additional goal: given a certain number of applications
     running on a Kubernetes cluster,
     we seek to determine a method which ensures Kubernetes allocates resources
     as efficiently as possible, while still comfortably
-    supporting the applications' current, and future, resource needs and
+    supporting the applications' current and future resource needs and
     ensuring a high quality of service.
   \item Given that Kubernetes is an open-source project, we seek to implement, test, and
     evaluate a proposed enactment of the previous two goals.
     The methods we pursue will
     in part be dictated by the current structure and implementation of
-    Kubernetes. Tests will be conducted using the Google Compute
-    Engine\cite{google-compute-engine} on both
-    simulated and real Kubernetes user data. The eventual goal is for this
+    Kubernetes. The eventual goal is for this
     thesis' improvements to be merged into the production version of Kubernetes,
-    and present another resource allocation method to Kubernetes users.
+    and present another resource allocation method to Kubernetes users which
+    should be particularly beneficial in situations we will outline in this
+    thesis.
 \end{enumerate}
 

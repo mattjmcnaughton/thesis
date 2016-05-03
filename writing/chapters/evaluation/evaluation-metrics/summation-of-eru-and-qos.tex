@@ -12,10 +12,12 @@ summation of efficient resource utilization and quality of service.
 
 While conceptually summing efficient resource utilization and quality of service
 is simple, care must be taken when combining the specific metrics of
-\textit{idle CPU} and \textit{response time}. The metrics are measured in unrelated
+\code{IdleCPU} and \code{ResponseTime}. The metrics are measured in unrelated
 units. Furthermore, the scale for these metrics may be entirely different,
 meaning that small changes in one could completely overshadow larger changes in
-the other.
+the other. Additionally, for both \code{IdleCPU} and \code{ResponseTime} low
+measures are desirable, while intuitively with summation of ERU and QoS, high
+measures are desirable.
 
 We combine these \textit{ERU} and \textit{QoS} through the following process.
 First, we gather all measurements of \textit{ERU} and \textit{QoS},

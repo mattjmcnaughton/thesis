@@ -14,7 +14,7 @@ execution \cite{docker-up-and-running}.
 As was distinguished in the background section, Kubernetes currently implements reactive
 feedback control auto-scaling, which is when auto-scaling occurs to
 ensure the preservation of a certain state.
-In Kubernetes, the autoscaler operates as a control loop,
+In Kubernetes, the auto-scaler operates as a control loop,
 as it queries pods at a set interval to determine
 their current resource utilization, and performs auto-scaling actions to
 preserve our desired level of per replica pod resource utilization.
@@ -23,16 +23,16 @@ determine auto-scaling behavior is CPU utilization percentage, although since
 then Kubernetes has added support for auto-scaling based on custom metrics such
 as memory usage. Nonetheless, we focus on auto-scaling based on percentage CPU
 utilization throughout this thesis.
-Thus, Based on the average CPU utilization percentage, the
+Thus, based on the average CPU utilization percentage, the
 auto-scaler will create or delete replica pods to ensure average CPU utilization
 percentage is within the target range the user specified when creating the
-autoscaler. The algorithm for determining the correct number of replicas
-will be discussed in detail in the next section. The final implementation detail
-is that, in order to ensure auto-scaling is not attempted too frequently, once a
+auto-scaler. The algorithm for determining the correct number of replicas
+will be discussed in detail in the next section. Finally,
+in order to ensure auto-scaling is not attempted too frequently, once a
 scale up or scale down happens, no more auto-scaling will occur for a constant
 threshold interval. As of the implementation at the beginning of this thesis,
 this interval is currently five minutes from the most recent
-re-scaling for scale-down and three minutes from the most recent re-scale for
-scale-up. This waiting time prevents thrashing by ensuring
+re-scaling for down-scaling and three minutes from the most recent re-scale for
+up-scaling. This waiting time prevents thrashing by ensuring
 auto-scaling can actually take effect before it is potentially attempted again
 \cite{k8s-horizontal-pod-autoscaler-user-guide}.

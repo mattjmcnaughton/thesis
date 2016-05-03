@@ -2,9 +2,9 @@ The final main architectural building block of Kubernetes is the service.
 Services are necessary because pods are ephemeral. As a pod may be deleted or
 replaced at any time, it is important that no entity is trying to communicate
 with a specific pod, because that pod may disappear. Instead, entities wishing to
-communicate with a pod always establish contact with a \textit{service}.
-A service offers just such a consistent endpoint. A service presents a
-single, long-running access point for multiple replica pods, as it receives
+communicate with a pod always establish contact with a consistent \textit{service}.
+A service presents a single, long-running access point
+for multiple replica pods, as the service receives
 external requests to the pods, and load-balances
 these requests across the replicas.\footnote{The replication of
 these pods is handled by a replication controller.} This endpoint is used within
@@ -13,4 +13,4 @@ be exposed outside of the cluster. Again, the concept of a service is
 particularly important to auto-scaling, as when the replication
 controller creates pod replicas, the services ensures work is balanced across
 them. This load-balancing, and the knowledge of the new replicas on which to
-share the load, is entirely automated.\cite{k8s-services}
+share the load, is entirely automated \cite{k8s-services}.

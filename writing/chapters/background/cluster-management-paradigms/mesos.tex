@@ -3,7 +3,7 @@ Mesos, a cluster manager originating at University of California, Berkeley
 \cite{mesos}. Mesos is considerably more lightweight than either Borg or Omega.
 We can think of Mesos as functioning like the kernel of an operating system
 (i.e, the Linux kernel) while a system like Borg is like an entire Linux
-distribution (i.e, Red Hat, Ubuntu, etc\ldots)
+distribution (i.e, Red Hat, Ubuntu, etc.)
 It does not seek to monitor the health of jobs or provide user-interfaces for viewing the
 current state of a job, leaving those tasks to the distributed computing
 framework. Additionally, Mesos predominantly focuses on quick-running,
@@ -14,12 +14,12 @@ Mesos efficiently processes. Mesos utilizes two-level scheduling, in which the
 cluster management system simply offers, not assigns, available
 resources to the distributed computing framework. Predominantly, this decision
 is made to ensure data locality. \footnote{Data locality is a measure
-of if the task has the necessary data on its machine, or if it must make a
+of if a computational task has the necessary input data on its machine, or if it must make a
 costly request across the network for the data. Mesos works to ensure data
 locality by allowing multiple frameworks to function on the same machines, and
-thus share data, and also for frameworks to dictate their own resources, such
+thus share data. Also, it allows frameworks to control their own resource
+allocations, such
 that they can work to ensure data locality. If running a large number of data
 processing tasks with extremely high volumes of data, data locality can be
 essential to efficient cluster operation.} Finally, Mesos is interesting in
-that it is entirely open-source, yet still in use at some of the largest tech
-companies such as AirBNB and Twitter.
+that it is entirely open-source.

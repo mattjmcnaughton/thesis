@@ -1,18 +1,14 @@
 Given the powerful tooling described in the previous section, the process for
 running a set of tests is completely automated and quite simple. Each test
 must specify a traffic pattern, a scaling method, and a pod initialization time.
-These variables influence Kubernetes' \textit{ReplicationController} and
-\textit{HorizontalPodAutoscaler} objects. Thus, while some configuration files
-for Kubernetes test objects are consistent between tests, the configuration
-files for the aforementioned varying \textit{ReplicationControllers} and
-\textit{HorizontalPodAutoscalers} must be selected based on which test we are
-running.
+These variables influence the \textit{ReplicationController} and thus the
+appropriate configuration file must be utilized.
 
 We do this selection using environment variables, which allow us to run the
 tests with the following single \textit{make} command.
 
 \begin{minted}{bash}
-  export TS_RC=test-server-controller-reactive-5s.yaml;
+  export TS_RC=test-server-controller-reactive-135s.yaml;
   export TG_RC=traffic-generator-increase-decrease-test-plan.yaml;
   export HPA=TRUE;
   export PREDICTIVE=TRUE;
@@ -20,12 +16,12 @@ tests with the following single \textit{make} command.
 \end{minted}
 
 The above command indicates a wish to start a test instance with reactive
-auto-scaling, a five second pod initialization time, and an
+auto-scaling, a 135s pod initialization time, and an
 \textit{increase-decrease} traffic pattern. It also rebuilds all containerized
 applications and ensures the configuration files are up to date.
 
 Once complete, all of the pods, replication controllers, services, and
-autoscalers on Kubernetes can be destroyed with the following \textit{make}
+auto-scalers on Kubernetes can be destroyed with the following \textit{make}
 command.
 
 \begin{minted}{bash}

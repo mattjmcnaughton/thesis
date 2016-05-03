@@ -4,7 +4,7 @@ the cluster manager. For example, editing a text file in Vim on a supercomputer
 would be terrible efficient resource utilization since editing a text file
 requires only a small fraction of the supercomputer's available CPU and memory,
 meaning the unneeded resources are wasted. In contrast, running a web browser on
-a laptop is proper efficient resource utilization, because a web brower requires
+a laptop is proper efficient resource utilization, because a web browser requires
 an appropriate percentage of the laptop's available resources.
 In the context of Kubernetes, an application with
 poor efficient resource utilization would be a web server
@@ -22,18 +22,18 @@ larger the percentage of CPU that is left idle, the worse the efficient resource
 utilization, as many resources are just sitting unused.
 Our specific metric for efficient resource
 utilization will be measured in percentage of CPU that is idle and we name it
-\textit{Idle CPU}. When we use this metric to indicate efficient resource utilization,
+\code{IdleCPU}. When we use this metric to indicate efficient resource utilization,
 if the ERU value is high, the application is not using resources efficiently. If
 the metric is low, the application is using resources efficiently.\footnote{In a
 similar vein, a low measure for quality of service is actually preferable to a
 high value for quality of service when we are measuring quality of service
-through request response time.} However, when summing ERU and QoS we consider
+through request response time. However, when summing ERU and QoS we consider
 the inversion of this measurement of ERU, meaning a large summation of ERU and
-QoS is preferable to a small summation of ERU and QoS.
+QoS is preferable to a small summation of ERU and QoS.}
 
 Our decision to use idle load to measure efficient resource utilization
 in Kubernetes makes the assumption that
-creating a static number of pods equates to reserving the pod's resources such
+creating pods equates to reserving the pod's resources such
 that they cannot be used by other pods.
 In the default case, the previous statement is not necessarily true,
 yet it is possible to craft specialized pods which validate this equality. To
@@ -43,12 +43,12 @@ By default, containers within the pod run with no bounds on their CPU and memory
 beyond the constrictions of the physical node on which they are scheduled. As such,
 declaring $x$ number of pods does not give any guarantees of resource usage, as
 the amount of resources available to the containers within the pod vary
-drastically based on their specific node \cite{k8s-limit-range}. This variability challenges the
-stability of static provisioning, and weakens its ability to serve as a control
-group with which we can compare predictive horizontal auto-scaling.
+drastically based on their specific node \cite{k8s-limit-range}. Without
+modification, this variability would undermine \code{IdleCPU} as our metric for
+ERU.
 
-Fortunately, there is a way to configure Kubernetes such that a static number of
-pods equates to a static number of resources.\footnote{Right now in Kubernetes,
+Fortunately, there is a way to configure Kubernetes such that a pod
+equates to a static number of resources.\footnote{Right now in Kubernetes,
 resources relates to either CPU or memory. CPU is requested in cores. Memory is
 requested in bytes of RAM.} This configuration involves
 setting resource requests and limits for each container within the pod. A
@@ -67,15 +67,13 @@ claiming and utilization of a static amount of resources
 \cite{k8s-compute-resources}. Ensuring static provisioning
 is reserving a consistent amount of resources
 allows us to still examine idle CPU percentage, our way of investigating
-efficient resource utilization. We additionally incorporate similar CPU limits
-and requests when testing reactive and predictive auto-scaling, again because it
-makes it easier to reason about idle CPU.
+efficient resource utilization.
 
 The efficient resource utilization metric has direct links to the costs of
 running applications on a cluster manager. If applications are given resources
 they do not need, and the cluster manager does not reclaim these unused
 resources, then additional applications added to the cluster must claim new
 resources. The inability to utilize inefficient applications' wasted resources
-requires the expansion of the cluster and an increase in cost that will be felt
+requires the expansion of the cluster. This increase in cost will be felt
 both by those running the cluster and those running an application on the
 cluster.
