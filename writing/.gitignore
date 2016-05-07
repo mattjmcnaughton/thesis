@@ -7,4 +7,6 @@
 *.toc
 *.bak
 *.out
+*.lot
+*.lof
 _minted-thesis
