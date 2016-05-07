@@ -2,14 +2,22 @@ Currently Kubernetes implements horizontal pod auto-scaling.
 As this title suggests, auto-scaling in
 Kubernetes involves creating and deleting replica pods for a specific replication
 controller such that the replicas handling the requests load-balanced by a service
-operate within a specified resource range. Kubernetes
-implementation of auto-scaling is referred to as horizontal because
+operate within a specified resource range. A visual representation of this
+process can be seen in Figure \ref{fig:kubernetes-visualization-with-autoscaler}.
+
+Kubernetes implementation of auto-scaling is referred to as horizontal because
 auto-scaling occurs by creating replicas of each pod and then dividing the work
 among these replicas, as opposed to expanding the resources of any single pod.
 While not yet implemented, Kubernetes reliance upon containers means vertical
 auto-scaling is a possibility in the near future, as there are a variety of
 methods for increasing the resources available to a container without stopping
 execution \cite{docker-up-and-running}.
+
+\begin{figure}[!h]
+  \centerline{\includegraphics[scale=.25]{kubernetes-visualization-with-autoscaler.png}}
+  \caption{A visualization of Kubernetes with autoscaler}
+  \label{fig:kubernetes-visualization-with-autoscaler}
+\end{figure}
 
 As was distinguished in the background section, Kubernetes currently implements reactive
 feedback control auto-scaling, which is when auto-scaling occurs to

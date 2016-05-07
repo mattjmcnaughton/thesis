@@ -1,5 +1,16 @@
 Introducing the Kubernetes specific vocabulary used through the cluster manager
-will make the following discussions of auto-scaling easier.
+will make the following discussions of auto-scaling easier. In addition to
+describing each component of Kubernetes in general, Figure
+\ref{fig:kubernetes-visualization-no-autoscaler} presents an overview of the
+interaction between the different building blocks which compose Kubernetes.
+Figure \ref{fig:kubernetes-visualization-no-autoscaler} also gives a sense of
+the lifecycle of an external request to an application running on Kubernetes.
+
+\begin{figure}[!h]
+  \centerline{\includegraphics[scale=.25]{kubernetes-visualization-no-autoscaler.png}}
+  \caption{A visualization of Kubernetes}
+  \label{fig:kubernetes-visualization-no-autoscaler}
+\end{figure}
 
 \subsection{Pods}
 
