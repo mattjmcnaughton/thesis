@@ -6,6 +6,8 @@ outputs the graphs and statistical measurements to the specified output
 directory.
 """
 
+# pylint: disable=import-error, too-many-locals, no-self-use, invalid-name
+
 import argparse
 import datetime
 import json
@@ -27,6 +29,7 @@ class Evaluate(object):
     Args:
         pit (str): The pod initialization time tag.
         tp (str): The traffic pattern tag.
+        version (str): The version of trials we are running.
         output (str): The directory to which to write output.
     """
 
@@ -43,9 +46,13 @@ class Evaluate(object):
     GRAPH = "graph"
     STATS = "stats"
 
-    def __init__(self, pit, tp, output):
+    # If no version is specified, assume that it is v1.
+    DEFAULT_VERSION = "v1"
+
+    def __init__(self, pit, tp, version, output):
         self._pit = pit
         self._tp = tp
+        self._version = version
         self._output = output
         self._client = None
 
@@ -78,13 +85,13 @@ class Evaluate(object):
         """
         # @TODO Right now this assumes tests were run in the last 10d, which sames
         # like a fairly safe assumption, but is an assumption all the same.
-        # @TODO Currently we group by 1m measurements, is that what we want?
+        # @TODO Abstract the specific variable names like `sm`, `tp` as class
+        # variables so they aren't just random strings.
         query = ("SELECT MEAN({{ value }}) from METRICS where time > now() - 10d and "
                  "sm = '{{ sm }}' and pit = '{{ pt }}' and tp = '{{ tp }}' "
-                 "group by time(1m)")
+                 "and ver = '{{ ver }}' group by time(1m)")
 
         return query
-
 
     def query_influx(self, value, scaling_method):
         """
@@ -100,10 +107,14 @@ class Evaluate(object):
             observations.
         """
         client = self._get_client()
-        full_query = Template(self._get_base_query()).render(value=value,
-                                                             sm=scaling_method,
-                                                             pt=self._pit,
-                                                             tp=self._tp)
+        version = "" if self._version == self.DEFAULT_VERSION else self._version
+
+        full_query = Template(
+            self._get_base_query()).render(value=value,
+                                           sm=scaling_method,
+                                           pt=self._pit,
+                                           tp=self._tp,
+                                           ver=version)
 
         res = client.query(full_query)
         return list(res.get_points())
@@ -193,6 +204,20 @@ class Evaluate(object):
 
         return (results[self.PREDICTIVE], results[self.REACTIVE])
 
+    def _get_version(self):
+        """
+        Return the version to be used when analysing.
+
+        @TODO The version cli arg should always be specified. But the method of
+        specifying which `version` to use is still kind of unstable. So we're
+        just using a `getter` method to make any future changes more accessible.
+
+        Return:
+            str: The version.
+        """
+
+        return self._version
+
     def _get_graph_title(self):
         """
         Return the title for the graph.
@@ -203,8 +228,9 @@ class Evaluate(object):
         pit = self._pit.title()
         traffic_plan = self._tp.title()
 
-        title = "Summation of Eru and QOS (PIT = {0} and TP = {1})".format(pit,
-                                                                           traffic_plan)
+        title = "Summation of Eru and QOS (PIT = {0} and TP = {1} and VERSION = {2})".format(
+            pit, traffic_plan, self._get_version())
+
         return title
 
     def _get_file_name(self, file_type):
@@ -220,7 +246,8 @@ class Evaluate(object):
         """
         base_str = self.GRAPH if file_type == self.GRAPH else self.STATS
 
-        file_name = "{0}/{1}_{2}_{3}".format(self._output, base_str, self._pit, self._tp)
+        file_name = "{0}/{1}_{2}_{3}_{4}".format(self._output, base_str, self._pit,
+                                                 self._tp, self._get_version())
         return file_name
 
     def _convert_time(self, date_str):
@@ -396,13 +423,14 @@ def parse_args():
     Parse the arguments from the command line argument.
 
     @example
-    - python evaluate.py PIT TP OUT
-    - python evaluate.py 5s increase-decrease output
+    - python evaluate.py PIT TP VERSION OUT
+    - python evaluate.py 5s increase-decrease v2 output
     """
     parser = argparse.ArgumentParser(description="Process the evaluation test output.")
 
     parser.add_argument("pit", type=str, help="the pod initialization time (i.e. 5s)")
     parser.add_argument("tp", type=str, help="the traffic pattern (i.e. flash-crowd)")
+    parser.add_argument("version", type=str, help="the version of trials")
     parser.add_argument("out", type=str, help="the directory to write to (i.e. output)")
 
     return parser.parse_args()
@@ -410,4 +438,4 @@ def parse_args():
 if __name__ == "__main__":
     args = parse_args()
 
-    Evaluate(args.pit, args.tp, args.out).run()
+    Evaluate(args.pit, args.tp, args.version, args.out).run()

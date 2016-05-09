@@ -13,11 +13,13 @@ test:
 # Process the results of an evaluation test and output the results into the
 # `output` dir. The pod intitialization time is specified by $PIT and the traffic
 # pattern is specified by $TP. The output dir to write to is specified by $OUT.
+# The version, [v1|v2...], is specified by `VERSION`.
 #
-# @example `export PIT=5s; export TP=increase-decrease; export OUT=/code/output; make
-# process`.
+# @TODO `VERSION` must be specified.
+#
+# @example `export PIT=5s; export TP=increase-decrease; export VERSION=v2; export OUT=/code/output; make process`.
 process:
-	docker run --rm --env-file=.env -i -v $(shell pwd):/code mattjmcnaughton/thesis-python:latest python /code/evaluate.py $(PIT) $(TP) $(OUT)
+	docker run --rm --env-file=.env -i -v $(shell pwd):/code mattjmcnaughton/thesis-python:latest python /code/evaluate.py $(PIT) $(TP) $(VERSION) $(OUT)
 
 # `make backup`
 #

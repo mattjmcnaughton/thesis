@@ -47,6 +47,8 @@ spec:
           value: {{ autoscaling_method }}
         - name: INITIALIZATION_TIME
           value: {{ pod_initialization_time }}
+        - name: VERSION
+          value: {{ version }}
         # The following variables are all stored in `secret-config.json` and
         # should be kept secret - hence the `generated/` dir is not checked into
         # version control.

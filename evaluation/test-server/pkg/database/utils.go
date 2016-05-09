@@ -20,9 +20,10 @@ var (
 	databaseUsername = os.Getenv("DATABASE_USERNAME")
 	databasePassword = os.Getenv("DATABASE_PASSWORD")
 
-	// The method of auto-scaling and pit in use for this container.
+	// The method of auto-scaling, pit, version in use for this container.
 	scalingMethod         = os.Getenv("SCALING_METHOD")
 	podInitializationTime = os.Getenv("INITIALIZATION_TIME")
+	version               = os.Getenv("VERSION")
 )
 
 // createClient is an internal method for creating a HTTP Connection to the database.
