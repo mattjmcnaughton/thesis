@@ -8,7 +8,7 @@
 # and `traffic`directories. A couple of environment variables must be set, as
 # can be seen in the example below.
 #
-# @EXAMPLE: export TS_RC=test-server-controller-reactive-5s.yaml; export TG_RC=traffic-generator-controller-increase-decrease-test-plan.yaml; export HPA=TRUE; export PREDICTIVE=TRUE; make test_start
+# @EXAMPLE: export TS_RC=test-server-controller-reactive-5s-v1.yaml; export TG_RC=traffic-generator-controller-increase-decrease-test-plan.yaml; export HPA=TRUE; export PREDICTIVE=TRUE; make test_start
 # @TODO Be sure to set HPA/PREDICTIVE to FALSE if we don't want to use them,
 # because otherwise the values will carry over.
 test_start:

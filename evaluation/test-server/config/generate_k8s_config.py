@@ -101,6 +101,8 @@ def compute_additional_config():
     return {COMMIT_HASH: head_commit_hash}
 
 def generate_unstable_files(config):
+    # pylint: disable=too-many-locals
+
     """
     Generate the unstable configuration files. Right now the only unstable
     configuration file is the replication controller configuration file.
@@ -113,12 +115,14 @@ def generate_unstable_files(config):
       which has an associated replication controller configuration file.
     - `pod_initialization_times`: A list of pod initialization times, each of
       which has an associated replication controller configuration file.
+    - `versions`: A list of the different versions for trials.
     - `head_commit_hash`: The label for the Docker image, based on the head
       commit hash for the latest git commit.
     - `database_[name|address|username|password]`: Strings representing the
       respective database configuration values for influxdb.
     - `rollbar_token`: The token for recording errors to Rollbar.
     """
+
     rc_config_file = "{0}/{1}".format(_get_file_dir(),
                                       "sample-test-server-controller.yaml.jinja")
 
@@ -134,22 +138,23 @@ def generate_unstable_files(config):
 
     for as_method in config["autoscaling_methods"]:
         for pit in config["pod_initialization_times"]:
-            file_name = "{0}/{1}/test-server-controller-{2}-{3}.yaml".format(_get_file_dir(),
-                                                                             GENERATED_DIR,
-                                                                             as_method, pit)
+            for ver in config["versions"]:
+                file_name = "{0}/{1}/test-server-controller-{2}-{3}-{4}.yaml".format(
+                    _get_file_dir(), GENERATED_DIR, as_method, pit, ver)
 
-            rendered_config_str = Template(template_str).render(autoscaling_method=as_method,
-                                                                pod_initialization_time=pit,
-                                                                head_commit_hash=hch,
-                                                                database_name=dbn,
-                                                                database_address=dba,
-                                                                database_username=dbu,
-                                                                database_password=dbp,
-                                                                rollbar_token=rbt)
+                rendered_config_str = Template(template_str).render(
+                    autoscaling_method=as_method,
+                    pod_initialization_time=pit,
+                    version=ver,
+                    head_commit_hash=hch,
+                    database_name=dbn,
+                    database_address=dba,
+                    database_username=dbu,
+                    database_password=dbp,
+                    rollbar_token=rbt)
 
-            with open(file_name, "w+") as new_config_file:
-                new_config_file.write(rendered_config_str)
-
+                with open(file_name, "w+") as new_config_file:
+                    new_config_file.write(rendered_config_str)
 
 def generate_stable_files():
     """

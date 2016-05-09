@@ -1,4 +1,5 @@
 {
   "autoscaling_methods": ["static-average", "reactive", "predictive"],
-  "pod_initialization_times": ["5s", "135s"]
+  "pod_initialization_times": ["5s", "135s"],
+  "versions": ["v1", "v2"]
 }

@@ -69,10 +69,11 @@ class EvaluateTestCase(unittest.TestCase):
     runs methods contained with the `Evaluate` class.
     """
 
-    # PIT and TP are the pod initialization time and test pattern that we mock
-    # for.
+    # PIT, TP, VERSION are the pod initialization time, test pattern, and
+    # version that we mock for.
     PIT = "5s"
     TP = "increase-decrease"
+    VERSION = "v2"
 
     def __init__(self, *args, **kwargs):
         super(EvaluateTestCase, self).__init__(*args, **kwargs)
@@ -251,7 +252,7 @@ class EvaluateTestCase(unittest.TestCase):
         Returns:
             Evaluate: An instance of the Evaluate class.
         """
-        evaluate = Evaluate(self.PIT, self.TP, self._get_tmp_dir())
+        evaluate = Evaluate(self.PIT, self.TP, self.VERSION, self._get_tmp_dir())
 
         evaluate.query_influx = MagicMock()
         evaluate.query_influx = InfluxDBMock.query_influx

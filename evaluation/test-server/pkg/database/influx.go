@@ -29,6 +29,7 @@ func WriteMetrics(eru, qos float64, trafficPattern string) error {
 		"sm":  scalingMethod,
 		"tp":  trafficPattern,
 		"pit": podInitializationTime,
+		"ver": version,
 	}
 	fields := map[string]interface{}{
 		"eru": eru,
