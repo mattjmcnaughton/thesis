@@ -20,3 +20,9 @@
 
 - Use the query `SELECT * from METRICS` when using the database
   `test-server-prod` to see the all of the database entries.
+
+## Deleting metrics
+
+- Use the query `DROP SERIES FROM METRICS where ver = 'v2'` to drop all
+  measurements with `ver = 'v2'`. Any other query string can be specified
+  obviously.
