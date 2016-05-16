@@ -252,7 +252,8 @@ class EvaluateTestCase(unittest.TestCase):
         Returns:
             Evaluate: An instance of the Evaluate class.
         """
-        evaluate = Evaluate(self.PIT, self.TP, self.VERSION, self._get_tmp_dir())
+        evaluate = Evaluate(self.PIT, self.TP, self.VERSION,
+                            self._get_tmp_dir(), False, False)
 
         evaluate.query_influx = MagicMock()
         evaluate.query_influx = InfluxDBMock.query_influx

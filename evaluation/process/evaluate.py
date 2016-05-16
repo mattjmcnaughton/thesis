@@ -49,11 +49,13 @@ class Evaluate(object):
     # If no version is specified, assume that it is v1.
     DEFAULT_VERSION = "v1"
 
-    def __init__(self, pit, tp, version, output):
+    def __init__(self, pit, tp, version, output, only_eru, only_qos):
         self._pit = pit
         self._tp = tp
         self._version = version
         self._output = output
+        self._only_eru = only_eru
+        self._only_qos = only_qos
         self._client = None
 
     def _get_client(self):
@@ -74,10 +76,17 @@ class Evaluate(object):
 
         return self._client
 
-    def _get_base_query(self):
+    def _get_base_query(self, version):
         """
         Return the base influx db query which will be used by any instance of
         this class.
+
+        @TODO Handle versioning of queries better.
+
+        Args:
+            version (str): At this point, different versions of trials require
+            different queries which isn't ideal, but its what's happening for
+            now.
 
         Returns:
             str: The base influxdb query, which still has fields that need to be
@@ -87,9 +96,14 @@ class Evaluate(object):
         # like a fairly safe assumption, but is an assumption all the same.
         # @TODO Abstract the specific variable names like `sm`, `tp` as class
         # variables so they aren't just random strings.
-        query = ("SELECT MEAN({{ value }}) from METRICS where time > now() - 10d and "
-                 "sm = '{{ sm }}' and pit = '{{ pt }}' and tp = '{{ tp }}' "
-                 "and ver = '{{ ver }}' group by time(1m)")
+        if version == self.DEFAULT_VERSION:
+            query = ("SELECT MEAN({{ value }}) from METRICS where time > now() - 40d and "
+                     "sm = '{{ sm }}' and pit = '{{ pt }}' and tp = '{{ tp }}' "
+                     "and ver !~ /v*/ group by time(1m)")
+        else:
+            query = ("SELECT MEAN({{ value }}) from METRICS where time > now() - 10d and "
+                     "sm = '{{ sm }}' and pit = '{{ pt }}' and tp = '{{ tp }}' "
+                     "and ver = '{{ ver }}' group by time(1m)")
 
         return query
 
@@ -110,11 +124,11 @@ class Evaluate(object):
         version = "" if self._version == self.DEFAULT_VERSION else self._version
 
         full_query = Template(
-            self._get_base_query()).render(value=value,
-                                           sm=scaling_method,
-                                           pt=self._pit,
-                                           tp=self._tp,
-                                           ver=version)
+            self._get_base_query(self._version)).render(value=value,
+                                                        sm=scaling_method,
+                                                        pt=self._pit,
+                                                        tp=self._tp,
+                                                        ver=version)
 
         res = client.query(full_query)
         return list(res.get_points())
@@ -197,7 +211,15 @@ class Evaluate(object):
                 n_eru = self._normalize(eru, eru_mean, eru_std_dev)
                 n_qos = self._normalize(qos, qos_mean, qos_std_dev)
 
-                sum_eru_qos = -n_eru + -n_qos
+                # A hacky way to allow me to compare to trials just on the basis
+                # of eru or qos as opposed to just their summation.
+                if self._only_eru:
+                    sum_eru_qos = -n_eru
+                elif self._only_qos:
+                    sum_eru_qos = -n_qos
+                else:
+                    sum_eru_qos = -n_eru + -n_qos
+
                 data[timestamp] = sum_eru_qos
 
             results[scaling_method] = data
@@ -218,21 +240,6 @@ class Evaluate(object):
 
         return self._version
 
-    def _get_graph_title(self):
-        """
-        Return the title for the graph.
-
-        Return:
-            str: The title of the graph.
-        """
-        pit = self._pit.title()
-        traffic_plan = self._tp.title()
-
-        title = "Summation of Eru and QOS (PIT = {0} and TP = {1} and VERSION = {2})".format(
-            pit, traffic_plan, self._get_version())
-
-        return title
-
     def _get_file_name(self, file_type):
         """
         Return the file name for the graph.
@@ -246,9 +253,47 @@ class Evaluate(object):
         """
         base_str = self.GRAPH if file_type == self.GRAPH else self.STATS
 
-        file_name = "{0}/{1}_{2}_{3}_{4}".format(self._output, base_str, self._pit,
-                                                 self._tp, self._get_version())
+        qualifier = ""
+        if self._only_eru:
+            qualifier = "_only-eru"
+        elif self._only_qos:
+            qualifier = "_only-qos"
+
+        file_name = "{0}/{1}_{2}_{3}_{4}{5}".format(self._output, base_str, self._pit,
+                                                    self._tp, self._get_version(),
+                                                    qualifier)
         return file_name
+
+    def _get_y_axis(self):
+        """
+        Return the y axis title for the graphs.
+
+        Return:
+            str: The y-axis title for the graph, which changes depending on if
+            its comparing ERU, QOS, or the sum.
+        """
+        if self._only_eru:
+            return "ERU"
+        elif self._only_qos:
+            return "QOS"
+        else:
+            return "Summation of ERU and QOS"
+
+    def _get_graph_title(self):
+        """
+        Return the title for the graph.
+
+        Return:
+            str: The title of the graph.
+        """
+        base_str = "Comparison of {0}"
+
+        if self._only_eru:
+            return base_str.format("ERU")
+        elif self._only_qos:
+            return base_str.format("QOS")
+        else:
+            return base_str.format("Summation of ERU and QOS")
 
     def _convert_time(self, date_str):
         """
@@ -325,8 +370,8 @@ class Evaluate(object):
         plot.plot(x_vals, react_y_vals)
         plot.legend(["Predictive", "Reactive"], loc="upper left")
 
-        plot.xlabel("Timestamp")
-        plot.ylabel("Summation of ERU and QOS")
+        plot.xlabel("Timestamp (s)")
+        plot.ylabel(self._get_y_axis())
         plot.title(self._get_graph_title())
 
         plot.savefig(self._get_file_name(self.GRAPH))
@@ -423,8 +468,9 @@ def parse_args():
     Parse the arguments from the command line argument.
 
     @example
-    - python evaluate.py PIT TP VERSION OUT
+    - python evaluate.py PIT TP VERSION OUT [--only-eru] [--only-qos]
     - python evaluate.py 5s increase-decrease v2 output
+    - python evaluate.py 135s increase-decrease v2 output --only-eru
     """
     parser = argparse.ArgumentParser(description="Process the evaluation test output.")
 
@@ -433,9 +479,15 @@ def parse_args():
     parser.add_argument("version", type=str, help="the version of trials")
     parser.add_argument("out", type=str, help="the directory to write to (i.e. output)")
 
+    # @TODO Make this less hacky. But basically it allows us to specify if we
+    # only want to compare eru or qos as opposed to their summation.
+    parser.add_argument("--only-eru", action="store_true")
+    parser.add_argument("--only-qos", action="store_true")
+
     return parser.parse_args()
 
 if __name__ == "__main__":
     args = parse_args()
 
-    Evaluate(args.pit, args.tp, args.version, args.out).run()
+    Evaluate(args.pit, args.tp, args.version, args.out, args.only_eru,
+             args.only_qos).run()

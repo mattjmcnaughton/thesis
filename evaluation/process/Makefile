@@ -17,9 +17,9 @@ test:
 #
 # @TODO `VERSION` must be specified.
 #
-# @example `export PIT=5s; export TP=increase-decrease; export VERSION=v2; export OUT=/code/output; make process`.
+# @example `export PIT=5s; export TP=increase-decrease; export VERSION=v2; export OUT=/code/output; export FLAG="--only-eru" make process`.
 process:
-	docker run --rm --env-file=.env -i -v $(shell pwd):/code mattjmcnaughton/thesis-python:latest python /code/evaluate.py $(PIT) $(TP) $(VERSION) $(OUT)
+	docker run --rm --env-file=.env -i -v $(shell pwd):/code mattjmcnaughton/thesis-python:latest python /code/evaluate.py $(PIT) $(TP) $(VERSION) $(OUT) $(FLAG)
 
 # `make backup`
 #

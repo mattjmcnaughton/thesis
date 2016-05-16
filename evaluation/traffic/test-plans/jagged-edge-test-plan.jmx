@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="2.8" jmeter="2.13 r1665067">
   <hashTree>
-    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="flash-crowd-test-plan" enabled="true">
-      <stringProp name="TestPlan.comments">flash-crowd is like --^--</stringProp>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="jagged-edge-test-plan" enabled="true">
+      <stringProp name="TestPlan.comments">flash-crowd is like /\/-</stringProp>
       <boolProp name="TestPlan.functional_mode">false</boolProp>
       <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
@@ -13,11 +13,11 @@
     <hashTree>
       <kg.apc.jmeter.threads.UltimateThreadGroup guiclass="kg.apc.jmeter.threads.UltimateThreadGroupGui" testclass="kg.apc.jmeter.threads.UltimateThreadGroup" testname="jp@gc - Ultimate Thread Group" enabled="true">
         <collectionProp name="ultimatethreadgroupdata">
-          <collectionProp name="-477398907">
+          <collectionProp name="-1008234552">
             <stringProp name="1507423">1000</stringProp>
             <stringProp name="0">0</stringProp>
             <stringProp name="48">0</stringProp>
-            <stringProp name="1541058">2400</stringProp>
+            <stringProp name="1514274">1740</stringProp>
             <stringProp name="48">0</stringProp>
           </collectionProp>
         </collectionProp>
@@ -52,7 +52,7 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">/?traffic-pattern=flash-crowd</stringProp>
+          <stringProp name="HTTPSampler.path">/?traffic-pattern=jagged-edge</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -70,25 +70,30 @@
             <stringProp name="49">1</stringProp>
             <stringProp name="50547">300</stringProp>
           </collectionProp>
-          <collectionProp name="1953748456">
+          <collectionProp name="-611709986">
             <stringProp name="49">1</stringProp>
-            <stringProp name="53">5</stringProp>
-            <stringProp name="53616">660</stringProp>
+            <stringProp name="1567">10</stringProp>
+            <stringProp name="50547">300</stringProp>
           </collectionProp>
-          <collectionProp name="-634891735">
+          <collectionProp name="-190214535">
+            <stringProp name="1567">10</stringProp>
             <stringProp name="53">5</stringProp>
+            <stringProp name="48687">120</stringProp>
+          </collectionProp>
+          <collectionProp name="-610787240">
+            <stringProp name="53">5</stringProp>
+            <stringProp name="1572">15</stringProp>
+            <stringProp name="50547">300</stringProp>
+          </collectionProp>
+          <collectionProp name="1543565555">
+            <stringProp name="1572">15</stringProp>
+            <stringProp name="1567">10</stringProp>
+            <stringProp name="48687">120</stringProp>
+          </collectionProp>
+          <collectionProp name="1568058903">
+            <stringProp name="1567">10</stringProp>
             <stringProp name="1598">20</stringProp>
-            <stringProp name="49710">240</stringProp>
-          </collectionProp>
-          <collectionProp name="-185711827">
-            <stringProp name="1598">20</stringProp>
-            <stringProp name="53">5</stringProp>
-            <stringProp name="49710">240</stringProp>
-          </collectionProp>
-          <collectionProp name="1954612426">
-            <stringProp name="53">5</stringProp>
-            <stringProp name="49">1</stringProp>
-            <stringProp name="53616">660</stringProp>
+            <stringProp name="50547">300</stringProp>
           </collectionProp>
           <collectionProp name="1950377708">
             <stringProp name="49">1</stringProp>
