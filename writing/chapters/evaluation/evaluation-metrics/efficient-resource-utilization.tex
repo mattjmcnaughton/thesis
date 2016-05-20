@@ -20,8 +20,8 @@ all resources that containers within the pod reserve
 that reserved CPU to run, than a large amount of CPU will be left idle. The
 larger the percentage of CPU that is left idle, the worse the efficient resource
 utilization, as many resources are just sitting unused.
-Our specific metric for efficient resource
-utilization will be measured in percentage of CPU that is idle and we name it
+We measure our specific metric for efficient resource
+utilization in percentage of CPU that is idle and we name it
 \code{IdleCPU}. When we use this metric to indicate efficient resource utilization,
 if the ERU value is high, the application is not using resources efficiently. If
 the metric is low, the application is using resources efficiently.\footnote{In a
