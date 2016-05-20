@@ -38,15 +38,21 @@ examine the applicability of machine learning algorithms to the problem of
 predicting future resource utilization. Machine learning algorithms could be
 particularly useful in those scenarios in which traffic follows a repeatable
 pattern, yet that pattern does not fit nicely within the category of a
-polynomial, exponential, or logarithmic equation. Such improvements to our
+polynomial, exponential, or logarithmic equation. Finally, even if we remain
+only processing a singular linear line-of-best-fit, currently we record only the
+average per pod CPU utilization, and make predictions accordingly. We could also
+experiment with recording total CPU utilization across all pods, and meaning
+that CPU utilizations which were seen when more pods existed would have a
+greater effect on prediction. It remains to be seen what the subsequent results
+of such a modification would be. Such improvements to our
 ability to accurately predict future resource utilization
 would vastly expand the scope under which predictive auto-scaling would be
 useful and should greatly increase the benefits of predictive auto-scaling in
 relation to reactive auto-scaling.
 
-In a similar vein, we mentioned how the current implementation of a threshold time
-interval that most be observed between scalings was at times detrimental to
-the performance of predictive auto-scaling.
+In a similar vein, we mentioned how the previous implementation of a threshold time
+interval that must be observed between scalings was at times conceivably
+detrimental to the performance of predictive auto-scaling.
 It would be interesting to vary the length of this interval, in
 order to determine if it is possible to maintain the benefits of such an
 interval in preventing

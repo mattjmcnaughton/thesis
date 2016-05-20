@@ -43,7 +43,8 @@ our line of best fit,  with $a = \overline{y} - (b * \overline{x})$. With
 these variables, we have a linear line of best fit, which we can use to make
 simple predictions about future CPU utilization \cite{line-of-best-fit}.
 
-Our final step is to get a \textit{Time} value to plug into this line of best
+Our final step with respect to prediction is
+to get a \textit{Time} value to plug into this line of best
 fit to receive a future prediction.\footnote{As was mentioned in the
 Architecture section, we only utilize the predictive method when up-scaling.
 Otherwise, if we notice the line of best fit has a negative slope, we simply
@@ -66,3 +67,12 @@ that it would be easy to examine a number of alternative modeling solutions,
 such as quadratic, exponential, or logarithmic lines of best fits. It would even
 be possible to try all the different modeling options, and ultimately select
 the one that had proven itself most accurate for this given auto-scaler.
+
+Finally, we should note that when using predictive auto-scaling for our
+evaluations, we decrease the forbidden window for which the auto-scaler must
+wait before adding or deleting replica pods after it auto-scales from five
+minutes for down-scaling and three minutes for up-scaling, to a univeral thirty
+seconds. This decision was somewhat predicated on the
+\code{PodInitializationTime} of the test applications we evaluate. These pods
+have \code{PodInitializationTime} less than the forbidden window, which limits
+the potential benefits of auto-scaling.
