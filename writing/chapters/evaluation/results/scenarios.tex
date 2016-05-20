@@ -1,5 +1,5 @@
 Given the evaluation of a typical application benefiting from horizontal
-auto-scaling on two distinct test patterns, we can comment on the general
+auto-scaling on four distinct test patterns, we can comment on the general
 scenarios in which predictive auto-scaling is effective and beneficial, and the
 situations in which reactive auto-scaling is either less effective or
 detrimental.
@@ -20,39 +20,33 @@ application simulating downloading shard data. From our graphs, we could see
 repeatable performance differences, and scenarios in which predictive
 auto-scaling offered the most benefits and scenarios in which reactive
 auto-scaling offered the most benefits. Specifically, predictive auto-scaling
-allows us to respond quickly to increases in load, ensuring that we
-substantially react to initial spikes. While such behavior is beneficial in the
-immediate aftermath of increased load, it can raise challenges if an even
-greater scaling would otherwise be performed at a time within the
-threshold Kubernetes imposes in
-which scaling cannot occur. Particularly if predictive auto-scaling
-underestimated the initial amount to scale, or only created a small replica
-number of pods, scaling too early can lead to
-performance decreases during the threshold period. Reactive auto-scaling avoids
-these performance decreases by performing its scaling actions during period of
-peak load, and thus creating greater replica pods. In short, predictive
-auto-scaling offers a trade off between quickly and immediately responding to
-increased load, while taking the risk that even greater increases during the
-threshold time will go unaddressed until the threshold period ends.
+performed well in comparison when there were general long-trending linear
+patterns which it could recognize. This benefit was particularly noticeable with
+respect to reactive auto-scaling when there were temporary deviations from the
+pattern, such as in \textit{step-ladder} and \textit{jagged-edge}. Reactive
+auto-scaling would not be able to detect these as deviations, and would
+misallocate accordingly, while predictive auto-scaling would stay true to the
+overall pattern.
 
-With an eye towards the real-world, there are a variety of scenarios in which
-predictive auto-scaling would be particularly useful. Specifically, the ability
-to ensure we respond aggressively to an initial burst in traffic corresponds
-nicely with notification services which will notify users and then achieve a
-very steep, quick increase in users, before an equally steep decline. If this
-burst occurs within the span of the threshold in which auto-scaling is
-prevented, there will be no penalty to predictive auto-scalings aggressive
-scaling. Furthermore, we can examine other scenarios in which we would rather
-have high performance at the beginning of a heavy load period than the end. For
-example, if we have a peer to peer system established in which all nodes in the
-system originally query a single node, until they themselves have the
-information and can be queriable, we would prefer a predictive auto-scaling
-implementation. Predictive auto-scaling should sufficiently handle the initial
-burst, and if there are any performance degradations during the threshold
-period, they will be in part diminished by the previous successful queries of
-the first node ensuring other nodes have the data and can thus serve as
-additional replicas. This performance is in comparison to reactive auto-scaling,
-which may not be able to handle the additional burst, and thus the system would
-crash as no nodes would have been able to get the shared data. There are likely
-a variety of additional operations and systems matching this general theme in
-which predictive auto-scaling is particularly useful.
+In constrast, predictive auto-scaling at times suffered when it was to eager to
+recognize patterns or when multiple patterns existed and we used observations
+from the previous pattern to try and predict the new pattern. The troublesome
+impacts of this improper prediction can be seen in the
+\textit{increase-decrease} and \textit{flash-crowd} traffic patterns.
+
+In the end, predictive auto-scaling presents a choice. If one is fairly
+confident one's application load will face load following a fairly consistent
+linear pattern,\footnote{Again, one of the first components of future work would
+be expanding our prediction beyond just linear lines-of-best-fit, in which case
+the possible patterns predictive auto-scaling would be useful for would
+drastically expand.} then predictive auto-scaling is a powerful tool. Again, we
+could expect this consistency in the instances we describe as being reflected by
+the \textit{step-ladder} and \textit{jagged-edge} patterns, such as individuals
+consistently entering a video streaming website to watch a regularly scheduled
+video. If one's application load will vary between different patterns, or has no
+pattern in any form, than predictive auto-scaling does not make sense as a
+solution. It will actively deny reality to try and conform to whatever pattern
+it best recognizes, which can have negative results. Again, this difficulty is
+particularly reflected in traffic patterns like \textit{flash-crowd}, suggesting
+this iteration of predictive auto-scaling may not be the best idea for news
+providers, or other similar applications.
