@@ -11,7 +11,7 @@ application frameworks, as we showed when writing simple HTTP servers using
 both Go and the Spring Java web application framework \cite{spring}. These web
 frameworks initialized, and were ready to serve requests, in 1s and 5s
 respectively. It is our belief that any web framework that simply
-needs to initialize, without any external communicating of data, will
+needs to initialize, without any external communicating of data, can
 accomplish this task in under 5s. Thus, testing a pod initialization time of 5s
 would allow us to consider how any web application framework would perform with
 predictive auto-scaling. However, when pod initialization time is as little as
@@ -33,7 +33,7 @@ representative size. By examining the pod initialization time of 135s, we
 are confident that we are capturing the majority of the potential interesting use cases for
 predictive auto-scaling.
 
-We believe that there will be a sweet spot of pod initialization times
+We believe that there exists a sweet spot of pod initialization times
 for which predictive auto-scaling demonstrates the most benefits over reactive
 auto-scaling. Obviously the smaller the pod initialization time value, the lesser
 the difference between reactive and predictive auto-scaling.

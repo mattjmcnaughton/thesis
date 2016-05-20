@@ -43,4 +43,6 @@ this interval is currently five minutes from the most recent
 re-scaling for down-scaling and three minutes from the most recent re-scale for
 up-scaling. This waiting time prevents thrashing by ensuring
 auto-scaling can actually take effect before it is potentially attempted again
-\cite{k8s-horizontal-pod-autoscaler-user-guide}.
+\cite{k8s-horizontal-pod-autoscaler-user-guide}.\footnote{We modify the length
+of the forbidden window when running our predictive auto-scaling trials, as will
+be discussed in Section \ref{autoscaling-predictively}.}

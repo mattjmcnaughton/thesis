@@ -11,8 +11,8 @@ variables we wish to control during experimentation.
 endpoints, ``/" and "/ready".
 
 \begin{itemize}
-  \item \textbf{``/" - Load}: Traffic generators simulating user requests will
-    send GET requests to the endpoint at ``\/", also known as the \textit{Load} endpoint.
+  \item \textbf{``/" - Load}: Traffic generators simulating user requests
+    sends GET requests to the endpoint at ``\/", also known as the \textit{Load} endpoint.
     This endpoint has two functions. First, it must perform a task that is
     somewhat CPU intensive so that our application uses enough CPU that
     auto-scaling may be triggered. Second, it must record the percent of idle CPU
@@ -44,10 +44,10 @@ endpoints, ``/" and "/ready".
     requests to ``/ready" works by reading in an environment variable indicating
     the pod initialization time value we wish to test.\footnote{Any method of
     running containers, whether locally during testing or in a pod on Kubernetes
-    will allow us to easily set environment variables.} The function parses this
+    allows us to easily set environment variables.} The function parses this
     time, and waits that amount of time before returning a status code of 200.
     This wait ensures that we can control exactly when the
-    \textit{ReadinessProbe} will receive a successful response, and thus can
+    \textit{ReadinessProbe} receives a successful response, and thus can
     control exactly the amount of time before a pod initializes.
 \end{itemize}
 
