@@ -7,40 +7,40 @@ demands.
 
 To better understand both the implementation and benefits of auto-scaling, let
 us consider a simple scenario. Imagine you have an application running on a
-cluster for a week. On Monday, it will need $x$ resources.\footnote{By
-  \textit{resources}, we mean CPU, memory, etc.} On Tuesday through
-Thursday, the application will need $2x$ resources. Finally, on Friday the
-application will again need $x$ resources. Without auto-scaling, we are forced
+cluster for a week. On Monday, it needs $x$ resources.\footnote{By
+  \textit{resources}, we mean allocatable units of CPU, memory, etc.} On Tuesday through
+Thursday, the application needs $2x$ resources. Finally, on Friday the
+application again needs $x$ resources. Without auto-scaling, we are forced
 to assign a constant amount of resources to the application running on our
 cluster. However, there is no constant amount of resources that can meet
 the two goals of efficiently utilizing the cluster's resources and ensuring the
 application has the resources needed for maintaining a high-level of service.
 Specifically, if we assign the application $x$ resources,
 then on Tuesday through Thursday the
-application will not have the amount of resources it needs to handle its load,
+application does not have the amount of resources it needs to handle its load,
 and quality of service will deteriorate. Alternatively, if we assign the
-application $2x$ resources on the cluster, then on Monday and Friday we will
-essentially be wasting $x$ resources on the cluster, as they are assigned to an
+application $2x$ resources on the cluster, then on Monday and Friday we
+essentially are wasting $x$ resources on the cluster, as they are assigned to an
 application that does not need them. Such waste indicates inefficient
 resource utilization. If we desire to run additional jobs on the cluster, we
 must allocate more resources, even though our statically over-provisioned
 application has plenty of resources it is not using.
 The difficulties static resource provisioning suggests can
 be seen in Figure \ref{fig:static-over-provision} and Figure
-\ref{fig:static-average-provision} \footnote{The graphs showing the
+\ref{fig:static-average-provision}.\footnote{The graphs showing the
   benefits of auto-scaling are inspired by the informative graphs
 showing the benefits of auto-scaling in the Amazon EC2 auto-scaling
-documentation.\cite{amazon-ec2}.}
+documentation \cite{amazon-ec2}.}
 
 \begin{figure}[!h]
   \centerline{\includegraphics[scale=.25]{static-over-provision.jpg}}
-  \caption{A Over Provisioned Application}
+  \caption{An Over Provisioned Application showing poor ERU.}
   \label{fig:static-over-provision}
 \end{figure}
 
 \begin{figure}[!h]
   \centerline{\includegraphics[scale=.25]{static-average-provision.jpg}}
-  \caption{A Average Provisioned Application}
+  \caption{An Average Provisioned Application showing poor QoS.}
   \label{fig:static-average-provision}
 \end{figure}
 
@@ -62,7 +62,7 @@ the cluster more cost-effective, as can be seen Figure
 
 \begin{figure}[!h]
   \centerline{\includegraphics[scale=.25]{reactive-autoscale}}
-  \caption{A Reactive Auto-scaled Application}
+  \caption{A Auto-scaled Application showing good ERU and QoS.}
   \label{fig:reactive-autoscale}
 \end{figure}
 
@@ -80,7 +80,7 @@ second is if the auto-scaling is reactive or predictive.
 \begin{enumerate}
   \item \underline{Horizontal vs. Vertical}: We begin by examining
     the difference between horizontal and vertical scaling.
-    Let us begin by assuming there is an application assigned $x$ resources by the
+    To start, assume there is an application assigned $x$ resources by the
     cluster manager. The application
     faces external load such that it needs $2x$ resources to operate with an
     acceptable quality of service. There are now two options. In
@@ -94,7 +94,8 @@ second is if the auto-scaling is reactive or predictive.
     the requests and requires only the $x$ resources it has
     \cite{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}. While
     both of these variations of auto-scaling accomplish the same goal, horizontal
-    auto-scaling is a little simpler. Given we know how to create an instance of a
+    auto-scaling is a little simpler to implement and execute.
+    Given we know how to create an instance of a
     virtual machine running the application, an entirely safe assumption
     considering we already created one such instance, in many cases it is
     fairly trivial to create
@@ -161,7 +162,7 @@ second is if the auto-scaling is reactive or predictive.
 \end{enumerate}
 
 A number of the major providers of cloud computing resources offer auto-scaling,
-as can be seen in Table ~\ref{table:autoscaling-paradigms-comparison-table}.
+as can be seen in Table \ref{table:autoscaling-paradigms-comparison-table}.
 The most prominent of these providers is Amazon, which supports threshold-based
 horizontal auto-scaling on EC2 virtual machine
 instances \cite{amazon-auto-scaling-developer-guide}. Furthermore, Netflix
