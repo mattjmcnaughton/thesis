@@ -14,7 +14,9 @@ As such, this thesis pursues three goals:
     function efficiently.
   \item A simplistic solution to the first goal of ensuring a high application
     quality of service is to just give each application many more resources than
-    it will ever request. Yet, this over-provisioning is inefficient and costly. Thus, our
+    it will ever request. Yet, this over-provisioning is inefficient and costly,
+    since the application is preventing other applications from using resources,
+    but is not actually using them itself. Thus, our
     methods for ensuring a high quality of service must also ensure the
     maintenance, or improvement, of the efficient resource utilization metric.
     As such, we add an additional goal: given a certain number of applications
@@ -30,7 +32,6 @@ As such, this thesis pursues three goals:
     Kubernetes. The eventual goal is for this
     thesis' improvements to be merged into the production version of Kubernetes,
     and present another resource allocation method to Kubernetes users which
-    should be particularly beneficial in situations we will outline in this
-    thesis.
+    should be particularly beneficial in situations discussed later.
 \end{enumerate}
 
