@@ -26,13 +26,14 @@ cost for pods operating outside of target resource consumption.
 Adding prediction avoids this problem, ensuring an improved summation of ERU and
 QoS. Consider the following example again, yet this time with predictive
 horizontal auto-scaling. Again, imagine the exact same scenario as above, yet
-this time, the predictive algorithm will instruct the creation of 10 replica
-pods at 5:50pm. By 6:00pm, when 20 replica pods are needed, 20 replicas are
+this time, the predictive algorithm will instruct the creation of 10 new replica
+pods at 5:50pm, resulting in 20 replica pods in total.
+By 6:00pm, when 20 replica pods are needed, 20 replicas are
 initialized and ready to balance the load, ensuring that all pods operate at a
 higher quality of service than they would otherwise, without any wasted
 resources.
 
 It is clear that adding prediction has the potential to increase the summation
 of efficient resource utilization and quality of service for Kubernetes. To what
-extent it is able to manifest this potential will be made clear in the
-evaluation section.
+extent it is able to manifest this potential will be made clear in Chapter
+\ref{evaluation}.

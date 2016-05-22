@@ -1,9 +1,9 @@
-As described in the Background chapter, this thesis examines the impacts of
+This thesis examines the impacts of
 implementing model predictive control auto-scaling, instead of the current model reactive
 control auto-scaling. With a greater understanding of the building blocks of
 Kubernetes, and the current implementation of auto-scaling in Kubernetes, it is
 now possible to understand model predictive control in a Kubernetes specific
-context. Given the Kubernetes specific auto-scaling implementation is horizontal
+context. Given the Kubernetes specific auto-scaling implementation is reactive horizontal
 pod auto-scaling, the updated, predictive version investigated in this thesis
 will be referred to as predictive horizontal pod auto-scaling.
 
@@ -34,7 +34,7 @@ terminated. If the pod does not finish these steps, and a couple others
 unrelated to horizontal pod auto-scaling, within a predefined \textit{grace
 period}, the \code{SIGKILL} signal will be sent to all processes on the pod
 and the pod is finally deleted. The default \textit{grace period} is 30
-seconds.\cite{k8s-pods} Given this variability, it is difficult
+seconds \cite{k8s-pods}. Given this variability, it is difficult
 to determine exactly when a replica pod can no longer share the service's work.
 Without this information, we cannot predict how far into the future to predict
 the replica pods' resource utilization, making predictive down-scaling

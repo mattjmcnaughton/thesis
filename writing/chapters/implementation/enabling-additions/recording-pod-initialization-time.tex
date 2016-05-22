@@ -37,7 +37,7 @@ We can rely on the existence of the readiness probe to
 measure the amount of time it took for a pod
 to initialize. Each pod records the time at which it was first ordered into
 existence. Subtracting the time at which the pod first came into existence
-from the time at which a request to the readiness probe was first successful.
+from the time at which a request to the readiness probe was first successful
 results in the pod initialization time we desire. However, while Kubernetes
 records the time at which the pod first came into existence as
 \code{pod.CreationTimestamp}, it does not record the time at which the
@@ -54,7 +54,7 @@ calculates the average initialization time for all pods controlled by the auto-s
       \item If an \code{InitializationTime} value has not already been recorded for
         this pod, then subtract the \code{CreationTime} from the time at which the
         pod entered the ready phase, and record this time as
-        \code{InitializationTime}
+        \code{InitializationTime}.
       \item Add the value for \code{InitializationTime} to
         \code{TotalInitializationTime}.
       \end{itemize}

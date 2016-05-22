@@ -4,10 +4,10 @@ a method of predicting the resource usage of the application at this point in
 time. To make this prediction of future CPU utilization values,
 we need to store multiple previous CPU utilization values.
 
-The following changes must be made to the Kubernetes to facilitate this
+The following changes must be made to Kubernetes to facilitate this
 recording. To start,
 consider the contents of a \code{HorizontalPodAutoscaler} object, which is
-just an Kubernetes API object representing an auto-scaler. This object contains
+just a Kubernetes API object representing an auto-scaler. This object contains
 two objects entitled \code{HorizontalPodAutoscalerSpec} and
 \code{HorizontalPodAutoscalerStatus}. Traditionally within
 Kubernetes, \code{Spec} represents the desired state of the object and
