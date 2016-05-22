@@ -19,34 +19,36 @@ the other. Additionally, for both \code{IdleCPU} and \code{ResponseTime} low
 measures are desirable, while intuitively with summation of ERU and QoS, high
 measures are desirable.
 
-We combine these \textit{ERU} and \textit{QoS} through the following process.
-First, we gather all measurements of \textit{ERU} and \textit{QoS},
+We combine these ERU and QoS measurements through the following process.
+First, we gather all measurements of ERU and QoS,
 distinguished by the variables $E_{A}$ and $Q_{A}$ respectively, from our
 predictive and reactive measurements for a single combination of independent
 variables. Next, we define $e_{t}$ and $q_{t}$ as the
-respective \textit{ERU} and \textit{QoS} measurements at time $t$. We first
+respective ERU and QoS measurements at time $t$. We first
 normalize these measurements through calculating their respective z-scores,
 by first subtracting the individual observation value
 from the mean of all observations, and then dividing by the standard deviation of all
 observations. This operation leaves us with $ne_{t}$ and $nq_{t}$ respectively.
-Then, as with our current implementation of the \textit{ERU} and \textit{QoS}
-metrics smaller values indicate ``better'' performance, and with respect to
-summation of \textit{ERU} and \textit{QoS}, we expect larger values to indicate
-``better'' performance, we negate $ne_{t}$ and $nq_{t}$. Finally, we sum
+Our next step relates to how we interpet measurements for ERU and QoS, and how
+we interpret measurements for the summation of ERU and QoS. With the current
+metrics we use for measuring ERU and QoS individually, smaller values indicate
+``better'' performance. However, with the summation of ERU and QoS, it makes
+intuitive sense that higher values should indicate ``better'' performance.
+Thus, we negate $ne_{t}$ and $nq_{t}$, before we finally sum
 $-ne_{t}$ and $-nq_{t}$ together to get $s_{t}$, where $s_{t}$ is the summation
-of \textit{ERU} and \textit{QoS} at time $t$.
+of ERU and QoS at time $t$.
 In short, we add the negation of the z-score for
-\textit{ERU} and \textit{QoS}. Mathematically, this process can be written as
+ERU and QoS. Mathematically, this process can be written as
 follows:
 
 \begin{align*}
-  ne_{t} = ((e_{t} - \mbox{MEAN}(E_{A})) / \mbox{STDDEV}(E_{A})) \\
-  nq_{t} = ((q_{t} - \mbox{MEAN}(Q_{A})) / \mbox{STDDEV}(Q_{A})) \\
-  s_{t} = -ne_{t} + -nq_{t}
+  ne_{t} &= ((e_{t} - \mbox{MEAN}(E_{A})) / \mbox{STDDEV}(E_{A})) \\
+  nq_{t} &= ((q_{t} - \mbox{MEAN}(Q_{A})) / \mbox{STDDEV}(Q_{A})) \\
+  s_{t} &= -ne_{t} + -nq_{t}
 \end{align*}
 
-Given a measurement of the summation of \textit{ERU} and \textit{QoS} for a set
-of observations, in which \textit{ERU} and \textit{QoS} have an equal impact in
-the summation, it is now possible to compare the summations of \textit{ERU} and
-\textit{QoS} within the different scaling methods or traffic patterns included
+Given a measurement of the summation of ERU and QoS for a set
+of observations, in which ERU and QoS have an equal impact in
+the summation, it is now possible to compare the summations of ERU and
+QoS within the different scaling methods or traffic patterns included
 in our evaluation trials.

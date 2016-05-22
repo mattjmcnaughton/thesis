@@ -8,7 +8,7 @@ of factors support our decision. First, Kubernetes is built for running
 long-term, stable service jobs, and a well-built web application desires to be
 both long-running and crash free \cite{k8s-design-overview}. Second, Kubernetes
 focuses on running ephemeral, containerized applications which can be started or
-stopped at any time. Containerized web services achieve these goals as, as
+stopped at any time. Containerized web services achieve these goals; as
 long as the database layer is abstracted, web applications are stateless and can
 restart with few ramifications. Third, applications on Kubernetes should be
 concurrent, meaning replicas can be added or removed to divide the work any

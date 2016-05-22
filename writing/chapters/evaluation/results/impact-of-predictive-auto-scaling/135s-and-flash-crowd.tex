@@ -1,7 +1,7 @@
 \begin{figure}[!h]
   \centerline{\includegraphics[scale=.70]{flash-crowd-short-labelled.png}}
   \caption{A comparison of the summation of ERU and QoS for
-    predictive and reactive auto-scaling for 135s, flash-crowd}
+    predictive and reactive auto-scaling for 135s, flash-crowd.}
   \label{fig:135s-flash-crowd-labelled}
 \end{figure}
 
@@ -11,7 +11,7 @@ summations of efficient resource utilization and quality of service over the
 course of the \textit{flash-crowd} trial. Again,
 we find that predictive auto-scaling is not particularly
 beneficial in this context. Specifically, if we look at the moment labelled
-$1$ on \ref{fig:135s-flash-crowd-labelled}, we see another instance in which
+$1$ on Figure \ref{fig:135s-flash-crowd-labelled}, we see another instance in which
 predictive auto-scaling suffers a severe performance decrease because of
 under-provisioning. Because this traffic pattern occurs over such a short
 interval, the predictive auto-scaling algorithm is unable to fully recognize and
@@ -22,7 +22,8 @@ auto-scaling.
 
 \begin{table}[htbp]
   \centering
-  \caption{Difference in Predictive and Reactive Auto-scaling for 135s, flash-crowd}
+  \caption{Difference in Predictive and Reactive Auto-scaling for 135s,
+  flash-crowd.}
   \label{tab:135s-flash-crowd}
 \begin{tabular}{l c}\hline\hline
     \multicolumn{1}{c}{\textbf{Measure}} & \textbf{Value} \\ \hline
@@ -34,7 +35,7 @@ auto-scaling.
 \end{table}
 
 Figure \ref{fig:135s-flash-crowd-labelled} shows that predictive
-auto-scaling is fairly detrimental on the \textit{flash-crowd} traffic pattern,
+auto-scaling is fairly detrimental on the \textit{flash-crowd} traffic pattern.
 Given Table \ref{tab:135s-flash-crowd}, we are still not able to claim
 statistical significance with respect to these results, but we should be fairly
 confident that this current iteration of predictive auto-scaling is not an advisable addition
