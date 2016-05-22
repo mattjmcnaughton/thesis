@@ -8,8 +8,9 @@ To begin, we consider when predictive auto-scaling is less
 effective. Predictive auto-scaling offers little distinction from reactive
 auto-scaling when the pod initialization time approaches 0s. Thus, predictive
 auto-scaling is not particularly interesting for containerized web server
-applications. This lack of difference is particularly noticeable given the
-multi-minute threshold Kubernetes imposes between when auto-scalings can occur.
+applications that perform no additional tasks beyond serving web requests.
+This lack of difference is particularly noticeable given the
+threshold Kubernetes imposes between when auto-scalings can occur.
 Our decision to not even evaluate a 5s pod initialization time reflected our
 understanding of the lack of utility for predictive auto-scaling for web servers
 that start particularly quickly.
@@ -28,7 +29,7 @@ auto-scaling would not be able to detect these as deviations, and would
 misallocate accordingly, while predictive auto-scaling would stay true to the
 overall pattern.
 
-In contrast, predictive auto-scaling at times suffered when it was to eager to
+In contrast, predictive auto-scaling at times suffered when it was too eager to
 recognize patterns or when multiple patterns existed and we used observations
 from the previous pattern to try and predict the new pattern. The troublesome
 impacts of this improper prediction can be seen in the

@@ -1,4 +1,4 @@
-The pod is the smallest deployable unit that Kubernetes can create and
+The \textit{pod} is the smallest deployable unit that Kubernetes can create and
 manage. A pod can contain one or more
 containerized applications, and one or more pods can run on a physical host
 machine. Multiple applications should run on the same pod
@@ -6,7 +6,7 @@ if these applications need to be run in the same
 physical machine; otherwise, the applications should be in separate pods.
 Containerized applications within a pod can see each others' processes,
 access the same IP network, and share the same host name. Like well-designed
-containers within the microservices model, well-designed containers and pods should be
+containers within the microservices model, well-designed pods should be
 focused, stateless, and concurrent, as Kubernetes assumes that pods can be deleted,
 created, and replicated at will. The user can either submit a
 single pod to Kubernetes to schedule and run on a node in the cluster, or

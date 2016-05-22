@@ -21,7 +21,7 @@ and are ready to perform work \cite{k8s-pod-states}.
 Fortunately, Kubernetes defines the idea of a \textit{Readiness Probe}. A
 readiness probe shows whether a pod is ready to handle incoming requests.
 Services use this probe to determine whether to pass work along to a
-replica pod through ensuring that pods with long startup times do not
+replica pod. In doing so, services ensure that pods with long startup times do not
 receive proxy traffic until ready to handle it. Pods must implement a readiness
 probe, or else it will be assumed that if the pod is running, it is ready
 \cite{k8s-pod-states}. Each container within a pod defines its own readiness
@@ -33,9 +33,9 @@ within the context of this thesis.} In terms of this thesis, a
 pod being \textit{ready} and a pod being \textit{initialized} are analogous
 terms.
 
-We can rely on the existence of the readiness probe to
-measure the amount of time it took for a pod
-to initialize. Each pod records the time at which it was first ordered into
+While Kubernetes did not previously record \code{PodInitializationTime},
+we can rely on the existence of the readiness probe to
+determine this value. Each pod records the time at which it was first ordered into
 existence. Subtracting the time at which the pod first came into existence
 from the time at which a request to the readiness probe was first successful
 results in the pod initialization time we desire. However, while Kubernetes

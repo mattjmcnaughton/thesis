@@ -1,14 +1,13 @@
 As will be discussed in detail in section \ref{evaluation-methodology-tools},
 we've created a web server application that allows us to specify any
 \code{PodInitializationTime} we desire. As such, we have considerable flexibility with
-respect to what initialization time values we test. To begin, we decided to test the
-following value of 135s.
+respect to what initialization time values we test. To begin, we decided to test 135s.
 
 We initially believed 5s and 135s would be important independent variables to test because they
 are indicative of different classes of applications that could be run on
 Kubernetes. A pod initialization time of 5s is commonly found among web
 application frameworks, as we showed when writing simple HTTP servers using
-both Go and the Spring Java web application framework \cite{spring}. These web
+both Go and Java web application frameworks \cite{spring}. These web
 frameworks initialized, and were ready to serve requests, in 1s and 5s
 respectively. It is our belief that any web framework that simply
 needs to initialize, without any external communicating of data, can
@@ -16,7 +15,7 @@ accomplish this task in under 5s. Thus, testing a pod initialization time of 5s
 would allow us to consider how any web application framework would perform with
 predictive auto-scaling. However, when pod initialization time is as little as
 5s, there is essentially no difference between predictive and reactive
-auto-scaling, because Kubernetes imposes a multi-minute threshold between auto-scalings.
+auto-scaling, because Kubernetes imposes a threshold between auto-scalings.
 As such, while 5s is a representative time value, it is not
 one for which predictive auto-scaling's behavior is particularly interesting.
 

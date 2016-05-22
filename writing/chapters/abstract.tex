@@ -10,9 +10,9 @@ Google, successfully implements reactive horizontal auto-scaling, meaning
 Kubernetes uses the current resource utilization of
 the application to determine how to
 replicate applications across the cluster to ensure each application operates
-at a previously specified resource utilization. We implement predictive
-auto-scaling in Kubernetes, as we use predictions about the future state
-of the cluster to replicate applications. While we find
+at a previously specified resource utilization level. We add predictive
+auto-scaling to Kubernetes, as we use predictions about future resource
+utilization to replicate applications. While we find
 the addition of predictive auto-scaling does not universally improve the
 summation of ERU and QoS in representative trials, we highlight certain
 scenarios in which predictive auto-scaling is particularly beneficial. In short,

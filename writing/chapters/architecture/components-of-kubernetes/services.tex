@@ -1,8 +1,8 @@
-The final main architectural building block of Kubernetes is the service.
+The final main architectural building block of Kubernetes is the \textit{service}.
 Services are necessary because pods are ephemeral. As a pod may be deleted or
 replaced at any time, it is important that no entity is trying to communicate
 with a specific pod, because that pod may disappear. Instead, entities wishing to
-communicate with a pod always establish contact with a consistent \textit{service}.
+communicate with a pod always establish contact with a consistent service.
 A service presents a single, long-running access point
 for multiple replica pods, as the service receives
 external requests to the pods, and load-balances

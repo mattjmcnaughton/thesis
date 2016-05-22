@@ -7,7 +7,7 @@ utilization by decreasing quality of service, as we can just assign an
 application the fewest amount of resources it will ever use. As such, we want to
 ensure that this thesis improves efficient resource utilization or quality of
 service, without negatively impacting the other. This realization leads us to
-evaluating our modifications to auto-scaling by measuring its impact on the
+evaluating our modifications to auto-scaling by measuring their impact on the
 summation of efficient resource utilization and quality of service.
 
 While conceptually summing efficient resource utilization and quality of service
@@ -26,8 +26,8 @@ predictive and reactive measurements for a single combination of independent
 variables. Next, we define $e_{t}$ and $q_{t}$ as the
 respective ERU and QoS measurements at time $t$. We first
 normalize these measurements through calculating their respective z-scores,
-by first subtracting the individual observation value
-from the mean of all observations, and then dividing by the standard deviation of all
+by first subtracting the mean of all observations from the individual observation value,
+and then dividing by the standard deviation of all
 observations. This operation leaves us with $ne_{t}$ and $nq_{t}$ respectively.
 Our next step relates to how we interpret measurements for ERU and QoS, and how
 we interpret measurements for the summation of ERU and QoS. With the current

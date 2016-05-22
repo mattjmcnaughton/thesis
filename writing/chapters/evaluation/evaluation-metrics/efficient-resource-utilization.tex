@@ -1,5 +1,5 @@
 We define efficient resource utilization as a measure of whether an application
-has enough, but not too many resources given to it by the operating system or
+has enough, but not too many, resources given to it by the operating system or
 the cluster manager. For example, editing a text file in Vim on a supercomputer
 would be terrible efficient resource utilization since editing a text file
 requires only a small fraction of the supercomputer's available CPU and memory,
@@ -11,18 +11,17 @@ In the context of Kubernetes, an application with
 poor efficient resource utilization would be a web server
 that uses many replica pods, each reserving considerable resources,
 to serve a very low volume of web requests. In such a situation, the resources
-reserved for the application would be entirely underutilized.
+reserved for the application are entirely underutilized.
 
 Specifically, we measure efficient resource utilization with respect to
 Kubernetes through examining the percentage of idle CPU.
 The amount of CPU that a pod reserves is the summation of
 all resources that containers within the pod reserve
 \cite{k8s-compute-resources}. If our application is only using a small amount of
-that reserved CPU to run, than a large amount of CPU will be left idle. The
+that reserved CPU to run, then a large amount of CPU will be left idle. The
 larger the percentage of CPU that is left idle, the worse the efficient resource
 utilization, as many resources are just sitting unused.
-We measure our specific metric for efficient resource
-utilization in percentage of CPU that is idle and we name it
+We name this metric
 \code{IdleCPU}. When we use this metric to indicate efficient resource utilization,
 if the ERU value is high, the application is not using resources efficiently. If
 the metric is low, the application is using resources efficiently.\footnote{In a
@@ -66,7 +65,7 @@ containers. Setting a container's, or pod's, resource request equal to its
 resource limit essentially guarantees that the existence of a pod represents the
 claiming and utilization of a static amount of resources
 \cite{k8s-compute-resources}. Ensuring static provisioning
-is reserving a consistent amount of resources
+reserves a consistent amount of resources
 allows us to still examine idle CPU percentage, our way of investigating
 efficient resource utilization.
 
