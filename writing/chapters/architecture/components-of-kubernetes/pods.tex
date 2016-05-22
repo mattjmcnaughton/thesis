@@ -1,6 +1,7 @@
 The pod is the smallest deployable unit that Kubernetes can create and
 manage. A pod can contain one or more
-containerized applications. Multiple applications should run on the same pod
+containerized applications, and one or more pods can run on a physical host
+machine. Multiple applications should run on the same pod
 if these applications need to be run in the same
 physical machine; otherwise, the applications should be in separate pods.
 Containerized applications within a pod can see each other's processes,

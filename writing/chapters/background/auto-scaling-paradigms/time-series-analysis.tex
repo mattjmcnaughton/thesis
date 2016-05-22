@@ -4,7 +4,7 @@ find a repeating pattern in application load, and then horizontally auto-scale
 the application based on these
 patterns
 \cite{auto-scaling-techniques-for-elastic-applications-in-cloud-environments}.
-For example, if time-series analysis indicated a pattern in the application needed
+For example, if time-series analysis indicated that a pattern in the application needed
 $2x$ resources every Friday at 5pm,
 it would be possible to auto-scale the application to $2x$
 resources at this time. If we are able to compose a number of these
@@ -34,7 +34,7 @@ auto-scaling with respect to patterns, it does not work well when the external
 application load is random, or incorporates elements of randomness. As such,
 predictive time-series analysis is
 often combined with reactive threshold-based rule auto-scaling to ensure the benefits of
-both.\footnote{Netflix's Scryer implements this combination of
+both are achieved.\footnote{Netflix's Scryer implements this combination of
 time-series analysis and threshold-based rule
 auto-scaling \cite{netflix-scryer-part-ii}.}
 

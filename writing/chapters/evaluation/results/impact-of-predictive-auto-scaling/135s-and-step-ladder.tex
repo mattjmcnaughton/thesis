@@ -1,18 +1,17 @@
 \begin{figure}[!h]
   \centerline{\includegraphics[scale=.70]{step-ladder-labelled.png}}
   \caption{A comparison of the summation of ERU and QoS for
-    predictive and reactive auto-scaling for 135s, step-ladder}
+    predictive and reactive auto-scaling for 135s, step-ladder.}
   \label{fig:135s-step-ladder-labelled}
 \end{figure}
-
 
 Figure \ref{fig:135s-step-ladder-labelled} contains a graph
 showing predictive and reactive auto-scaling's different
 summations of efficient resource utilization and quality of service over the
 course of trial. The traffic pattern super imposed below reflects the load
 placed on the sample application, indicating the effect of the traffic pattern
-on the summation of ERU and QoS. Given the larger the summation of ERU and QoS
-the more desirable, times when the predictive line rises above the reactive line
+on the summation of ERU and QoS. Given that larger values of the summation of ERU and QoS
+are more desirable, times when the predictive line rises above the reactive line
 reflect moments at which predictive auto-scaling is outperforming reactive
 auto-scaling. Specifically, we can see three moments, labelled $1, 2,$ and
 $3$ on the graph, in which predictive auto-scaling is particularly effective in
@@ -27,9 +26,9 @@ because we negated QoS when showing this graph, the larger the negated QoS
 measure, the more performant the application, so it is desirable for the
 predictive line to rise above the reactive line.} Finally, there is no cost in
 ERU for auto-scaling, as can be seen when we just compare ERU in Figure
-\ref{fig:135s-step-ladder-only-qos}.\footnote{This observation holds true
+\ref{fig:135s-step-ladder-only-eru}.\footnote{This observation holds true
 throughout the majority of the thesis. When the summation of predictive and
-reactive auto-scaling diverges, it is because in variation of QoS. ERU stays
+reactive auto-scaling diverges, it is because of variation in QoS. ERU stays
 relatively constant between the two, which is necessary because it shows QoS
 improvements are not coming at the cost of decreased ERU.
 Thus for the remainder of the traffic
@@ -37,23 +36,27 @@ patterns we show only the summation of ERU and QoS with the understanding that
 predominately QoS is contributing.} Overall, the included graphs clearly
 demonstrate the benefits of predictive auto-scaling for this traffic pattern.
 
-\begin{figure}[!h]
-  \centerline{\includegraphics[scale=.70]{graph_135s_step-ladder_v2_only-eru.png}}
-  \caption{A comparison of negated ERU for predictive and reactive auto-scaling
-  for 135s, step-ladder}
-  \label{fig:135s-step-ladder-only-eru}
-\end{figure}
-
-\begin{figure}[!h]
-  \centerline{\includegraphics[scale=.70]{graph_135s_step-ladder_v2_only-qos.png}}
-  \caption{A comparison of negated QoS for predictive and reactive auto-scaling
-  for 135s, step-ladder}
-  \label{fig:135s-step-ladder-only-qos}
-\end{figure}
-
-\begin{table}[htbp]
+\begin{figure}[!tbp]
   \centering
-  \caption{Difference in Predictive and Reactive Auto-scaling for 135s, step-ladder}
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{graph_135s_step-ladder_v2_only-qos.png}
+    \caption{A comparison of negated QoS for predictive and reactive
+    auto-scaling for 135s, step-ladder.}
+    \label{fig:135s-step-ladder-only-qos}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{graph_135s_step-ladder_v2_only-eru.png}
+    \caption{A comparison of negated ERU for predictive and reactive
+    auto-scaling for 135s, step-ladder.}
+    \label{fig:135s-step-ladder-only-eru}
+  \end{minipage}
+\end{figure}
+
+\begin{table}[!b]
+  \centering
+  \caption{Difference in Predictive and Reactive Auto-scaling for 135s,
+  step-ladder.}
   \label{tab:135s-step-ladder}
 \begin{tabular}{l c}\hline\hline
     \multicolumn{1}{c}{\textbf{Measure}} & \textbf{Value} \\ \hline
@@ -64,11 +67,10 @@ demonstrate the benefits of predictive auto-scaling for this traffic pattern.
   \end{tabular}
 \end{table}
 
-
 While Figure \ref{fig:135s-step-ladder-labelled} shows the benefits of predictive
 auto-scaling on the \textit{step-ladder} traffic pattern,
 we are additionally interested in knowing if said benefits are
-stastically significant.
+statistically significant.
 As can be seen from the summary statistics in Table \ref{tab:135s-step-ladder},
 with a p-value of .315 we are not
 able to reject our null hypothesis that there is no difference between the

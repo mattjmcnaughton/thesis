@@ -5,7 +5,7 @@ task are largely interchangeable names for computing work performed on the
 cluster.} Overall, cluster managers can be thought of as the
 operating system for the cluster. Naturally, cluster managers are
 extremely diverse, both in the types of applications and jobs they are best
-suited to running, and the method in which they seek execute their duties.
+suited to running, and the method in which they seek to execute their duties.
 At the most basic level, there are two types of workload that may be submitted
 to a cluster manager: production and batch. Production tasks are long-running
 with strict performance requirements and heightened penalties for downtime. Batch tasks are
@@ -16,7 +16,7 @@ accessible with low-latency
 and little downtime; a batch task would be analyzing advertising analytics data
 with MapReduce, which can fail or slow without significant external
 costs \cite{borg}. The type of tasks a cluster management system
-predominantly seeks to run dictate many of the cluster manager's implementation details.
+predominantly seeks to run dictates many of the cluster manager's implementation details.
 
 One varying factor in a cluster manager's implementation is the process
 by which the cluster manager schedules jobs.\footnote{Just like scheduling jobs
@@ -46,7 +46,7 @@ both a computational and complexity bottleneck, it must take steps to guarantee
 global properties of the cluster and address the typical challenges of
 concurrent programs \cite{omega}.
 The chosen scheduling method
-effects the type of applications and distributed computing frameworks
+influences the type of applications and distributed computing frameworks
 runnable on the cluster manager and the efficiency with which these applications
 and frameworks run.
 
@@ -68,11 +68,11 @@ feasibility of pursuing experiments with already existing cluster management
 systems.
 
 Naturally, cluster managers can vary in multiple additional ways. However,
-the previous three differences, highlighted in Table
-~\ref{table:cluster-management-paradigms-comparison-table}, recognize the most
+the previous three differences, highlighted in
+Table \ref{table:cluster-management-paradigms-comparison-table}, recognize the most
 important distinctions in
 the context of this thesis. Given this understanding, we can now begin to examine specific
-cluster management implementations and defend our choice of Kubernetes as the
+cluster management implementations and justify our choice of Kubernetes as the
 cluster manager on which we will ask and answer our research questions.
 
 \subsection{Borg}

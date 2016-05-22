@@ -13,7 +13,7 @@ job scheduling implementation dictates the singularity of the job types
 Mesos efficiently processes. Mesos utilizes two-level scheduling, in which the
 cluster management system simply offers, not assigns, available
 resources to the distributed computing framework. Predominantly, this decision
-is made to ensure data locality. \footnote{Data locality is a measure
+is made to ensure data locality.\footnote{Data locality is a measure
 of if a computational task has the necessary input data on its machine, or if it must make a
 costly request across the network for the data. Mesos works to ensure data
 locality by allowing multiple frameworks to function on the same machines, and

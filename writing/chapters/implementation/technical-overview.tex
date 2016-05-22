@@ -1,18 +1,18 @@
-As has been mentioned frequently throughout this thesis, Kubernetes is an
+As previously mentioned, Kubernetes is an
 open-source project sponsored by Google. Unsurprisingly, given the scope of the
 problems Kubernetes seeks to solve, the code base is very large. Overall,
 Kubernetes contains approximately three million lines of application specific
 code and thousands more of configuration scripts and documentation. The majority
-of application specific code is written in Go, a relatively recent open-source
+of application specific code is written in Go, a relatively new open-source
 language also supported by Google. The influence of the Go programming language
 is seen throughout the project, particularly in Go's native support for parallel
-processing.
+processing \cite{golang}.
 
-Given the size of Kubernetes, larger contributions adding substantial new functionality,
+Given the size of Kubernetes, larger contributions that add substantial new functionality,
 including the contributions made by this thesis, follow a standardized contribution process.
 First, the developer must submit a proposal with their idea to the community.
 The community can make comments, and it must receive approval from core members
-of the Kubernetes if development is to be merged into the master release. Often
+of the Kubernetes team if development is to be merged into the master release. Often
 this discussion involves members of the Kubernetes team focusing on the area
 relevant to the proposed changes. For this thesis, the proposal was considered
 by the internal auto-scaling team. After the proposal is approved, code
@@ -22,12 +22,13 @@ each request must be approved by the Kubernetes core team if it is to become
 part of the project. Development on Kubernetes follows the standardized Git workflow.
 
 This thesis' specific contributions to Kubernetes, and their justifications,
-are described in the remainder of this section. The majority of the
+are described in the remainder of this chapter. The majority of the
 contributions are in the relatively small horizontal pod auto-scaler controller
 segment of the code, although an understanding of a greater portion of the code
 base was needed to make these changes.
 
-Currently, the modifications of this thesis have not been merged into the
+Currently, due to time constraints, the modifications of
+this thesis have not been merged into the
 Kubernetes master branch that forms the basis for the majority of Kubernetes
 deployments. However, it is possible to deploy our modified version to many of
 the options for deploying Kubernetes should one desire. As our code continues to

@@ -4,7 +4,7 @@ To begin, it requires the definition of
 three variables. Let \code{TargetNumOfPods} be defined as the number of
 replica pods which should exist. The replication controller will be responsible
 for ensuring these pods exist. Let \code{SumCurrentPodsCPUUtilization} be
-found by multiplying the average pod CPU utilization by the current number of
+computed by multiplying the average pod CPU utilization by the current number of
 replica pods. Finally, let \code{TargetCPUUtilization} be the desired level of
 per pod CPU utilization percentage as specified by the user when they created
 the autoscaler. The algorithm can now be written as follows:
@@ -18,4 +18,5 @@ sensitive, scaling will only occur if the current resource utilization is
 outside of a 10\% tolerance range \cite{k8s-horizontal-pod-autoscaler-proposal}.
 
 Implementing this thesis' new auto-scaling additions, namely utilizing
-predictive feedback control, will require modifications to this algorithm.
+predictive feedback control, will require modifications to these algorithms and
+formulas.
