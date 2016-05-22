@@ -62,7 +62,7 @@ the cluster more cost-effective, as can be seen Figure
 
 \begin{figure}[!h]
   \centerline{\includegraphics[scale=.25]{reactive-autoscale}}
-  \caption{A Auto-scaled Application showing good ERU and QoS.}
+  \caption{An Auto-scaled Application showing good ERU and QoS.}
   \label{fig:reactive-autoscale}
 \end{figure}
 
@@ -80,15 +80,15 @@ second is if the auto-scaling is reactive or predictive.
 \begin{enumerate}
   \item \underline{Horizontal vs. Vertical}: We begin by examining
     the difference between horizontal and vertical scaling.
-    To start, assume there is an application assigned $x$ resources by the
+    To start, assume there is an application initially assigned $x$ resources by the
     cluster manager. The application
-    faces external load such that it needs $2x$ resources to operate with an
+    faces external load such that it now needs $2x$ resources to operate with an
     acceptable quality of service. There are now two options. In
     \textit{vertical} auto-scaling, the cluster manager will attempt to assign
     the application the needed $2x$ resources
     without halting the execution of the application. In \textit{horizontal}
     auto-scaling, the cluster manager will create another instance of
-    the application, so that there are two machines each with
+    the application, so that there are two instances each with
     $x$ resources ($2x$ resources in summation). The load will be split between
     the two new instances of the application, meaning each machine handles half
     the requests and requires only the $x$ resources it has

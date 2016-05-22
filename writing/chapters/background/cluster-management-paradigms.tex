@@ -29,12 +29,12 @@ to the proper machine. With two-level scheduling, the cluster manager simply
 offers resources, which can then be accepted or rejected by the distributed
 computing frameworks.\footnote{Distributed computing frameworks are frameworks
 built to function over multiple machines. Some popular examples include
-Apache Hadoop, Apache Spark, etc. \cite{mesos}}
+Apache Hadoop, Apache Spark, etc. \cite{mesos}.}
 Finally, with shared state scheduling, multiple different algorithms concurrently work to
 schedule jobs on the cluster \cite{omega}. Naturally, all
 of these methods have positives and negatives. While monolithic scheduling is
 initially simple to implement if the jobs being scheduled are homogeneous,
-a single-threaded monolithic scheduler does not allow
+a single-threaded monolithic scheduler does not naturally allow
 nuanced processing of diverse jobs based on varying heuristics and guidelines.
 Attempts to support this nuance can create an incredibly
 complicated algorithm that is difficult to extend \cite{omega}.

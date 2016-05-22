@@ -20,7 +20,8 @@ execution \cite{docker-up-and-running}.
 \end{figure}
 
 As was distinguished in Chapter \ref{background}, Kubernetes currently implements reactive
-feedback control auto-scaling, which is when auto-scaling occurs to
+feedback control auto-scaling, which is when auto-scaling reacts to the current
+resource utilization of the application to
 ensure the preservation of a certain state.
 In Kubernetes, the auto-scaler operates as a control loop,
 as it queries pods at a set interval to determine

@@ -4,16 +4,16 @@ describing each component of Kubernetes in general, Figure
 \ref{fig:kubernetes-visualization-no-autoscaler} presents an overview of the
 interaction between the different building blocks which compose Kubernetes.
 Figure \ref{fig:kubernetes-visualization-no-autoscaler} also gives a sense of
-the life cycle of an external request from an external client
+the life cycle of a request from an external client
 to a service running on Kubernetes.
-Importantly, this visualization shows just one service. Multiple different
-services can be run on a Kubernetes cluster, each with their own service,
+Importantly, this visualization shows just one application. Multiple different
+applications can be run on a Kubernetes cluster, each with their own service,
 replication controller, and pods.
 
 \begin{figure}[!h]
   \centerline{\includegraphics[scale=.25]{kubernetes-visualization-no-autoscaler.png}}
-  \caption{A visualization showing a client making requests to a
-  sample service running on Kubernetes.}
+  \caption{A visualization showing an external client making requests to a
+  service running on Kubernetes.}
   \label{fig:kubernetes-visualization-no-autoscaler}
 \end{figure}
 

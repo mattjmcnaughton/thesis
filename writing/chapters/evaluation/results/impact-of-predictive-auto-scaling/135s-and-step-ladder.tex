@@ -77,7 +77,7 @@ able to reject our null hypothesis that there is no difference between the
 summation of ERU and QoS for predictive and reactive auto-scaling in favor of
 our alternative hypothesis that there is a positive difference in the summation
 of ERU and QoS for predictive and reactive auto-scaling. Essentially, this
-p-value indicates that if there was truly no different between predictive and
+p-value indicates that if there was truly no difference between predictive and
 reactive auto-scaling, we could expect to get these results about three out of
 ten times we ran trials. Additionally, for the remainder of our trials with
 different traffic patterns we were unable to obtain statistical significance.
@@ -85,5 +85,5 @@ This lack of statistical significance is likely the result of too little data,
 given that we only ran one trial for each traffic-pattern, instead of combining
 the results of multiple trials. Additionally, it may also be the case that the
 inclusion of buffer periods, and periods when the requests per second are
-sufficiently low such that only one pod needs to exist, is muting the
+sufficiently low such that only one pod needs to exist, mutes the
 differences that occur when auto-scaling begins.

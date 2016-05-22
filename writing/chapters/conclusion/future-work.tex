@@ -1,5 +1,5 @@
-While this thesis accomplishes much in the realm of auto-scaling, and more
-specifically predictive auto-scaling, there are multiple exciting paths
+While this thesis accomplishes much in the realm of (predictive) auto-scaling,
+there are multiple exciting paths
 available for future exploration. Predominately these paths relate to expanding
 our implementation of predictive auto-scaling, as well as expanding the
 conditions under which we perform evaluation. Hopefully this process will be
@@ -8,7 +8,7 @@ implementation variables, which will enable new avenues for evaluation, and so
 on.
 
 First off, it would be fascinating to consider alternative traffic patterns.
-Both of the increase-decrease and flash-crowd test plans are linear, yet real
+All of the traffic patterns we consider are essentially linear, yet real
 world network traffic does not always follow a linear pattern. Thus it would be
 fascinating to analyze the performance of predictive auto-scaling when the
 traffic pattern is polynomial, exponential, logarithmic, etc. Furthermore, it
@@ -35,7 +35,7 @@ create a number of line of best fits, modeling the different possible equations
 for a line, and then choose the one that best explained our observations so far.
 Additionally, given more divergent real-world traffic patterns, we may wish to
 examine the applicability of machine learning algorithms to the problem of
-predicting future resource utilization. Machine learning algorithms could be
+predicting short-term future resource utilization. Machine learning algorithms could be
 particularly useful in those scenarios in which traffic follows a repeatable
 pattern, yet that pattern does not fit nicely within the category of a
 polynomial, exponential, or logarithmic equation. Finally, even if we remain
@@ -79,7 +79,7 @@ only when the application was up-scaling (i.e, increasing the number of replica
 applications). When the auto-scaling was down-scaling, meaning the current
 resource utilization was less than previous observations, we did not auto-scale
 predictively due to a difficulty in determining the amount of time it took for a
-replica pod to stop sharing in work. Again, when down-scaling, predictive
+replica pod to stop sharing in work. As such, when down-scaling, predictive
 auto-scaling worked exactly as reactive auto-scaling does. Given we predictively
 auto-scale in only half of the possible situations for auto-scaling, it would be
 interesting to begin tracking the amount of time it takes for replica pods to

@@ -11,18 +11,18 @@ endpoints, ``/" and ``/ready".
 
 \begin{itemize}
   \item \textbf{``/" - Load}: Traffic generators simulating user requests
-    sends GET requests to the endpoint at ``/", also known as the \textit{Load} endpoint.
+    send \code{GET} requests to the endpoint at ``/", also known as the \textit{Load} endpoint.
     This endpoint has two functions. First, it must perform a task that is
     somewhat CPU intensive so that our application uses enough CPU that
     auto-scaling may be triggered. Second, it must record the percent of idle CPU
-    and an estimation of request response time as well as measures of
+    and an estimation of request response time as measures of
     efficient resource utilization and quality of service respectively. The
     function assigned to handle the GET request accomplishes these tasks as
     follows. Upon receiving a GET request to this endpoint, the handler function
     records the start time of the function. It then executes a computationally intensive
     task, which we define as repeatedly encrypting a password. Once this task
     is over, we once again record the time and check the idle CPU percentage
-    through parsing the output of the \textit{top} Unix command.
+    through parsing the output of the \code{top} Unix command.
     Having these two values allows us to calculate average amount of idle CPU
     and function execution time, which function as measurements of
     efficient resource utilization and quality of service. The function then
@@ -51,12 +51,13 @@ endpoints, ``/" and ``/ready".
 \end{itemize}
 
 This application closely fits within the guidelines microservice theory
-establishes and it is easy to containerize it and then run it on Kubernetes. It
+establishes and, as such it is easy to containerize it and then run it on Kubernetes. It
 is \textit{focused}, as it performs the single task of responding to HTTP
 requests. It is \textit{stateless}, as all containers communicate with an
 external database, that is not stored within the container. The container can be
 deleted and restarted at anytime with no errors or sustained interrupts.
-Finally, the container can easily be replicated and run concurrently, as
+Finally, the application is \textit{concurrent}, as the container
+can easily be replicated and run concurrently, as
 a load balancer can distribute discrete requests across multiple replica HTTP
 servers with no threat of race conditions. It is thus simple to package this
 web server into a container, and then package said container into a pod.
@@ -72,5 +73,5 @@ fine grained control previously mentioned. Additionally,
 regardless of the scaling method, we define a replication controller for
 ensuring whatever the scaled amount of pods exist, and a service for balancing
 requests across all \textit{test-server} containers and exposing
-\textit{test-server} to an external IP address that can receive our generated
+\textit{test-server} to an internal IP address that can receive our generated
 traffic.
