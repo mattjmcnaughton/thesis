@@ -7,7 +7,7 @@ for ensuring these pods exist. Let \code{SumCurrentPodsCPUUtilization} be
 computed by multiplying the average pod CPU utilization by the current number of
 replica pods. Finally, let \code{TargetCPUUtilization} be the desired level of
 per pod CPU utilization percentage as specified by the user when they created
-the autoscaler. The algorithm can now be written as follows:
+the auto-scaler. The algorithm can now be written as follows:
 
 \[ \mbox{TargetNumOfPods} = \mbox{ceiling(SumCurrentPodsCPUUtilization /
 TargetCPUUtilization)} \]

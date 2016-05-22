@@ -36,7 +36,7 @@ endpoints, ``/" and ``/ready".
     \textit{ReadinessProbe}. This probe was discussed in greater detail earlier,
     but suffice to say it works by defining an HTTP endpoint that returns a
     successful status code if the pod is initialized. During experimentation, we
-    are particularly interested in how differet pod initialization times impact
+    are particularly interested in how different pod initialization times impact
     predictive auto-scaling. Thus, we utilize the following setup.
     First, when defining our pod, we specify the \textit{ReadinessProbe} should
     use ``/ready" as the HTTP endpoint. The function handling responses for
@@ -59,7 +59,7 @@ deleted and restarted at anytime with no errors or sustained interrupts.
 Finally, the container can easily be replicated and run concurrently, as
 a load balancer can distribute discrete requests across multiple replica HTTP
 servers with no threat of race conditions. It is thus simple to package this
-webserver into a container, and then package said container into a pod.
+web server into a container, and then package said container into a pod.
 
 As was previously mentioned, the pod containing the container for this
 application implements a \textit{ReadinessProbe} pointing to the ``/ready"

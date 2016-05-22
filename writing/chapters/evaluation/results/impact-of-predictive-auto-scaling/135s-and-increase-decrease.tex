@@ -13,14 +13,14 @@ traffic patterns, we find that predictive auto-scaling is not particularly
 beneficial in this context. Specifically, if we look at the moment labelled
 $1$ on Figure \ref{fig:135s-increase-decrease-labelled}, we an instance in which
 predictive auto-scaling suffers a severe performance decrease in comparison to
-reactive auto-scaling. We trace this decrease again to under-provsioning. In
+reactive auto-scaling. We trace this decrease again to under-provisioning. In
 this scenario, the introductory buffer period has caused our linear prediction
 algorithm to underestimate the slope of the line indicating the rise in load. As
 such, the reactive auto-scaling algorithm actually has a more aggressive opinion
 of the load the application will face. As this aggressive understanding is
 confirmed by our actual increase, reactive auto-scaling outperforms predictive
 auto-scaling on the \textit{increase-decrease} traffic-pattern. Scenario
-$1$ is in contrast to the scneario labelled $2$, in which predictive
+$1$ is in contrast to the scenario labelled $2$, in which predictive
 auto-scaling performs equally to reactive auto-scaling, because it is no longer
 negatively impacted by previous measurements which do not reflect the current
 slope.

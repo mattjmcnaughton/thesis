@@ -1,9 +1,9 @@
 This section analyzes the specific additions required to enable predictive auto-scaling.
 The changes are broken into four groups: Recording Pod Initialization Time,
-Storing Previous CPU Utilizations, Autoscaling Predictively, and Enabling
-Predictive Autoscaling. The first two groups do not directly relate to
+Storing Previous CPU Utilizations, Auto-scaling Predictively, and Enabling
+Predictive Auto-scaling. The first two groups do not directly relate to
 predictive auto-scaling, but rather are the scaffolding that make predictive
-auto-scaling possible. The third group, Autoscaling Predictively, builds upon
+auto-scaling possible. The third group, Auto-scaling Predictively, builds upon
 the first two sections in implementing an alternative control flow, which when
 enabled, causes the auto-scaler to operate predictively instead of reactively.
 The last group of changes discusses how to turn on this alternative control
@@ -22,11 +22,11 @@ we never submit code which will not run or build.
 
 \input{chapters/implementation/enabling-additions/storing-previous-cpu-utilizations}
 
-\subsection{Autoscaling Predictively}
+\subsection{Auto-scaling Predictively}
 \label{autoscaling-predictively}
 
 \input{chapters/implementation/enabling-additions/autoscaling-predictively}
 
-\subsection{Enabling Predictive Autoscaling}
+\subsection{Enabling Predictive Auto-scaling}
 
 \input{chapters/implementation/enabling-additions/enabling-predictive-autoscaling}

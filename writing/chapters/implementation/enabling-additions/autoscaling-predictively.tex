@@ -71,7 +71,7 @@ the one that had proven itself most accurate for this given auto-scaler.
 Finally, we should note that when using predictive auto-scaling for our
 evaluations, we decrease the forbidden window for which the auto-scaler must
 wait before adding or deleting replica pods after it auto-scales from five
-minutes for down-scaling and three minutes for up-scaling, to a univeral thirty
+minutes for down-scaling and three minutes for up-scaling, to a universal thirty
 seconds. This decision was somewhat predicated on the
 \code{PodInitializationTime} of the test applications we evaluate. These pods
 have \code{PodInitializationTime} less than the forbidden window, which limits
